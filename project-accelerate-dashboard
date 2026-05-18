@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Accelerate: GC Key Metrics</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f4f1ec; --surface: #fff; --surface2: #ede9e2;
+    --text: #1a1814; --text2: #6b6660; --text3: #9e9990;
+    --border: rgba(0,0,0,0.08);
+    --green: #2d5f3f; --red: #c9491e; --blue: #1a4a7a; --amber: #b87a1a;
+    --radius: 12px; --radius-sm: 8px;
+  }
+  body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; padding: 2rem; }
+  header { max-width:1100px; margin:0 auto 2.5rem; display:flex; align-items:flex-end; justify-content:space-between; padding-bottom:1.5rem; border-bottom:1px solid var(--border); animation:fadeUp 0.5s ease both; }
+  .header-left h1 { font-family:'DM Serif Display',serif; font-size:2rem; font-weight:400; letter-spacing:-0.02em; line-height:1.1; }
+  .header-left p { font-size:13px; color:var(--text2); margin-top:6px; font-weight:300; letter-spacing:0.04em; text-transform:uppercase; }
+  .header-right { font-size:12px; color:var(--text3); text-align:right; line-height:1.8; }
+  .header-right strong { display:block; font-size:13px; font-weight:500; color:var(--text2); }
+  .dash-inner { max-width:1100px; margin:0 auto; display:flex; flex-direction:column; gap:1.25rem; }
+  .kpi-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; animation:fadeUp 0.5s 0.1s ease both; }
+  .kpi { background:var(--surface); border-radius:var(--radius); padding:1.25rem 1.5rem; border:1px solid var(--border); position:relative; overflow:hidden; transition:transform 0.2s,box-shadow 0.2s; }
+  .kpi:hover { transform:translateY(-2px); box-shadow:0 8px 24px rgba(0,0,0,0.07); }
+  .kpi::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; }
+  .kpi.green::before { background:var(--green); } .kpi.blue::before  { background:var(--blue); }
+  .kpi.red::before   { background:var(--red); }   .kpi.amber::before { background:var(--amber); }
+  .kpi-label { font-size:11px; font-weight:500; letter-spacing:0.07em; text-transform:uppercase; color:var(--text3); margin-bottom:10px; }
+  .kpi-value { font-family:'DM Serif Display',serif; font-size:2.2rem; font-weight:400; color:var(--text); line-height:1; margin-bottom:8px; }
+  .kpi-delta { font-size:12px; padding:3px 8px; border-radius:20px; display:inline-block; }
+  .d-up { background:#e6f3ec; color:#1f6b3a; } .d-dn { background:#fdecea; color:#a83220; } .d-neu { background:var(--surface2); color:var(--text2); }
+  .charts-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; animation:fadeUp 0.5s 0.2s ease both; }
+  .chart-card { background:var(--surface); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border); }
+  .chart-title { font-family:'DM Serif Display',serif; font-size:1.05rem; font-weight:400; color:var(--text); margin-bottom:3px; }
+  .chart-sub { font-size:11px; color:var(--text3); letter-spacing:0.04em; margin-bottom:10px; }
+  .legend { display:flex; gap:14px; margin-bottom:10px; flex-wrap:wrap; }
+  .legend span { display:flex; align-items:center; gap:5px; font-size:11px; color:var(--text2); }
+  .ll { width:18px; height:2px; border-radius:2px; display:inline-block; }
+  .lb { width:10px; height:10px; border-radius:2px; display:inline-block; }
+  .cw { position:relative; width:100%; height:220px; }
+  .cw-tall { position:relative; width:100%; height:320px; }
+  .yoy-card { background:var(--surface); border-radius:var(--radius); padding:1.5rem; border:1px solid var(--border); animation:fadeUp 0.5s 0.25s ease both; }
+  .yoy-header { display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1rem; }
+  .yoy-kpis { display:flex; gap:0.75rem; }
+  .yoy-kpi { background:#1a2e42; border-radius:var(--radius); padding:12px 18px; min-width:130px; text-align:center; }
+  .yoy-kpi-label { font-size:10px; color:#7fa8c9; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:4px; }
+  .yoy-kpi-val { font-family:'DM Serif Display',serif; font-size:1.6rem; color:#fff; line-height:1; }
+  .yoy-kpi-val.pos { color:#7bbf6e; } .yoy-kpi-val.neg { color:#e8924a; }
+  .insight-row { display:grid; grid-template-columns:repeat(4,1fr); gap:1rem; animation:fadeUp 0.5s 0.3s ease both; }
+  .insight { background:var(--surface2); border-radius:var(--radius-sm); padding:1rem 1.25rem; border-left:3px solid transparent; }
+  .insight.green { border-color:var(--green); } .insight.blue  { border-color:var(--blue); }
+  .insight.red   { border-color:var(--red); }   .insight.amber { border-color:var(--amber); }
+  .insight-title { font-size:11px; font-weight:500; letter-spacing:0.05em; text-transform:uppercase; color:var(--text3); margin-bottom:5px; }
+  .insight-text  { font-size:12.5px; color:var(--text2); line-height:1.55; }
+  footer { max-width:1100px; margin:2rem auto 0; padding-top:1rem; border-top:1px solid var(--border); font-size:11px; color:var(--text3); display:flex; justify-content:space-between; animation:fadeUp 0.5s 0.4s ease both; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+  @media (max-width:768px) {
+    body{padding:1rem;} .kpi-row,.insight-row{grid-template-columns:1fr 1fr;}
+    .charts-grid{grid-template-columns:1fr;} header,.yoy-header{flex-direction:column;align-items:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>Project Accelerate: GC Key Metrics</h1>
+    <p>Golf Club membership metrics · 2022–2026</p>
+  </div>
+  <div class="header-right">
+    <strong>Data through April 2026</strong>
+    Jan 2025 – Apr 2026 · All periods monthly
+  </div>
+</header>
+
+<div class="dash-inner">
+
+  <div class="kpi-row">
+    <div class="kpi blue">
+      <div class="kpi-label">On-time renewal (Apr '26)</div>
+      <div class="kpi-value">77%</div>
+      <span class="kpi-delta d-up">▲ +17% vs Apr '25</span>
+    </div>
+    <div class="kpi green">
+      <div class="kpi-label">12M rolling retention (Apr '26)</div>
+      <div class="kpi-value">61.3%</div>
+      <span class="kpi-delta d-dn">▼ −21% vs Apr '25</span>
+    </div>
+    <div class="kpi red">
+      <div class="kpi-label">New golfers (Apr '26)</div>
+      <div class="kpi-value">25,065</div>
+      <span class="kpi-delta d-up">▲ +19% vs Apr '25</span>
+    </div>
+    <div class="kpi amber">
+      <div class="kpi-label">Reactivations (Apr '26)</div>
+      <div class="kpi-value">7,561</div>
+      <span class="kpi-delta d-up">▲ +73% vs Apr '25</span>
+    </div>
+  </div>
+
+  <div class="charts-grid">
+
+    <div class="chart-card">
+      <div class="chart-title">On-time renewal rate</div>
+      <div class="chart-sub">Monthly · Jan – Dec</div>
+      <div class="legend">
+        <span><span class="ll" style="background:#1a4a7a"></span>2025</span>
+        <span><span class="ll" style="background:#7bbf6e"></span>2026</span>
+      </div>
+      <div class="cw"><canvas id="c1"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">12-month rolling retention</div>
+      <div class="chart-sub">Monthly · Jan – Dec</div>
+      <div class="legend">
+        <span><span class="ll" style="background:#2d5f3f"></span>2025</span>
+        <span><span class="ll" style="background:#7bbf6e"></span>2026</span>
+      </div>
+      <div class="cw"><canvas id="c2"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">New golfer acquisitions</div>
+      <div class="chart-sub">Monthly volume · Jan 2025 – Apr 2026</div>
+      <div class="legend">
+        <span><span class="lb" style="background:#1a4a7a"></span>2025</span>
+        <span><span class="lb" style="background:#7bbf6e"></span>2026 (partial)</span>
+      </div>
+      <div class="cw"><canvas id="c3"></canvas></div>
+    </div>
+
+    <div class="chart-card">
+      <div class="chart-title">Reactivations</div>
+      <div class="chart-sub">Monthly volume · Jan 2025 – Apr 2026</div>
+      <div class="legend">
+        <span><span class="lb" style="background:#c9491e"></span>2025</span>
+        <span><span class="lb" style="background:#e8924a"></span>2026 (partial)</span>
+      </div>
+      <div class="cw"><canvas id="c4"></canvas></div>
+    </div>
+
+  </div>
+
+  <div class="yoy-card">
+    <div class="yoy-header">
+      <div>
+        <div class="chart-title">GC Acquisition – New Members: YoY Monthly</div>
+        <div class="chart-sub">Calendar year comparison · Jan – Dec · 2022–2026</div>
+      </div>
+      <div class="yoy-kpis">
+        <div class="yoy-kpi"><div class="yoy-kpi-label">New Golfers YTD</div><div class="yoy-kpi-val">57,187</div></div>
+        <div class="yoy-kpi"><div class="yoy-kpi-label">YoY Growth</div><div class="yoy-kpi-val pos">+18%</div></div>
+      </div>
+    </div>
+    <div class="legend">
+      <span><span class="ll" style="background:#8ab4d4"></span>2022</span>
+      <span><span class="ll" style="background:#c9491e"></span>2023</span>
+      <span><span class="ll" style="background:#2d5f3f"></span>2024</span>
+      <span><span class="ll" style="background:#1a4a7a"></span>2025</span>
+      <span><span class="ll" style="background:#7bbf6e"></span>2026 (partial)</span>
+    </div>
+    <div class="cw-tall"><canvas id="c5"></canvas></div>
+  </div>
+
+  <div class="insight-row">
+    <div class="insight blue">
+      <div class="insight-title">Renewal trend</div>
+      <div class="insight-text">Apr 2026 renewal (77%) is running above Apr 2025 (66%), a strong positive signal heading into peak season.</div>
+    </div>
+    <div class="insight green">
+      <div class="insight-title">Retention watch</div>
+      <div class="insight-text">12M rolling retention dipped to 61.3% in Apr 2026, down sharply from 77.98% a year ago. Worth monitoring closely.</div>
+    </div>
+    <div class="insight red">
+      <div class="insight-title">Acquisition pace</div>
+      <div class="insight-text">Apr 2026 new golfers hit 25,065 — up 19% vs Apr 2025. YTD 2026 is tracking 18% ahead of this time last year.</div>
+    </div>
+    <div class="insight amber">
+      <div class="insight-title">Reactivation momentum</div>
+      <div class="insight-text">Reactivations in Apr 2026 (7,561) are 73% above Apr 2025 (4,369) — the strongest April on record.</div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <span>Project Accelerate: GC Key Metrics</span>
+  <span>Source: Proj_Accel_Metrics.xlsx · Updated May 2026</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+const TT  = { backgroundColor:'#1a1814', titleColor:'#9e9990', bodyColor:'#f4f1ec', borderColor:'rgba(255,255,255,0.08)', borderWidth:1, padding:10 };
+const GRD = 'rgba(0,0,0,0.05)';
+const TK  = { color:'#9e9990', font:{ size:10, family:'DM Sans' } };
+const xRot  = { ticks:{ ...TK, autoSkip:false, maxRotation:45, minRotation:45 }, grid:{ color:GRD } };
+const xFlat = { ticks:{ ...TK, autoSkip:false }, grid:{ color:GRD } };
+const xBar  = { ticks:{ ...TK, autoSkip:true, maxTicksLimit:9 }, grid:{ color:GRD } };
+const yP = (mn,mx) => ({ min:mn, max:mx, ticks:{ ...TK, callback: v=>(v*100).toFixed(0)+'%' }, grid:{ color:GRD } });
+const yN = (mx)    => ({ min:0,  max:mx, ticks:{ ...TK, callback: v=>v>=1000?(v/1000).toFixed(0)+'k':v }, grid:{ color:GRD } });
+
+// Chart 1 — On-time renewal: calendar month view, two lines
+new Chart(document.getElementById('c1'), {
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets:[
+      { label:'2025', data:[0.79,0.77,0.77,0.92,0.66,0.67,0.66,0.65,0.64,0.56,0.66,0.67],
+        borderColor:'#1a4a7a', backgroundColor:'rgba(26,74,122,0.06)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 },
+      { label:'2026', data:[0.75,0.75,0.72,0.77,null,null,null,null,null,null,null,null],
+        borderColor:'#7bbf6e', backgroundColor:'rgba(123,191,110,0.08)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ ...TT, mode:'index', intersect:false, callbacks:{ label: c=>c.parsed.y!=null?'  '+c.dataset.label+': '+(c.parsed.y*100).toFixed(0)+'%':'  '+c.dataset.label+': —' } } },
+    scales:{ x:xFlat, y:yP(0.4,1.0) }
+  }
+});
+
+// Chart 2 — Rolling retention: calendar month view, two lines
+new Chart(document.getElementById('c2'), {
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets:[
+      { label:'2025', data:[0.7841,0.7934,0.7576,0.7798,0.8004,0.7684,0.7351,0.7217,0.7172,0.7584,0.6273,0.7092],
+        borderColor:'#2d5f3f', backgroundColor:'rgba(45,95,63,0.08)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 },
+      { label:'2026', data:[0.7086,0.7073,0.7082,0.6125,null,null,null,null,null,null,null,null],
+        borderColor:'#7bbf6e', backgroundColor:'rgba(123,191,110,0.08)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ ...TT, mode:'index', intersect:false, callbacks:{ label: c=>c.parsed.y!=null?'  '+c.dataset.label+': '+(c.parsed.y*100).toFixed(1)+'%':'  '+c.dataset.label+': —' } } },
+    scales:{ x:xFlat, y:yP(0.4,0.9) }
+  }
+});
+
+// Chart 3 — New golfers bar (through Apr 2026)
+new Chart(document.getElementById('c3'), {
+  type:'bar',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',"Jan '26","Feb '26","Mar '26","Apr '26"],
+    datasets:[
+      { label:'2025', data:[6891,7875,15895,21123,25795,31092,25436,20302,12769,8449,5985,5277,null,null,null,null],
+        backgroundColor:'#1a4a7a', borderRadius:4, borderSkipped:false },
+      { label:'2026', data:[null,null,null,null,null,null,null,null,null,null,null,null,8589,8618,14915,25065],
+        backgroundColor:'#7bbf6e', borderRadius:4, borderSkipped:false }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ ...TT, callbacks:{ label: c=>c.parsed.y!=null?'  '+c.parsed.y.toLocaleString():'  —' } } },
+    scales:{ x:xBar, y:yN(35000) }
+  }
+});
+
+// Chart 4 — Reactivations bar (through Apr 2026)
+new Chart(document.getElementById('c4'), {
+  type:'bar',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec',"Jan '26","Feb '26","Mar '26","Apr '26"],
+    datasets:[
+      { label:'2025', data:[2634,2864,3381,4369,4627,4803,7638,7240,6839,6129,5154,4741,null,null,null,null],
+        backgroundColor:'#c9491e', borderRadius:4, borderSkipped:false },
+      { label:'2026', data:[null,null,null,null,null,null,null,null,null,null,null,null,5504,5580,6516,7561],
+        backgroundColor:'#e8924a', borderRadius:4, borderSkipped:false }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ ...TT, callbacks:{ label: c=>'  '+c.parsed.y.toLocaleString() } } },
+    scales:{ x:xBar, y:yN(9000) }
+  }
+});
+
+// Chart 5 — YoY new members
+new Chart(document.getElementById('c5'), {
+  type:'line',
+  data:{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    datasets:[
+      { label:'2022', data:[0,2424,7954,13558,15385,19476,15274,12190,7065,5026,3109,3598],
+        borderColor:'#8ab4d4', backgroundColor:'transparent', fill:false, borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35 },
+      { label:'2023', data:[19502,15271,20126,30194,25746,26118,21850,15775,9346,6709,4297,3614],
+        borderColor:'#c9491e', backgroundColor:'transparent', fill:false, borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35 },
+      { label:'2024', data:[6943,9617,14659,22239,22379,26565,22495,17640,12390,7585,4744,4420],
+        borderColor:'#2d5f3f', backgroundColor:'transparent', fill:false, borderWidth:2, pointRadius:3, pointHoverRadius:5, tension:0.35 },
+      { label:'2025', data:[6891,7875,15895,21123,25795,31092,25436,20302,12769,8449,5985,5277],
+        borderColor:'#1a4a7a', backgroundColor:'rgba(26,74,122,0.05)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 },
+      { label:'2026', data:[8589,8618,14915,25065,null,null,null,null,null,null,null,null],
+        borderColor:'#7bbf6e', backgroundColor:'rgba(123,191,110,0.07)', fill:true, borderWidth:2.5, pointRadius:4, pointHoverRadius:6, tension:0.35 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false},
+      tooltip:{ ...TT, mode:'index', intersect:false,
+        callbacks:{ label: c=>'  '+c.dataset.label+': '+(c.parsed.y!=null?c.parsed.y.toLocaleString():'—') }
+      }
+    },
+    scales:{ x:xFlat, y:yN(35000) }
+  }
+});
+</script>
+</body>
+</html>
