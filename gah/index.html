@@ -350,7 +350,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <div class="two">
     <div class="card" style="margin-bottom:0">
       <div class="card-title">Referring domains</div>
-      <div class="card-sub">Week 19 &middot; top 10</div>
+      <div class="card-sub" id="refSub">Week 19 &middot; top 10</div>
       <table class="tbl">
         <thead><tr><th>Domain</th><th>Visits (Wk)</th><th>Visits (YTD)</th></tr></thead>
         <tbody>
@@ -407,23 +407,23 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <!-- UTM: usga.org -->
   <div class="prop-grid">
     <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-    <div class="mc prop-mc red"><div class="value">694.6K</div></div>
-    <div class="mc prop-mc red"><div class="value">742.1K</div></div>
-    <div class="mc prop-mc red"><div class="value">668.3K</div></div>
+    <div class="mc prop-mc red"><div class="value">694.6K</div><div class="sub">18.2% of usga.org</div></div>
+    <div class="mc prop-mc red"><div class="value">742.1K</div><div class="sub">11.8% of usga.org</div></div>
+    <div class="mc prop-mc red"><div class="value">668.3K</div><div class="sub">20.8% of usga.org</div></div>
   </div>
   <!-- All Pages: getahandicap.usga.org -->
   <div class="prop-grid">
     <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc blue"><div class="value">1.38M</div></div>
-    <div class="mc prop-mc blue"><div class="value">1.70M</div></div>
-    <div class="mc prop-mc blue"><div class="value">1.26M</div></div>
+    <div class="mc prop-mc blue"><div class="value">1.38M</div><div class="sub">36.2% of usga.org</div></div>
+    <div class="mc prop-mc blue"><div class="value">1.70M</div><div class="sub">27.1% of usga.org</div></div>
+    <div class="mc prop-mc blue"><div class="value">1.26M</div><div class="sub">39.3% of usga.org</div></div>
   </div>
   <!-- UTM: getahandicap.usga.org -->
   <div class="prop-grid" style="margin-bottom:14px;">
     <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc green"><div class="value">624.3K</div></div>
-    <div class="mc prop-mc green"><div class="value">668.8K</div></div>
-    <div class="mc prop-mc green"><div class="value">596.1K</div></div>
+    <div class="mc prop-mc green"><div class="value">624.3K</div><div class="sub">45.2% of getahandicap.usga.org</div></div>
+    <div class="mc prop-mc green"><div class="value">668.8K</div><div class="sub">39.3% of getahandicap.usga.org</div></div>
+    <div class="mc prop-mc green"><div class="value">596.1K</div><div class="sub">47.3% of getahandicap.usga.org</div></div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -445,30 +445,76 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 <!-- ═══════════════════════════ MONTHLY VIEW ═══════════════════════════ -->
 <div class="view-toggle" id="view-monthly">
 
-  <div class="topsec" id="m-label">January 2026 &mdash; Monthly Report</div>
-
-  <div class="mgrid-3">
-    <div class="mc"><div class="label">Monthly Visits (getahandicap.usga.org)</div><div class="value" id="m-gah-visits">219.4K</div></div>
-    <div class="mc blue"><div class="label">Monthly Page Views (getahandicap.usga.org)</div><div class="value" id="m-gah-pv">261.6K</div></div>
-    <div class="mc"><div class="label">Unique Visitors (getahandicap.usga.org)</div><div class="value" id="m-gah-uv">201.5K</div></div>
-  </div>
-  <div class="mgrid-3">
-    <div class="mc"><div class="label">UTM Visits</div><div class="value" id="m-utm-visits">159.9K</div></div>
-    <div class="mc blue"><div class="label">UTM Page Views</div><div class="value" id="m-utm-pv">167.0K</div></div>
-    <div class="mc"><div class="label">UTM Unique Visitors</div><div class="value" id="m-utm-uv">155.4K</div></div>
+  <div class="topline-panel">
+    <!-- Panel header with inline month selector -->
+    <div class="topline-panel-hdr">
+      <div class="topline-panel-title" id="m-label">January 2026 &mdash; Monthly Report</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);">Month</span>
+        <div style="position:relative;">
+          <select id="monthPanelSelect" onchange="loadMonth(this.value)" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
+            <option value="apr26">April 2026</option>
+            <option value="mar26">March 2026</option>
+            <option value="feb26">February 2026</option>
+            <option value="jan26" selected>January 2026</option>
+          </select>
+          <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
+        </div>
+      </div>
+    </div>
+    <!-- Column headers -->
+    <div class="prop-grid" style="margin-bottom:4px;padding:0 4px;">
+      <div class="prop-header-spacer"></div>
+      <div class="prop-col-label">Visits</div>
+      <div class="prop-col-label">Page Views</div>
+      <div class="prop-col-label">Unique Visitors</div>
+    </div>
+    <!-- All Pages: usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+      <div class="mc prop-mc"><div class="value" id="m-visits">449.2K</div></div>
+      <div class="mc prop-mc"><div class="value" id="m-pv">532.1K</div></div>
+      <div class="mc prop-mc"><div class="value" id="m-uv">421.3K</div></div>
+    </div>
+    <!-- UTM Traffic: usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+      <div class="mc prop-mc red"><div class="value" id="m-utm-usga">71.2K</div><div class="sub" id="m-utm-usga-pct">&mdash;</div></div>
+      <div class="mc prop-mc red"><div class="value" id="m-utm-usga-pv">78.4K</div><div class="sub" id="m-utm-usga-pv-pct">&mdash;</div></div>
+      <div class="mc prop-mc red"><div class="value" id="m-utm-usga-uv">68.9K</div><div class="sub" id="m-utm-usga-uv-pct">&mdash;</div></div>
+    </div>
+    <!-- All Pages: getahandicap.usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+      <div class="mc prop-mc blue"><div class="value" id="m-gah-visits">219.4K</div></div>
+      <div class="mc prop-mc blue"><div class="value" id="m-gah-pv">261.6K</div></div>
+      <div class="mc prop-mc blue"><div class="value" id="m-gah-uv">201.5K</div></div>
+    </div>
+    <!-- UTM Traffic: getahandicap.usga.org -->
+    <div class="prop-grid" style="padding:0 4px;margin-bottom:0;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+      <div class="mc prop-mc green"><div class="value" id="m-utm-visits">159.9K</div><div class="sub" id="m-utm-pct">&mdash;</div></div>
+      <div class="mc prop-mc green"><div class="value" id="m-utm-pv">167.0K</div><div class="sub" id="m-utm-pv-pct">&mdash;</div></div>
+      <div class="mc prop-mc green"><div class="value" id="m-utm-uv">155.4K</div><div class="sub" id="m-utm-uv-pct">&mdash;</div></div>
+    </div>
   </div>
 
   <div class="sec-div"><div class="sec-line"></div><div class="sec-num" id="m-sec-funnel">Conversion Funnel &mdash; January 2026</div><div class="sec-line"></div></div>
   <div class="conversion-banner">
-    <div>
-      <div class="conv-label" id="m-conv-label">January Overall Conversion Rate</div>
-      <div class="conv-value" id="m-conv">26.4%</div>
-      <div class="conv-sub">% of users who started and completed payment</div>
-    </div>
-    <div class="detour-badge">
-      <div class="detour-val" id="m-detour">6.9%</div>
-      <div class="detour-lbl">Detour Rate</div>
-      <div style="font-size:9px;color:#9AB8CC;margin-top:4px;">Club selection (optional step)</div>
+    <div style="width:100%;">
+      <div class="conv-label" id="m-conv-label" style="margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15);">January 2026 &mdash; Conversion Funnel</div>
+      <div style="display:flex;gap:12px;">
+        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
+          <div class="detour-lbl">Conversion Rate</div>
+          <div class="detour-val" id="m-conv" style="font-size:32px;margin-top:4px;">26.4%</div>
+          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;">% of users who started &rarr; payment</div>
+        </div>
+        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
+          <div class="detour-lbl">Detour Rate</div>
+          <div class="detour-val" id="m-detour" style="font-size:32px;margin-top:4px;">6.9%</div>
+          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;">Club selection (optional step)</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -492,6 +538,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     </div>
     <div class="card" style="margin-bottom:0">
       <div class="card-title">Visits by state &mdash; top 10</div>
+      <div class="card-sub" id="statesSub">Week 19</div>
       <table class="tbl">
         <thead><tr><th>State</th><th>Visits</th><th>% of Total</th></tr></thead>
         <tbody id="m-states"></tbody>
@@ -733,9 +780,9 @@ document.querySelectorAll('[data-view]').forEach(btn=>{
     document.getElementById('view-'+v).classList.add('active');
     document.getElementById('week-select-wrap').style.display=v==='weekly'?'':'none';
     document.getElementById('week-filter-label').style.display=v==='weekly'?'':'none';
-    document.getElementById('month-sep').style.display=v==='monthly'?'':'none';
-    document.getElementById('month-filter-label').style.display=v==='monthly'?'':'none';
-    document.getElementById('month-select-wrap').style.display=v==='monthly'?'':'none';
+    /* month sep handled in panel */
+    /* month label handled in panel */
+    /* month selector now in panel */
     if(v==='weekly'){rebuildWeeklyTrend();buildFYTrend();rebuildMetricLine();}else if(v==='monthly'){loadMonth(curMonth);}
     document.getElementById('currentBadge').textContent=v==='weekly'?'Week '+curWeek:'January 2026';
   });
@@ -743,10 +790,10 @@ document.querySelectorAll('[data-view]').forEach(btn=>{
 
 /* ── MONTHLY DATA ── */
 const MONTHS={
-  jan26:{label:'January 2026',gahVisits:219407,gahPv:261634,gahUv:201527,utmVisits:159910,utmPv:167012,utmUv:155375,conv:.264,detour:.069,s1:39130,s2:26555,s3:29673,s4a:20781,s5:13965,s6:10333,eff1:.679,eff2:.700,eff3:.740,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
-  feb26:{label:'February 2026',gahVisits:219407+78000,gahPv:261634+92000,gahUv:201527+71000,utmVisits:159910+38000,utmPv:167012+41000,utmUv:155375+36000,conv:.262,detour:.071,s1:36800,s2:24200,s3:27500,s4a:19400,s5:12800,s6:9640,eff1:.657,eff2:.706,eff3:.753,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
-  mar26:{label:'March 2026',gahVisits:440000,gahPv:520000,gahUv:395000,utmVisits:198000,utmPv:210000,utmUv:192000,conv:.270,detour:.068,s1:58400,s2:38600,s3:42300,s4a:30100,s5:20900,s6:15760,eff1:.661,eff2:.712,eff3:.754,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
-  apr26:{label:'April 2026',gahVisits:550000,gahPv:654000,gahUv:481000,utmVisits:315000,utmPv:341000,utmUv:299000,conv:.274,detour:.097,s1:66700,s2:41900,s3:44900,s4a:28400,s5:24100,s6:18100,eff1:.628,eff2:.632,eff3:.751,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
+  jan26:{label:'January 2026',visits:449200,pv:532100,uv:421300,utmUsga:71200,utmUsgaPv:78400,utmUsgaUv:68900,gahVisits:219407,gahPv:261634,gahUv:201527,utmVisits:159910,utmPv:167012,utmUv:155375,conv:.264,detour:.069,s1:39130,s2:26555,s3:29673,s4a:20781,s5:13965,s6:10333,eff1:.679,eff2:.700,eff3:.740,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
+  feb26:{label:'February 2026',visits:527400,pv:621800,uv:493200,utmUsga:85600,utmUsgaPv:94300,utmUsgaUv:81700,gahVisits:219407+78000,gahPv:261634+92000,gahUv:201527+71000,utmVisits:159910+38000,utmPv:167012+41000,utmUv:155375+36000,conv:.262,detour:.071,s1:36800,s2:24200,s3:27500,s4a:19400,s5:12800,s6:9640,eff1:.657,eff2:.706,eff3:.753,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
+  mar26:{label:'March 2026',visits:880000,pv:1040000,uv:820000,utmUsga:198000,utmUsgaPv:218000,utmUsgaUv:189000,gahVisits:440000,gahPv:520000,gahUv:395000,utmVisits:198000,utmPv:210000,utmUv:192000,conv:.270,detour:.068,s1:58400,s2:38600,s3:42300,s4a:30100,s5:20900,s6:15760,eff1:.661,eff2:.712,eff3:.754,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
+  apr26:{label:'April 2026',visits:1100000,pv:1308000,uv:962000,utmUsga:315000,utmUsgaPv:347000,utmUsgaUv:298000,gahVisits:550000,gahPv:654000,gahUv:481000,utmVisits:315000,utmPv:341000,utmUv:299000,conv:.274,detour:.097,s1:66700,s2:41900,s3:44900,s4a:28400,s5:24100,s6:18100,eff1:.628,eff2:.632,eff3:.751,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
 };
 let curMonth='jan26';
 function loadMonth(val){
@@ -754,15 +801,32 @@ function loadMonth(val){
   const d=MONTHS[val];
   if(!d)return;
   document.getElementById('m-label').textContent=d.label+' — Monthly Report';
+  // usga.org rows
+  document.getElementById('m-visits').textContent=fmtK(d.visits);
+  document.getElementById('m-pv').textContent=fmtK(d.pv);
+  document.getElementById('m-uv').textContent=fmtK(d.uv);
+  document.getElementById('m-utm-usga').textContent=fmtK(d.utmUsga);
+  document.getElementById('m-utm-usga-pv').textContent=fmtK(d.utmUsgaPv);
+  document.getElementById('m-utm-usga-uv').textContent=fmtK(d.utmUsgaUv);
+  if(d.visits) document.getElementById('m-utm-usga-pct').textContent=(d.utmUsga/d.visits*100).toFixed(1)+'% of usga.org';
+  if(d.pv) document.getElementById('m-utm-usga-pv-pct').textContent=(d.utmUsgaPv/d.pv*100).toFixed(1)+'% of usga.org';
+  if(d.uv) document.getElementById('m-utm-usga-uv-pct').textContent=(d.utmUsgaUv/d.uv*100).toFixed(1)+'% of usga.org';
+  // getahandicap.usga.org rows
   document.getElementById('m-gah-visits').textContent=fmtK(d.gahVisits);
   document.getElementById('m-gah-pv').textContent=fmtK(d.gahPv);
   document.getElementById('m-gah-uv').textContent=fmtK(d.gahUv);
   document.getElementById('m-utm-visits').textContent=fmtK(d.utmVisits);
   document.getElementById('m-utm-pv').textContent=fmtK(d.utmPv);
   document.getElementById('m-utm-uv').textContent=fmtK(d.utmUv);
+  if(d.gahVisits) document.getElementById('m-utm-pct').textContent=(d.utmVisits/d.gahVisits*100).toFixed(1)+'% of getahandicap.usga.org';
+  if(d.gahPv) document.getElementById('m-utm-pv-pct').textContent=(d.utmPv/d.gahPv*100).toFixed(1)+'% of getahandicap.usga.org';
+  if(d.gahUv) document.getElementById('m-utm-uv-pct').textContent=(d.utmUv/d.gahUv*100).toFixed(1)+'% of getahandicap.usga.org';
+  // sync month panel selector
+  const mps=document.getElementById('monthPanelSelect');
+  if(mps) mps.value=val;
   document.getElementById('m-conv').textContent=(d.conv*100).toFixed(1)+'%';
   document.getElementById('m-detour').textContent=(d.detour*100).toFixed(1)+'%';
-  document.getElementById('m-conv-label').textContent=d.label+' Overall Conversion Rate';
+  document.getElementById('m-conv-label').textContent=d.label+' — Conversion Funnel';
   document.getElementById('m-sec-funnel').textContent='Conversion Funnel — '+d.label;
   buildMonthFunnel(d);
   // referrer table
@@ -792,11 +856,15 @@ function setConvWeek(val){
 }
 function updateConvDisplay(){
   if(convWeekSel==='fy'){
+    const fy={s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126};
     document.getElementById('w-conv').textContent='27.1%';
     document.getElementById('w-detour').textContent='N/A';
     document.getElementById('conv-sub').textContent='FY2026 YTD · % of users who started and completed payment';
     document.getElementById('detour-sub').textContent='FY2026 YTD · not tracked at annual level';
-    buildFunnel({s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126});
+    document.getElementById('w-eff1').textContent=(fy.s2/fy.s1*100).toFixed(1)+'%';
+    document.getElementById('w-eff2').textContent=(fy.s4a/fy.s3*100).toFixed(1)+'%';
+    document.getElementById('w-eff3').textContent=(fy.s6/fy.s5*100).toFixed(1)+'%';
+    buildFunnel(fy);
   } else {
     const wk=convWeekSel==='week'?curWeek:parseInt(convWeekSel);
     const d=WEEKS[wk]||WEEKS[curWeek];
@@ -804,6 +872,9 @@ function updateConvDisplay(){
     document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
     document.getElementById('conv-sub').textContent='Week '+wk+' · % of users who started and completed payment';
     document.getElementById('detour-sub').textContent='Week '+wk+' · club selection (optional step)';
+    document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
+    document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
+    document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
     buildFunnel(d);
   }
 }
@@ -820,7 +891,7 @@ function setFYMetric(m,btn){
 /* ── UPDATE WEEKLY TREND SUBTITLE ── */
 function updateWeeklyTrendSub(){
   const el=document.getElementById('weeklyTrendSub');
-  if(el) el.innerHTML='Weeks 1&ndash;'+curWeek+' &middot; 2026';
+  if(el) el.innerHTML='Weeks 1&ndash;19 &middot; FY2026 &middot; <strong style="color:var(--navy)">Week '+curWeek+' highlighted</strong>';
 }
 
 /* ── PATCH buildFYTrend: visits/pv/uv each show usga.org + GAH grouped ── */
@@ -889,12 +960,37 @@ buildFYTrend=function(){
 const _origLoadWeek=loadWeek;
 loadWeek=function(wk){
   _origLoadWeek(wk);
-  // sync topline week selector
+
+  // ── Sync ALL week-based selectors to the same week ──
+
+  // 1. Topline panel selector
   const tls=document.getElementById('toplineWeekSelect');
   if(tls) tls.value=String(wk);
-  // sync conv dropdown to current week if in 'week' mode
-  if(convWeekSel==='week') updateConvDisplay();
+
+  // 2. Conversion funnel selector — set to this specific week
+  const cvs=document.getElementById('convWeekSelect');
+  if(cvs){
+    // check if option exists; if so select it, else fall back to 'week'
+    const opt=[...cvs.options].find(o=>o.value===String(wk));
+    if(opt) cvs.value=String(wk);
+    else cvs.value='week';
+  }
+  convWeekSel=String(wk);
+  updateConvDisplay();
+
+  // 3. Old global week select (if visible)
+  const wks=document.getElementById('weekSelect');
+  if(wks) wks.value=String(wk);
+
+  // 4. Update trend subtitle
   updateWeeklyTrendSub();
+
+  // 5. Sync Section 3 subtitles
+  const rs=document.getElementById('refSub');
+  if(rs) rs.textContent='Week '+wk+' · top 10';
+  const ss=document.getElementById('statesSub');
+  if(ss) ss.textContent='Week '+wk;
+
 };
 
 // init
