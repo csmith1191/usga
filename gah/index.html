@@ -35,6 +35,9 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 .sec-num{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .sec-label{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);}
 .sec-line{flex:1;height:1px;background:var(--border);}
+.topline-panel{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.topline-panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.topline-panel-title{font-size:13px;font-weight:700;color:var(--navy);}
 .topsec{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-left:3px solid var(--red);padding-left:8px;margin-bottom:10px;}
 
 /* METRIC CARDS */
@@ -95,10 +98,10 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 .prop-col-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-muted);text-align:center;padding-bottom:4px;}
 .prop-row-label{font-size:11px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:7px;padding-right:8px;line-height:1.3;}
 .prop-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.prop-mc{padding:10px 12px;text-align:center;}
+.prop-mc{padding:10px 14px;text-align:center;min-height:58px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
 .prop-mc .value{font-size:18px;font-weight:700;color:var(--navy);}
-.prop-mc .sub{font-size:9px;color:var(--text-muted);margin-top:2px;}
-.conversion-banner{background:var(--navy);border-radius:8px;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.prop-mc .sub{font-size:9px;color:var(--text-muted);margin-top:3px;}
+.conversion-banner{background:var(--navy);border-radius:8px;padding:14px 20px;display:flex;flex-direction:column;margin-bottom:14px;}
 .conv-label{font-size:11px;color:#9AB8CC;font-weight:500;}
 .conv-value{font-size:32px;font-weight:700;color:#fff;}
 .conv-sub{font-size:10px;color:#9AB8CC;margin-top:2px;}
@@ -133,13 +136,13 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 </div>
 
 <!-- GLOBAL FILTER BAR -->
-<div class="global-filter">
+<div class="global-filter" style="justify-content:flex-start;">
   <span class="gf-label">View</span>
   <button class="gfpill on" data-view="weekly">Weekly</button>
   <button class="gfpill" data-view="monthly">Monthly</button>
-  <div class="gf-sep"></div>
-  <span class="gf-label" id="week-filter-label">Week</span>
-  <div style="position:relative;" id="week-select-wrap">
+  <div class="gf-sep" style="display:none;" id="month-sep-placeholder"></div>
+  <span class="gf-label" id="week-filter-label" style="display:none;">Week (hidden)</span>
+  <div style="position:relative;display:none;" id="week-select-wrap">
     <select id="weekSelect" onchange="onWeekSelect(this.value)" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:5px 28px 5px 10px;font-size:11px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:140px;">
       <option value="19">Week 19 — May 11–17</option>
       <option value="18">Week 18 — May 04–10</option>
@@ -179,68 +182,82 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 <!-- ═══════════════════════════ WEEKLY VIEW ═══════════════════════════ -->
 <div class="view-toggle active" id="view-weekly">
 
-  <div class="topsec" id="weeklyLabel">Week 19 &mdash; May 11&ndash;17, 2026</div>
-
-  <!-- TOPLINE -->
-  <!-- column headers -->
-  <div class="prop-grid">
-    <div class="prop-header-spacer"></div>
-    <div class="prop-col-label">Visits</div>
-    <div class="prop-col-label">Page Views</div>
-    <div class="prop-col-label">Unique Visitors</div>
-  </div>
-  <!-- All Pages: usga.org -->
-  <div class="prop-grid" id="w-row-usga">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-    <div class="mc prop-mc"><div class="value" id="w-visits">289.2K</div></div>
-    <div class="mc prop-mc"><div class="value" id="w-pv">420.8K</div></div>
-    <div class="mc prop-mc"><div class="value" id="w-uv">246.6K</div></div>
-  </div>
-  <!-- All UTM Pages: usga.org -->
-  <div class="prop-grid">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-    <div class="mc prop-mc red"><div class="value" id="w-utm">104.6K</div><div class="sub" id="w-utm-pct">36.2% of total</div></div>
-    <div class="mc prop-mc red"><div class="value" id="w-utm-pv">121.3K</div></div>
-    <div class="mc prop-mc red"><div class="value" id="w-utm-uv">97.3K</div></div>
-  </div>
-  <!-- All Pages: getahandicap.usga.org -->
-  <div class="prop-grid">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc blue"><div class="value" id="w-gah-visits">117.7K</div></div>
-    <div class="mc prop-mc blue"><div class="value" id="w-gah-pv">139.5K</div></div>
-    <div class="mc prop-mc blue"><div class="value" id="w-gah-uv">108.7K</div></div>
-  </div>
-  <!-- All UTM Pages: getahandicap.usga.org -->
-  <div class="prop-grid" style="margin-bottom:14px;">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc green"><div class="value" id="w-gah-utm">85.4K</div><div class="sub" id="w-gah-utm-pct">72.5% of GAH</div></div>
-    <div class="mc prop-mc green"><div class="value" id="w-gah-utm-pv">93.2K</div></div>
-    <div class="mc prop-mc green"><div class="value" id="w-gah-utm-uv">81.3K</div></div>
-  </div>
-
-  <!-- METRIC LINE CHART -->
-  <div class="card" style="margin-bottom:14px;">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-      <div>
-        <div class="card-title" id="metricChartTitle">Visits over time &mdash; usga.org</div>
-        <div class="card-sub">Weeks 1&ndash;19 &middot; FY2026</div>
-      </div>
-      <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-right:2px;">Metric</span>
-        <button class="mpill on" data-metric="visits">Visits</button>
-        <button class="mpill" data-metric="pv">Page Views</button>
-        <button class="mpill" data-metric="uv">Unique Visitors</button>
+  <div class="topline-panel">
+    <!-- Panel header with inline week selector -->
+    <div class="topline-panel-hdr">
+      <div class="topline-panel-title" id="weeklyLabel">Week 19 &mdash; May 11&ndash;17, 2026</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);">Week</span>
+        <div style="position:relative;">
+          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
+            <option value="19">Week 19 &mdash; May 11&ndash;17</option>
+            <option value="18">Week 18 &mdash; May 04&ndash;10</option>
+            <option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option>
+            <option value="16">Week 16 &mdash; Apr 20&ndash;26</option>
+            <option value="15">Week 15 &mdash; Apr 13&ndash;19</option>
+            <option value="14">Week 14 &mdash; Apr 06&ndash;12</option>
+            <option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option>
+            <option value="12">Week 12 &mdash; Mar 23&ndash;29</option>
+            <option value="11">Week 11 &mdash; Mar 16&ndash;22</option>
+            <option value="10">Week 10 &mdash; Mar 09&ndash;15</option>
+            <option value="9">Week 9 &mdash; Mar 02&ndash;08</option>
+            <option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option>
+            <option value="7">Week 7 &mdash; Feb 16&ndash;22</option>
+            <option value="6">Week 6 &mdash; Feb 09&ndash;15</option>
+            <option value="5">Week 5 &mdash; Feb 02&ndash;08</option>
+            <option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option>
+            <option value="3">Week 3 &mdash; Jan 19&ndash;25</option>
+            <option value="2">Week 2 &mdash; Jan 12&ndash;18</option>
+            <option value="1">Week 1 &mdash; Jan 05&ndash;11</option>
+          </select>
+          <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
+        </div>
       </div>
     </div>
-    <div style="position:relative;height:210px;"><canvas id="metricLineChart" role="img" aria-label="Weekly metric trend">Metric trend chart.</canvas></div>
+    <!-- Column headers -->
+    <div class="prop-grid" style="margin-bottom:4px;padding:0 4px;">
+      <div class="prop-header-spacer"></div>
+      <div class="prop-col-label">Visits</div>
+      <div class="prop-col-label">Page Views</div>
+      <div class="prop-col-label">Unique Visitors</div>
+    </div>
+    <!-- All Pages: usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+      <div class="mc prop-mc"><div class="value" id="w-visits">289.2K</div></div>
+      <div class="mc prop-mc"><div class="value" id="w-pv">420.8K</div></div>
+      <div class="mc prop-mc"><div class="value" id="w-uv">246.6K</div></div>
+    </div>
+    <!-- UTM Traffic: usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+      <div class="mc prop-mc red"><div class="value" id="w-utm">104.6K</div><div class="sub" id="w-utm-pct">36.2% of usga.org</div></div>
+      <div class="mc prop-mc red"><div class="value" id="w-utm-pv">121.3K</div><div class="sub" id="w-utm-pv-pct">&mdash;</div></div>
+      <div class="mc prop-mc red"><div class="value" id="w-utm-uv">97.3K</div><div class="sub" id="w-utm-uv-pct">&mdash;</div></div>
+    </div>
+    <!-- All Pages: getahandicap.usga.org -->
+    <div class="prop-grid" style="padding:0 4px;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+      <div class="mc prop-mc blue"><div class="value" id="w-gah-visits">117.7K</div><div class="sub" id="w-gah-visits-pct">&mdash;</div></div>
+      <div class="mc prop-mc blue"><div class="value" id="w-gah-pv">139.5K</div><div class="sub" id="w-gah-pv-pct">&mdash;</div></div>
+      <div class="mc prop-mc blue"><div class="value" id="w-gah-uv">108.7K</div><div class="sub" id="w-gah-uv-pct">&mdash;</div></div>
+    </div>
+    <!-- UTM Traffic: getahandicap.usga.org -->
+    <div class="prop-grid" style="padding:0 4px;margin-bottom:0;">
+      <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+      <div class="mc prop-mc green"><div class="value" id="w-gah-utm">85.4K</div><div class="sub" id="w-gah-utm-pct">72.5% of getahandicap.usga.org</div></div>
+      <div class="mc prop-mc green"><div class="value" id="w-gah-utm-pv">93.2K</div><div class="sub" id="w-gah-utm-pv-pct">&mdash;</div></div>
+      <div class="mc prop-mc green"><div class="value" id="w-gah-utm-uv">81.3K</div><div class="sub" id="w-gah-utm-uv-pct">&mdash;</div></div>
+    </div>
   </div>
 
   <!-- CONVERSION BANNER -->
   <div class="sec-div"><div class="sec-line"></div><div class="sec-num">1</div><div class="sec-label">Conversion Funnel</div><div class="sec-line"></div></div>
   <div class="conversion-banner">
-    <div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-        <div class="conv-label" style="margin:0;">Conversion Rate</div>
+    <!-- week/FY selector sits above the two badges -->
+    <div style="width:100%;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <div class="conv-label" style="margin:0;">Conversion Funnel</div>
         <div style="position:relative;display:inline-block;">
           <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:#00365F;border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:150px;">
             <option value="week">Week 19 (current)</option>
@@ -268,13 +285,19 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
           <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:#00365F;font-size:8px;pointer-events:none;">&#9660;</span>
         </div>
       </div>
-      <div class="conv-value" id="w-conv">28.5%</div>
-      <div class="conv-sub" id="conv-sub">Week 19 &middot; % of users who started and completed payment</div>
-    </div>
-    <div class="detour-badge">
-      <div class="detour-val" id="w-detour">13.2%</div>
-      <div class="detour-lbl">Detour Rate</div>
-      <div style="font-size:9px;color:#9AB8CC;margin-top:4px;" id="detour-sub">Week 19 &middot; club selection</div>
+      <!-- two badges side by side -->
+      <div style="display:flex;gap:12px;">
+        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
+          <div class="detour-lbl">Conversion Rate</div>
+          <div class="detour-val" id="w-conv" style="font-size:32px;margin-top:4px;">28.5%</div>
+          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;" id="conv-sub">Week 19 &middot; started &rarr; payment</div>
+        </div>
+        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
+          <div class="detour-lbl">Detour Rate</div>
+          <div class="detour-val" id="w-detour" style="font-size:32px;margin-top:4px;">13.2%</div>
+          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;" id="detour-sub">Week 19 &middot; club selection</div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -307,14 +330,19 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <!-- WEB TRAFFIC -->
   <div class="sec-div"><div class="sec-line"></div><div class="sec-num">2</div><div class="sec-label">Web Traffic &mdash; Trends</div><div class="sec-line"></div></div>
   <div class="card">
-    <div class="card-title">Weekly visits &mdash; usga.org &amp; getahandicap.usga.org</div>
-    <div class="card-sub" id="weeklyTrendSub">Weeks 1&ndash;19 &middot; 2026</div>
-    <div class="legend">
-      <div class="legend-item"><div class="legend-dot" style="background:#00365F"></div>usga.org</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#0088CE"></div>getahandicap.usga.org</div>
-      <div class="legend-item"><div class="legend-dot" style="background:#DA1A31"></div>UTM traffic</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <div>
+        <div class="card-title" id="metricChartTitle">Visits &mdash; usga.org vs getahandicap.usga.org</div>
+        <div class="card-sub" id="weeklyTrendSub">Weeks 1&ndash;19 &middot; FY2026</div>
+      </div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-right:2px;">Metric</span>
+        <button class="mpill on" data-metric="visits">Visits</button>
+        <button class="mpill" data-metric="pv">Page Views</button>
+        <button class="mpill" data-metric="uv">Unique Visitors</button>
+      </div>
     </div>
-    <div style="position:relative;height:220px;"><canvas id="weeklyTrendChart" role="img" aria-label="Weekly visits trend">Weekly visits trend chart.</canvas></div>
+    <div style="position:relative;height:230px;"><canvas id="metricLineChart" role="img" aria-label="Weekly metric trend">Metric trend chart.</canvas></div>
   </div>
 
   <!-- REFERRERS + STATES -->
@@ -326,16 +354,16 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <table class="tbl">
         <thead><tr><th>Domain</th><th>Visits (Wk)</th><th>Visits (YTD)</th></tr></thead>
         <tbody>
-          <tr><td>instagram.com</td><td class="num">26,687</td><td class="num">221,248</td></tr>
-          <tr><td>facebook.com</td><td class="num">10,909</td><td class="num">304,156</td></tr>
-          <tr><td>google.com</td><td class="num">9,162</td><td class="num">113,397</td></tr>
-          <tr><td>youtube.com</td><td class="num">5,991</td><td class="num">46,425</td></tr>
-          <tr><td>tiktok.com</td><td class="num">5,761</td><td class="num">43,577</td></tr>
-          <tr><td>com.twitter</td><td class="num">3,110</td><td class="num">6,044</td></tr>
-          <tr><td>ghin.com</td><td class="num">1,996</td><td class="num">26,465</td></tr>
-          <tr><td>x.com</td><td class="num">1,413</td><td class="num">2,672</td></tr>
-          <tr><td>gapgolf.org</td><td class="num">388</td><td class="num">6,143</td></tr>
-          <tr><td>txga.org</td><td class="num">332</td><td class="num">5,757</td></tr>
+          <tr><td>instagram.com</td><td class="num">26.7K</td><td class="num">221.2K</td></tr>
+          <tr><td>facebook.com</td><td class="num">10.9K</td><td class="num">304.2K</td></tr>
+          <tr><td>google.com</td><td class="num">9.2K</td><td class="num">113.4K</td></tr>
+          <tr><td>youtube.com</td><td class="num">6.0K</td><td class="num">46.4K</td></tr>
+          <tr><td>tiktok.com</td><td class="num">5.8K</td><td class="num">43.6K</td></tr>
+          <tr><td>com.twitter</td><td class="num">3.1K</td><td class="num">6.0K</td></tr>
+          <tr><td>ghin.com</td><td class="num">2.0K</td><td class="num">26.5K</td></tr>
+          <tr><td>x.com</td><td class="num">1.4K</td><td class="num">2.7K</td></tr>
+          <tr><td>gapgolf.org</td><td class="num">388</td><td class="num">6.1K</td></tr>
+          <tr><td>txga.org</td><td class="num">332</td><td class="num">5.8K</td></tr>
         </tbody>
       </table>
     </div>
@@ -345,16 +373,16 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <table class="tbl">
         <thead><tr><th>State</th><th>Visits (Wk)</th><th>% of Total</th></tr></thead>
         <tbody>
-          <tr><td>California</td><td class="num">11,194</td><td>9.5%</td></tr>
-          <tr><td>Texas</td><td class="num">8,746</td><td>7.4%</td></tr>
-          <tr><td>New York</td><td class="num">8,196</td><td>7.0%</td></tr>
-          <tr><td>Florida</td><td class="num">6,376</td><td>5.4%</td></tr>
-          <tr><td>Virginia</td><td class="num">5,932</td><td>5.0%</td></tr>
-          <tr><td>Illinois</td><td class="num">5,907</td><td>5.0%</td></tr>
-          <tr><td>Georgia</td><td class="num">5,577</td><td>4.7%</td></tr>
-          <tr><td>Pennsylvania</td><td class="num">4,230</td><td>3.6%</td></tr>
-          <tr><td>Massachusetts</td><td class="num">3,981</td><td>3.4%</td></tr>
-          <tr><td>New Jersey</td><td class="num">3,306</td><td>2.8%</td></tr>
+          <tr><td>California</td><td class="num">11.2K</td><td>9.5%</td></tr>
+          <tr><td>Texas</td><td class="num">8.7K</td><td>7.4%</td></tr>
+          <tr><td>New York</td><td class="num">8.2K</td><td>7.0%</td></tr>
+          <tr><td>Florida</td><td class="num">6.4K</td><td>5.4%</td></tr>
+          <tr><td>Virginia</td><td class="num">5.9K</td><td>5.0%</td></tr>
+          <tr><td>Illinois</td><td class="num">5.9K</td><td>5.0%</td></tr>
+          <tr><td>Georgia</td><td class="num">5.6K</td><td>4.7%</td></tr>
+          <tr><td>Pennsylvania</td><td class="num">4.2K</td><td>3.6%</td></tr>
+          <tr><td>Massachusetts</td><td class="num">4.0K</td><td>3.4%</td></tr>
+          <tr><td>New Jersey</td><td class="num">3.3K</td><td>2.8%</td></tr>
         </tbody>
       </table>
     </div>
@@ -362,11 +390,40 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 
   <!-- FY TOTALS -->
   <div class="sec-div"><div class="sec-line"></div><div class="sec-num">4</div><div class="sec-label">FY2026 Totals &mdash; YTD</div><div class="sec-line"></div></div>
-  <div class="mgrid">
-    <div class="mc"><div class="label">Total Visits (usga.org)</div><div class="value">3.81M</div><div class="sub">FY2026 YTD</div></div>
-    <div class="mc blue"><div class="label">GAH Visits</div><div class="value">1.38M</div><div class="sub">FY2026 YTD</div></div>
-    <div class="mc"><div class="label">Page Views (usga.org)</div><div class="value">6.27M</div><div class="sub">FY2026 YTD</div></div>
-    <div class="mc blue"><div class="label">GAH Page Views</div><div class="value">1.70M</div><div class="sub">FY2026 YTD</div></div>
+  <!-- FY column headers -->
+  <div class="prop-grid" style="margin-bottom:6px;">
+    <div class="prop-header-spacer"></div>
+    <div class="prop-col-label">Visits</div>
+    <div class="prop-col-label">Page Views</div>
+    <div class="prop-col-label">Unique Visitors</div>
+  </div>
+  <!-- All Pages: usga.org -->
+  <div class="prop-grid">
+    <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+    <div class="mc prop-mc"><div class="value">3.81M</div></div>
+    <div class="mc prop-mc"><div class="value">6.27M</div></div>
+    <div class="mc prop-mc"><div class="value">3.21M</div></div>
+  </div>
+  <!-- UTM: usga.org -->
+  <div class="prop-grid">
+    <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+    <div class="mc prop-mc red"><div class="value">694.6K</div></div>
+    <div class="mc prop-mc red"><div class="value">742.1K</div></div>
+    <div class="mc prop-mc red"><div class="value">668.3K</div></div>
+  </div>
+  <!-- All Pages: getahandicap.usga.org -->
+  <div class="prop-grid">
+    <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+    <div class="mc prop-mc blue"><div class="value">1.38M</div></div>
+    <div class="mc prop-mc blue"><div class="value">1.70M</div></div>
+    <div class="mc prop-mc blue"><div class="value">1.26M</div></div>
+  </div>
+  <!-- UTM: getahandicap.usga.org -->
+  <div class="prop-grid" style="margin-bottom:14px;">
+    <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+    <div class="mc prop-mc green"><div class="value">624.3K</div></div>
+    <div class="mc prop-mc green"><div class="value">668.8K</div></div>
+    <div class="mc prop-mc green"><div class="value">596.1K</div></div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
@@ -391,9 +448,9 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <div class="topsec" id="m-label">January 2026 &mdash; Monthly Report</div>
 
   <div class="mgrid-3">
-    <div class="mc"><div class="label">Monthly Visits (GAH)</div><div class="value" id="m-gah-visits">219.4K</div></div>
-    <div class="mc blue"><div class="label">Monthly Page Views (GAH)</div><div class="value" id="m-gah-pv">261.6K</div></div>
-    <div class="mc"><div class="label">Unique Visitors (GAH)</div><div class="value" id="m-gah-uv">201.5K</div></div>
+    <div class="mc"><div class="label">Monthly Visits (getahandicap.usga.org)</div><div class="value" id="m-gah-visits">219.4K</div></div>
+    <div class="mc blue"><div class="label">Monthly Page Views (getahandicap.usga.org)</div><div class="value" id="m-gah-pv">261.6K</div></div>
+    <div class="mc"><div class="label">Unique Visitors (getahandicap.usga.org)</div><div class="value" id="m-gah-uv">201.5K</div></div>
   </div>
   <div class="mgrid-3">
     <div class="mc"><div class="label">UTM Visits</div><div class="value" id="m-utm-visits">159.9K</div></div>
@@ -493,12 +550,31 @@ function loadWeek(wk){
   document.getElementById('w-utm').textContent=fmtK(d.utmVisits);
   document.getElementById('w-utm-pct').textContent=d.utmPct+' of total';
   document.getElementById('w-gah-utm').textContent=fmtK(d.gahUtm);
-  document.getElementById('w-gah-utm-pct').textContent=d.gahUtmPct+' of GAH';
+  document.getElementById('w-gah-utm-pct').textContent=d.gahUtmPct+' of getahandicap.usga.org';
   document.getElementById('w-utm-pv').textContent=fmtK(d.utmPv);
   document.getElementById('w-utm-uv').textContent=fmtK(d.utmUv);
   document.getElementById('w-gah-uv').textContent=fmtK(d.gahUv);
   document.getElementById('w-gah-utm-pv').textContent=fmtK(d.gahUtmPv);
   document.getElementById('w-gah-utm-uv').textContent=fmtK(d.gahUtmUv);
+  // percentage sub-labels
+  const utmPctV=(d.utmVisits/d.visits*100).toFixed(1)+'% of usga.org';
+  const utmPctPv=(d.utmPv/d.pv*100).toFixed(1)+'% of usga.org';
+  const utmPctUv=(d.utmUv/d.uv*100).toFixed(1)+'% of usga.org';
+  document.getElementById('w-utm-pct').textContent=utmPctV;
+  document.getElementById('w-utm-pv-pct').textContent=utmPctPv;
+  document.getElementById('w-utm-uv-pct').textContent=utmPctUv;
+  const gahPctV=(d.gahVisits/d.visits*100).toFixed(1)+'% of usga.org';
+  const gahPctPv=(d.gahPv/d.pv*100).toFixed(1)+'% of usga.org';
+  const gahPctUv=(d.gahUv/d.uv*100).toFixed(1)+'% of usga.org';
+  document.getElementById('w-gah-visits-pct').textContent=gahPctV;
+  document.getElementById('w-gah-pv-pct').textContent=gahPctPv;
+  document.getElementById('w-gah-uv-pct').textContent=gahPctUv;
+  const gutmPctV=(d.gahUtm/d.gahVisits*100).toFixed(1)+'% of getahandicap.usga.org';
+  const gutmPctPv=(d.gahUtmPv/d.gahPv*100).toFixed(1)+'% of getahandicap.usga.org';
+  const gutmPctUv=(d.gahUtmUv/d.gahUv*100).toFixed(1)+'% of getahandicap.usga.org';
+  document.getElementById('w-gah-utm-pct').textContent=gutmPctV;
+  document.getElementById('w-gah-utm-pv-pct').textContent=gutmPctPv;
+  document.getElementById('w-gah-utm-uv-pct').textContent=gutmPctUv;
   document.getElementById('w-conv').textContent=(d.conv*100).toFixed(1)+'%';
   document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
   document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
@@ -522,19 +598,7 @@ function loadWeek(wk){
   rebuildMetricLine();
 }
 
-function rebuildWeeklyTrend(){
-  const wks=ALL_WEEKS_DATA;
-  const labels=wks.map(w=>'Wk '+w.wk);
-  const usga=wks.map(w=>w.visits);
-  const gah=wks.map(w=>w.gahVisits);
-  const utm=wks.map(w=>w.utmVisits);
-  if(charts.wt)charts.wt.destroy();
-  charts.wt=new Chart(document.getElementById('weeklyTrendChart'),{type:'line',data:{labels,datasets:[
-    {label:'usga.org',data:usga,borderColor:N,backgroundColor:N+'18',tension:.35,pointRadius:3,pointBackgroundColor:N,fill:true,borderWidth:2},
-    {label:'GAH',data:gah,borderColor:B,backgroundColor:B+'18',tension:.35,pointRadius:3,pointBackgroundColor:B,fill:true,borderWidth:2},
-    {label:'UTM',data:utm,borderColor:R,backgroundColor:R+'18',tension:.35,pointRadius:3,pointBackgroundColor:R,fill:true,borderWidth:2,borderDash:[4,4]}
-  ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
-}
+function rebuildWeeklyTrend(){ /* merged into rebuildMetricLine */ }
 
 function buildFYTrend(){
   if(charts.fy)charts.fy.destroy();
@@ -588,9 +652,9 @@ function buildFunnel(d){
 // ── METRIC LINE CHART ──
 // Metric line chart: 3 metrics, each shows usga.org + GAH as two lines
 const METRIC_PAIRS={
-  'visits':{keyA:'visits',keyB:'gahVisits',labelA:'usga.org',labelB:'GAH',title:'Visits'},
-  'pv':{keyA:'pv',keyB:'gahPv',labelA:'usga.org',labelB:'GAH',title:'Page Views'},
-  'uv':{keyA:'uv',keyB:'gahUv',labelA:'usga.org',labelB:'GAH',title:'Unique Visitors'}
+  'visits':{keyA:'visits',keyB:'gahVisits',keyC:'gahUtm',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Visits'},
+  'pv':{keyA:'pv',keyB:'gahPv',keyC:'gahUtmPv',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Page Views'},
+  'uv':{keyA:'uv',keyB:'gahUv',keyC:'gahUtmUv',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Unique Visitors'}
 };
 let curMetric='visits';
 
@@ -619,20 +683,24 @@ const ALL_WEEKS_DATA=[
 
 function rebuildMetricLine(){
   const m=METRIC_PAIRS[curMetric];
-  document.getElementById('metricChartTitle').textContent=m.title+' — usga.org vs GAH weekly trend';
+  if(!m)return;
+  document.getElementById('metricChartTitle').textContent=m.title+' — usga.org vs getahandicap.usga.org';
   const labels=ALL_WEEKS_DATA.map(w=>'Wk '+w.wk);
   const dataA=ALL_WEEKS_DATA.map(w=>w[m.keyA]);
   const dataB=ALL_WEEKS_DATA.map(w=>w[m.keyB]);
+  const dataC=ALL_WEEKS_DATA.map(w=>w[m.keyC]);
+  const pr=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?6:3);
   const ptA=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N);
   const ptB=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#e07010':B);
-  const prA=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?6:3);
-  const prB=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?6:3);
-  if(charts.ml)charts.ml.destroy();
-  charts.ml=new Chart(document.getElementById('metricLineChart'),{
+  const ptC=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#7a8c00':'#A2B528');
+  const canvas=document.getElementById('metricLineChart');
+  if(charts.ml){charts.ml.destroy();charts.ml=null;}
+  charts.ml=new Chart(canvas,{
     type:'line',
     data:{labels,datasets:[
-      {label:m.labelA+' (usga.org)',data:dataA,borderColor:N,backgroundColor:N+'18',tension:.35,pointRadius:prA,pointBackgroundColor:ptA,fill:false,borderWidth:2},
-      {label:m.labelB+' (GAH)',data:dataB,borderColor:B,backgroundColor:B+'18',tension:.35,pointRadius:prB,pointBackgroundColor:ptB,fill:false,borderWidth:2}
+      {label:m.labelA,data:dataA,borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
+      {label:m.labelB,data:dataB,borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
+      {label:m.labelC,data:dataC,borderColor:'#A2B528',borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
     ]},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{
@@ -646,9 +714,9 @@ function rebuildMetricLine(){
   });
 }
 
-document.querySelectorAll('.mpill').forEach(btn=>{
+document.querySelectorAll('[data-metric]').forEach(btn=>{
   btn.addEventListener('click',()=>{
-    document.querySelectorAll('.mpill').forEach(b=>b.classList.remove('on'));
+    document.querySelectorAll('[data-metric]').forEach(b=>b.classList.remove('on'));
     btn.classList.add('on');
     curMetric=btn.dataset.metric;
     rebuildMetricLine();
@@ -757,29 +825,62 @@ function updateWeeklyTrendSub(){
 
 /* ── PATCH buildFYTrend: visits/pv/uv each show usga.org + GAH grouped ── */
 const FY_METRIC_KEYS={
-  visits:{keyA:'visits',keyB:'gahVisits',labA:'usga.org',labB:'GAH'},
-  pv:{keyA:'pv',keyB:'gahPv',labA:'usga.org PVs',labB:'GAH PVs'},
-  uv:{keyA:'uv',keyB:'gahUv',labA:'usga.org UVs',labB:'GAH UVs'}
+  visits:{keyA:'visits',keyB:'gahVisits',keyC:'gahUtm',labA:'usga.org',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'},
+  pv:{keyA:'pv',keyB:'gahPv',keyC:'gahUtmPv',labA:'usga.org PVs',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'},
+  uv:{keyA:'uv',keyB:'gahUv',keyC:'gahUtmUv',labA:'usga.org UVs',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'}
 };
 const _origBuildFY=buildFYTrend;
 buildFYTrend=function(){
-  if(charts.fy)charts.fy.destroy();
+  if(charts.fy){charts.fy.destroy();charts.fy=null;}
   const labels=ALL_WEEKS_DATA.map(w=>'Wk '+w.wk);
   const mk=FY_METRIC_KEYS[fyMetric]||FY_METRIC_KEYS.visits;
+  // usga.org: standalone grouped bar
+  // getahandicap.usga.org: stacked (organic base + UTM on top)
+  // Organic = total GAH minus UTM
+  const gahOrganic=ALL_WEEKS_DATA.map(w=>Math.max(0,(w[mk.keyB]||0)-(w[mk.keyC]||0)));
+  const gahUtm=ALL_WEEKS_DATA.map(w=>w[mk.keyC]||0);
   const datasets=[
-    {label:mk.labA,data:ALL_WEEKS_DATA.map(w=>w[mk.keyA]),backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N),borderRadius:3,barPercentage:.75},
-    {label:mk.labB,data:ALL_WEEKS_DATA.map(w=>w[mk.keyB]),backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#e07010':B),borderRadius:3,barPercentage:.75}
+    {
+      label:mk.labA,
+      data:ALL_WEEKS_DATA.map(w=>w[mk.keyA]),
+      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N),
+      borderRadius:3,barPercentage:.7,stack:'usga'
+    },
+    {
+      label:mk.labB,
+      data:gahOrganic,
+      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#006fa8':B),
+      borderRadius:0,barPercentage:.7,stack:'gah'
+    },
+    {
+      label:mk.labC,
+      data:gahUtm,
+      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#7a9e00':'#A2B528'),
+      borderRadius:3,barPercentage:.7,stack:'gah'
+    }
   ];
   charts.fy=new Chart(document.getElementById('fyTrendChart'),{
     type:'bar',data:{labels,datasets},
     options:{responsive:true,maintainAspectRatio:false,
       plugins:{
         legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
-        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}
+        tooltip:{
+          callbacks:{
+            label:c=>c.dataset.label+': '+fmtK(c.parsed.y),
+            footer:items=>{
+              const gahItems=items.filter(i=>i.datasetIndex>0);
+              if(gahItems.length>1){
+                const tot=gahItems.reduce((s,i)=>s+i.parsed.y,0);
+                return 'getahandicap.usga.org total: '+fmtK(tot);
+              }
+              return '';
+            }
+          }
+        }
       },
       scales:{
         x:{ticks:{font:{size:9},color:GR},grid:{display:false},autoSkip:false},
-        y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
+        y:{stacked:false,ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
       }}
   });
 };
@@ -788,6 +889,9 @@ buildFYTrend=function(){
 const _origLoadWeek=loadWeek;
 loadWeek=function(wk){
   _origLoadWeek(wk);
+  // sync topline week selector
+  const tls=document.getElementById('toplineWeekSelect');
+  if(tls) tls.value=String(wk);
   // sync conv dropdown to current week if in 'week' mode
   if(convWeekSel==='week') updateConvDisplay();
   updateWeeklyTrendSub();
