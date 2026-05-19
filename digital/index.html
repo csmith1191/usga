@@ -3,637 +3,493 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Digital Analytics Dashboard — April 2026</title>
 <style>
 :root{
-  --navy:#00365F;--blue:#0088CE;--red:#DA1A31;--green:#A2B528;--gray:#63666A;--bronze:#B79157;
-  --border:#D8DEE3;--bg:#F5F7F9;--white:#FFFFFF;
-  --text-primary:#1A2733;--text-secondary:#4A5A64;--text-muted:#7A8B94;
+  --navy:#00365F;--blue:#0088CE;--red:#DA1A31;--green:#A2B528;
+  --gray:#63666A;--bronze:#B79157;--border:#D8DEE3;--bg:#F5F7F9;
+  --white:#fff;--tp:#1A2733;--ts:#4A5A64;--tm:#7A8B94;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);}
-
-/* ═══ LAYOUT ═══ */
-.dashboard{max-width:960px;margin:0 auto;padding:20px 16px 40px;}
-
-/* ═══ HEADER ═══ */
-.hdr{
-  background:var(--navy);border-radius:10px;
-  padding:14px 20px;margin-bottom:18px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.hdr-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:.01em;}
-.hdr-sub{font-size:11px;color:#9AB8CC;margin-top:3px;}
-.hdr-right{display:flex;align-items:center;gap:12px;}
-.hdr-badge{
-  background:var(--red);color:#fff;
-  font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
-  padding:4px 13px;border-radius:999px;
-}
+html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:var(--tp);background:var(--bg);}
+.dash{max-width:980px;margin:0 auto;padding:20px 16px 48px;}
+.hdr{background:var(--navy);border-radius:10px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-t{font-size:17px;font-weight:700;color:#fff;}.hdr-s{font-size:11px;color:#9AB8CC;margin-top:3px;}
+.hdr-r{display:flex;align-items:center;gap:12px;}
+.badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 13px;border-radius:999px;}
 .hdr-logo{height:42px;width:42px;border-radius:5px;object-fit:contain;background:#fff;padding:3px;display:block;}
-
-/* ═══ TOPLINE LABEL ═══ */
-.section-label{
-  font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
-  color:var(--text-muted);border-left:3px solid var(--red);
-  padding-left:8px;margin:18px 0 10px;
-}
-
-/* ═══ METRIC CARDS ═══ */
-.metric-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:18px;
-}
-.metric-card{
-  background:var(--white);border:1px solid var(--border);border-radius:8px;
-  border-top:3px solid var(--navy);padding:12px 14px;
-}
-.metric-card .label{font-size:10px;color:var(--text-muted);font-weight:500;margin-bottom:4px;}
-.metric-card .value{font-size:22px;font-weight:700;color:var(--navy);line-height:1;}
-.metric-card .delta{font-size:10px;font-weight:600;margin-top:5px;}
-.delta-up{color:#3A6614;}
-.delta-dn{color:var(--red);}
-
-/* ═══ SECTION DIVIDER ═══ */
-.sec-divider{
-  display:flex;align-items:center;gap:10px;
-  margin:26px 0 14px;
-}
-.sec-divider .line{flex:1;height:1px;background:var(--border);}
-.sec-divider .num{
-  width:22px;height:22px;border-radius:50%;
-  background:var(--red);color:#fff;
-  font-size:10px;font-weight:700;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.sec-divider .label-text{
-  font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:var(--navy);white-space:nowrap;
-}
-
-/* ═══ CHART CARD ═══ */
-.card{
-  background:var(--white);border:1px solid var(--border);border-radius:8px;
-  padding:16px 18px;margin-bottom:14px;
-}
-.card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
-.card-sub{font-size:10px;color:var(--text-muted);margin-bottom:12px;}
-
-/* ═══ FILTER BAR ═══ */
-.filter-bar{
-  display:flex;flex-wrap:wrap;align-items:stretch;
-  border:1px solid #BBC5CC;border-radius:6px;
-  overflow:hidden;background:#2C3A47;margin-bottom:14px;
-}
-.filter-group{
-  display:flex;align-items:center;gap:4px;
-  padding:6px 10px;border-right:1px solid #3E5060;
-  flex-shrink:0;
-}
-.filter-group:last-child{border-right:none;}
-.filter-group .flabel{
-  font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-  color:#7A97AA;margin-right:4px;white-space:nowrap;flex-shrink:0;
-}
-.fpill{
-  font-size:10px;font-weight:500;padding:3px 10px;
-  border-radius:4px;border:1px solid transparent;
-  background:transparent;color:#94AABB;
-  cursor:pointer;white-space:nowrap;line-height:1.4;
-  transition:all .12s ease;
-}
-.fpill:hover{background:#3A5060;color:#C8D8E4;}
-.fpill.on{background:var(--navy);color:#fff;border-color:#004A7F;font-weight:600;}
-
-/* ═══ LEGEND ═══ */
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-secondary);font-weight:500;}
-.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-
-/* ═══ FOLLOWERS GRID ═══ */
-.fol-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;}
-.fol-card{
-  background:var(--white);border:1px solid var(--border);border-radius:8px;
-  border-top:3px solid var(--blue);padding:14px 16px;
-}
-.fol-platform{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;}
-.fol-table{width:100%;border-collapse:collapse;}
-.fol-table thead th{
-  font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;
-  color:var(--text-muted);padding:0 0 6px;border-bottom:1.5px solid var(--border);
-  text-align:right;
-}
-.fol-table thead th:first-child{text-align:left;}
-.fol-table tbody td{
-  font-size:11px;padding:5px 0;border-bottom:.5px solid #EEF1F3;
-  text-align:right;color:var(--text-secondary);
-}
-.fol-table tbody td:first-child{text-align:left;color:var(--text-primary);}
-.fol-table tbody tr:last-child td{border-bottom:none;}
-.fol-table tfoot td{
-  font-size:11px;font-weight:700;padding:7px 0 0;
-  border-top:1.5px solid var(--navy);color:var(--navy);
-  text-align:right;
-}
-.fol-table tfoot td:first-child{text-align:left;}
-.fol-count{font-weight:700;color:var(--navy);}
-.delta-up-sm{color:#3A6614;font-size:10px;font-weight:600;}
-.delta-dn-sm{color:var(--red);font-size:10px;font-weight:600;}
-
-/* ═══ APP VISUAL ═══ */
-.app-scroll{overflow-x:auto;padding-bottom:6px;}
-.app-row{display:flex;gap:10px;min-width:max-content;align-items:flex-end;padding:4px 0;}
-.app-year-block{display:flex;align-items:flex-end;gap:8px;}
-.app-year-label{
-  writing-mode:vertical-lr;transform:rotate(180deg);
-  font-size:9px;font-weight:700;color:var(--navy);letter-spacing:.06em;
-  margin-right:4px;align-self:center;
-}
-.app-col{display:flex;flex-direction:column;align-items:center;gap:4px;}
-.app-month-lbl{font-size:9px;color:var(--text-muted);font-weight:600;text-align:center;}
-.app-bar-stack{display:flex;flex-direction:column;gap:2px;width:44px;height:100px;justify-content:flex-end;}
-.app-seg{
-  display:flex;flex-direction:column;justify-content:center;
-  border-radius:3px;min-height:6px;padding:1px 5px;
-  border-left:3px solid transparent;
-}
-.app-seg-pct{font-size:8px;font-weight:700;line-height:1.2;}
-.app-seg-lbl{font-size:7px;opacity:.75;line-height:1;}
-.app-total-lbl{font-size:9px;font-weight:700;color:var(--navy);text-align:center;}
-.app-year-sep{width:1px;background:var(--border);height:100px;margin:0 4px;align-self:flex-end;}
+.sdiv{display:flex;align-items:center;gap:10px;margin:22px 0 12px;}
+.sdiv .line{flex:1;height:1px;background:var(--border);}
+.sdiv .num{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sdiv .txt{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);white-space:nowrap;}
+.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px;}
+.card-t{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
+.card-s{font-size:10px;color:var(--tm);margin-bottom:10px;}
+.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
+.mc{background:var(--white);border:1px solid var(--border);border-radius:8px;border-top:3px solid var(--navy);padding:12px 14px;}
+.mc .lbl{font-size:10px;color:var(--tm);font-weight:500;margin-bottom:4px;}
+.mc .val{font-size:22px;font-weight:700;color:var(--navy);line-height:1;}
+.mc .dlt{font-size:10px;font-weight:600;margin-top:5px;}
+.up{color:#3A6614;}.dn{color:var(--red);}
+.fb{display:flex;flex-wrap:wrap;align-items:stretch;border:1px solid #BBC5CC;border-radius:6px;overflow:hidden;background:#2C3A47;margin-bottom:12px;}
+.fg{display:flex;align-items:center;gap:4px;padding:6px 10px;border-right:1px solid #3E5060;flex-shrink:0;}
+.fg:last-child{border-right:none;}
+.fl{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#7A97AA;white-space:nowrap;margin-right:2px;}
+.fp{font-size:10px;font-weight:500;padding:3px 10px;border-radius:4px;border:1px solid transparent;background:transparent;color:#94AABB;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .12s;}
+.fp:hover{background:#3A5060;color:#C8D8E4;}.fp.on{background:var(--navy);color:#fff;border-color:#004A7F;font-weight:600;}
+.fsel{background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:110px;}
+.fsel-lt{background:#EEF2F5;color:var(--navy);border:1px solid var(--border);}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ts);font-weight:500;}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.fc{background:var(--white);border:1px solid var(--border);border-radius:7px;padding:.75rem .9rem;border-top:3px solid var(--blue);}
+.fp2{font-size:10px;font-weight:700;color:var(--navy);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+.ftbl{width:100%;border-collapse:collapse;}
+.ftbl th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tm);padding:0 0 5px;border-bottom:1.5px solid var(--border);text-align:right;}
+.ftbl th:first-child{text-align:left;}
+.ftbl td{font-size:11px;padding:4px 0;border-bottom:.5px solid #EEF0F1;text-align:right;color:var(--ts);}
+.ftbl td:first-child{text-align:left;color:var(--tp);font-weight:500;}
+.ftbl tr:last-child td{border-bottom:none;}
+.ftbl tfoot td{font-size:11px;font-weight:700;padding:5px 0 0;border-top:1.5px solid var(--navy);color:var(--navy);text-align:right;}
+.ftbl tfoot td:first-child{text-align:left;}
+.app-wrap{overflow-x:auto;padding-bottom:4px;}
+.app-row{display:flex;gap:8px;min-width:max-content;padding:2px 0 4px;align-items:flex-end;}
+.ac{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:48px;}
+.am{font-size:9px;color:var(--tm);font-weight:600;text-align:center;}
+.abs{display:flex;flex-direction:column;gap:2px;width:40px;height:120px;justify-content:flex-end;}
+.aseg{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;border-radius:3px;min-height:5px;padding:1px 4px;border-left:3px solid transparent;}
+.aseg-p{font-size:8px;font-weight:700;line-height:1.2;}
+.aseg-l{font-size:7px;line-height:1;}
+.atot{font-size:9px;font-weight:700;color:var(--navy);text-align:center;}
+.asep{width:1px;background:var(--border);height:120px;margin:20px 6px 0;flex-shrink:0;}
+.sec-lbl-row{display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;}
+.sec-lbl{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--tm);border-left:3px solid var(--red);padding-left:8px;}
+.pie-wrap{display:flex;align-items:center;gap:20px;}
+.pie-leg{display:flex;flex-direction:column;min-width:190px;}
+.pie-leg-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #EEF1F3;}
+.pie-leg-row:last-child{border-bottom:none;}
+.mp{font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;border:1px solid transparent;background:#EEF2F5;color:#4A5A64;cursor:pointer;white-space:nowrap;transition:all .1s;}
+.mp:hover{background:#D5DDE3;color:var(--navy);}.mp.on{background:var(--navy);color:#fff;font-weight:600;}
 </style>
 </head>
 <body>
-<div class="dashboard">
+<div class="dash">
 
-<!-- HEADER -->
 <div class="hdr">
-  <div>
-    <div class="hdr-title">Digital Analytics Dashboard</div>
-    <div class="hdr-sub">FY2026 YTD through April &middot; All web &amp; app properties</div>
-  </div>
-  <div class="hdr-right">
-    <div class="hdr-badge">April 2026</div>
-    <img src="data:image/png;base64,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" class="hdr-logo" alt="USGA"/>
-  </div>
+  <div><div class="hdr-t">Digital Analytics Dashboard</div><div class="hdr-s">FY2026 YTD through April &middot; All web &amp; app properties</div></div>
+  <div class="hdr-r"><div class="badge">April 2026</div><img src="data:image/png;base64,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" class="hdr-logo" alt="USGA"/></div>
 </div>
 
 <!-- TOPLINE -->
-<div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;">
-  <div class="section-label" style="margin:0;" id="toplineLabel">Web &amp; App KPI Topline</div>
-  <div class="filter-bar" style="margin:0;">
-    <div class="filter-group">
-      <span class="flabel">Period</span>
-      <button class="fpill on" data-tl="ytd">YTD</button>
-      <button class="fpill" data-tl="month">Month</button>
-      <button class="fpill" data-tl="year">Year</button>
+<div class="sec-lbl-row">
+  <div class="sec-lbl" id="tlLabel">Web &amp; App KPI Topline &mdash; FY2026 YTD</div>
+  <div class="fb" style="margin:0;">
+    <div class="fg"><span class="fl">Period</span>
+      <button class="fp on" data-tl="ytd">YTD</button>
+      <button class="fp" data-tl="month">Month</button>
+      <button class="fp" data-tl="year">Year</button>
     </div>
-    <div class="filter-group" id="tlMonthGroup" style="display:none;">
-      <span class="flabel">Month</span>
-      <select id="tlMonthSel" onchange="rebuildTopline()" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:110px;">
-        <option value="0">January</option>
-        <option value="1">February</option>
-        <option value="2">March</option>
-        <option value="3" selected>April</option>
+    <div class="fg" id="tlMonthG" style="display:none;"><span class="fl">Month</span>
+      <select id="tlMonthSel" onchange="rebuildTopline()" class="fsel">
+        <option value="0">January</option><option value="1">February</option>
+        <option value="2">March</option><option value="3" selected>April</option>
+        <option value="4">May</option><option value="5">June</option>
+        <option value="6">July</option><option value="7">August</option>
+        <option value="8">September</option><option value="9">October</option>
+        <option value="10">November</option><option value="11">December</option>
       </select>
-      <span style="margin-left:-20px;color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
     </div>
-    <div class="filter-group" id="tlYearGroup" style="display:none;">
-      <span class="flabel">Year</span>
-      <select id="tlYearSel" onchange="rebuildTopline()" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:90px;">
+    <div class="fg" id="tlYearG" style="display:none;"><span class="fl">Year</span>
+      <select id="tlYearSel" onchange="rebuildTopline()" class="fsel">
         <option value="2026" selected>2026</option>
-        <option value="2025">2025</option>
-        <option value="2024">2024</option>
+        <option value="2025">2025</option><option value="2024">2024</option>
+        <option value="2023">2023</option><option value="2022">2022</option>
       </select>
-      <span style="margin-left:-20px;color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+    </div>
+    <div class="fg" id="tlMonthYearG" style="display:none;"><span class="fl">Year</span>
+      <select id="tlMonthYearSel" onchange="rebuildTopline()" class="fsel">
+        <option value="2026" selected>2026</option>
+        <option value="2025">2025</option><option value="2024">2024</option>
+        <option value="2023">2023</option><option value="2022">2022</option>
+      </select>
     </div>
   </div>
 </div>
-<div class="metric-grid">
-  <div class="metric-card"><div class="label">Page Views</div><div class="value" id="tl-pv">8.4M</div><div class="delta" id="tl-pv-d" style="color:#3A6614;">&#8593; 26.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Visits</div><div class="value" id="tl-vis">5.2M</div><div class="delta" id="tl-vis-d" style="color:#3A6614;">&#8593; 38.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Unique Visitors</div><div class="value" id="tl-uv">4.2M</div><div class="delta" id="tl-uv-d" style="color:#3A6614;">&#8593; 43.0% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Engagements</div><div class="value" id="tl-ome">486.8K</div><div class="delta" id="tl-ome-d" style="color:#3A6614;">&#8593; 5.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Article PVs</div><div class="value" id="tl-art">330.8K</div><div class="delta" id="tl-art-d" style="color:#3A6614;">&#8593; 16.5% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Video Views</div><div class="value" id="tl-vid">117.3K</div><div class="delta" id="tl-vid-d" style="color:#DA1A31;">&#8595; 20.0% vs 2025</div></div>
-  <div class="metric-card"><div class="label">PG Launches</div><div class="value" id="tl-pg">38.6K</div><div class="delta" id="tl-pg-d" style="color:#3A6614;">&#8593; 24.7% vs 2025</div></div>
-  <div class="metric-card"><div class="label">App Installs</div><div class="value" id="tl-app">32.3K</div><div class="delta" id="tl-app-d" style="color:#DA1A31;">&#8595; 26.4% vs 2025</div></div>
+<div class="mgrid">
+  <div class="mc"><div class="lbl">Page Views</div><div class="val" id="tl-pv">—</div><div class="dlt" id="tl-pv-d"></div></div>
+  <div class="mc"><div class="lbl">Visits</div><div class="val" id="tl-vis">—</div><div class="dlt" id="tl-vis-d"></div></div>
+  <div class="mc"><div class="lbl">Unique Visitors</div><div class="val" id="tl-uv">—</div><div class="dlt" id="tl-uv-d"></div></div>
+  <div class="mc"><div class="lbl">Engagements</div><div class="val" id="tl-ome">—</div><div class="dlt" id="tl-ome-d"></div></div>
+  <div class="mc"><div class="lbl">Article PVs</div><div class="val" id="tl-art">—</div><div class="dlt" id="tl-art-d"></div></div>
+  <div class="mc"><div class="lbl">Video Views</div><div class="val" id="tl-vid">—</div><div class="dlt" id="tl-vid-d"></div></div>
+  <div class="mc"><div class="lbl">PG Launches</div><div class="val" id="tl-pg">—</div><div class="dlt" id="tl-pg-d"></div></div>
+  <div class="mc"><div class="lbl">App Installs</div><div class="val" id="tl-app">—</div><div class="dlt" id="tl-app-d"></div></div>
 </div>
 
-<!-- MONTHLY TREND -->
-<div class="sec-divider"><div class="line"></div><div class="label-text">Monthly KPI Trends</div><div class="line"></div></div>
+<!-- MONTHLY KPI TRENDS -->
+<div class="sdiv"><div class="line"></div><div class="txt">Monthly KPI Trends</div><div class="line"></div></div>
 <div class="card">
-  <div class="card-title" id="mainTitle">Page views &mdash; Fiscal year, Jan&ndash;Apr</div>
-  <div class="card-sub">Toggle metric, time period, and year</div>
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="flabel">Metric</span>
-      <button class="fpill on" data-m="pv">Page Views</button>
-      <button class="fpill" data-m="vis">Visits</button>
-      <button class="fpill" data-m="uv">Unique Visitors</button>
-      <button class="fpill" data-m="ome">Engagements</button>
-      <button class="fpill" data-m="art">Article PVs</button>
-      <button class="fpill" data-m="vid">Video Views</button>
-      <button class="fpill" data-m="pg">PG Launches</button>
-      <button class="fpill" data-m="app">App Installs</button>
+  <div class="card-t" id="mainTitle">Page Views — Fiscal Year, Jan–Apr</div>
+  <div class="fb">
+    <div class="fg"><span class="fl">Metric</span>
+      <button class="fp on" data-m="pv">Page Views</button>
+      <button class="fp" data-m="vis">Visits</button>
+      <button class="fp" data-m="uv">Unique Visitors</button>
+      <button class="fp" data-m="ome">Engagements</button>
+      <button class="fp" data-m="art">Article PVs</button>
+      <button class="fp" data-m="vid">Video Views</button>
+      <button class="fp" data-m="pg">PG Launches</button>
+      <button class="fp" data-m="app">App Installs</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-view="month">Fiscal Year</button>
-      <button class="fpill" data-view="fy">Full Year</button>
+    <div class="fg"><span class="fl">Time Period</span>
+      <button class="fp on" data-view="month">Fiscal Year</button>
+      <button class="fp" data-view="fy">Full Year</button>
     </div>
-    <div class="filter-group" id="mainYearGroup">
-      <span class="flabel">Year</span>
-      <button class="fpill on" data-fy="2024">2024</button>
-      <button class="fpill on" data-fy="2025">2025</button>
-      <button class="fpill on" data-fy="2026">2026</button></div>
+    <div class="fg" id="mainYrGroup"><span class="fl">Year</span>
+      <button class="fp on" data-fy="2024">2024</button>
+      <button class="fp on" data-fy="2025">2025</button>
+      <button class="fp on" data-fy="2026">2026</button>
+    </div>
   </div>
   <div style="position:relative;height:240px;"><canvas id="mainChart"></canvas></div>
 </div>
 
-<!-- SECTION 1a: Visits by Platform (PIE) -->
-<div class="sec-divider"><div class="line"></div><div class="num">1</div><div class="label-text">Visits by Platform</div><div class="line"></div></div>
+<!-- SECTION 1: VISITS BY PLATFORM -->
+<div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Visits by Platform</div><div class="line"></div></div>
 <div class="card">
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-pltp="month">Fiscal Year</button>
-      <button class="fpill" data-pltp="fy">Full Year</button>
+  <div class="fb">
+    <div class="fg"><span class="fl">Time Period</span>
+      <button class="fp on" data-pltp="month">Fiscal Year</button>
+      <button class="fp" data-pltp="fy">Full Year</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Year</span>
-      <button class="fpill on" data-plyr="2024">2024</button>
-      <button class="fpill on" data-plyr="2025">2025</button>
-      <button class="fpill on" data-plyr="2026">2026</button>
+    <div class="fg"><span class="fl">Year</span>
+      <button class="fp on" data-plyr="2026">2026</button>
+      <button class="fp" data-plyr="2025">2025</button>
+      <button class="fp" data-plyr="2024">2024</button>
     </div>
   </div>
-  <div style="display:flex;align-items:center;gap:20px;">
+  <div class="pie-wrap">
     <div style="position:relative;height:280px;flex:1;min-width:0;"><canvas id="platPieChart"></canvas></div>
-    <div id="platLeg" style="display:flex;flex-direction:column;gap:8px;min-width:180px;"></div>
+    <div class="pie-leg" id="platLeg"></div>
   </div>
 </div>
 
-<!-- SECTION 1b: Video Views by Channel (LINE) -->
-<div class="sec-divider"><div class="line"></div><div class="num" style="background:var(--red);">1b</div><div class="label-text">Video Views by Channel</div><div class="line"></div></div>
+<!-- SECTION 1b: VIDEO VIEWS BY CHANNEL -->
+<div class="sdiv"><div class="line"></div><div class="num" style="font-size:8px;">1b</div><div class="txt">Video Views by Channel</div><div class="line"></div></div>
 <div class="card">
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-vvtp="month">Fiscal Year</button>
-      <button class="fpill" data-vvtp="fy">Full Year</button>
+  <div class="fb">
+    <div class="fg"><span class="fl">Time Period</span>
+      <button class="fp on" data-vvtp="month">Fiscal Year</button>
+      <button class="fp" data-vvtp="fy">Full Year</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Year</span>
-      <button class="fpill on" data-vvyr="2024">2024</button>
-      <button class="fpill on" data-vvyr="2025">2025</button>
-      <button class="fpill on" data-vvyr="2026">2026</button>
-    </div>
-    <div class="filter-group">
-      <span class="flabel">Profile</span>
-      <button class="fpill on" data-vvprof="all">All</button>
-      <button class="fpill" data-vvprof="usga">USGA</button>
-      <button class="fpill" data-vvprof="uso">U.S. Open</button>
-      <button class="fpill" data-vvprof="uswo">U.S. Women's Open</button>
+    <div class="fg"><span class="fl">Year</span>
+      <button class="fp on" data-vvyr="2024">2024</button>
+      <button class="fp on" data-vvyr="2025">2025</button>
+      <button class="fp on" data-vvyr="2026">2026</button>
     </div>
   </div>
-  <div class="legend" id="vidLeg"></div>
+  <div class="leg" id="vidLeg"></div>
   <div style="position:relative;height:280px;"><canvas id="vidLineChart"></canvas></div>
 </div>
 
-<!-- SECTION 2 -->
-<div class="sec-divider"><div class="line"></div><div class="num">2</div><div class="label-text">App Installs by Device</div><div class="line"></div></div>
+<!-- SECTION 2: APP INSTALLS -->
+<div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">App Installs by Device</div><div class="line"></div></div>
 <div class="card">
-  <div class="card-title">App installs by device</div>
-
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-a2tp="month">Fiscal Year</button>
-      <button class="fpill" data-a2tp="fy">Full Year</button>
+  <div class="card-t">App installs by device</div>
+  <div class="fb">
+    <div class="fg"><span class="fl">Time Period</span>
+      <button class="fp on" data-a2tp="month">Fiscal Year</button>
+      <button class="fp" data-a2tp="fy">Full Year</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Year</span>
-      <button class="fpill on" data-ayr="2024">2024</button>
-      <button class="fpill on" data-ayr="2025">2025</button>
-      <button class="fpill on" data-ayr="2026">2026</button></div>
+    <div class="fg"><span class="fl">Year</span>
+      <button class="fp on" data-ayr="2024">2024</button>
+      <button class="fp on" data-ayr="2025">2025</button>
+      <button class="fp on" data-ayr="2026">2026</button>
+    </div>
   </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#00365F"></div>Apple (iOS)</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#0088CE"></div>Android</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#B79157"></div>iPad</div>
+  <div class="leg">
+    <div class="li"><div class="ld" style="background:var(--navy)"></div>Apple (iOS)</div>
+    <div class="li"><div class="ld" style="background:var(--blue)"></div>Android</div>
+    <div class="li"><div class="ld" style="background:var(--bronze)"></div>iPad</div>
   </div>
-  <div class="app-scroll"><div class="app-row" id="appVisual"></div></div>
-  <!-- FY Total Summary -->
+  <div class="app-wrap"><div class="app-row" id="appVisual"></div></div>
   <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
-    <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">FY2026 YTD Totals</div>
+    <div style="font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">FY Totals</div>
     <div id="appFYTotals" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
   </div>
 </div>
 
-<!-- SECTION 3 -->
-<div class="sec-divider"><div class="line"></div><div class="num">3</div><div class="label-text">Current Social Media Followers &mdash; April 2026</div><div class="line"></div></div>
+<!-- SECTION 3: FOLLOWERS -->
+<div class="sdiv"><div class="line"></div><div class="num">3</div><div class="txt">Current Social Media Followers &mdash; April 2026</div><div class="line"></div></div>
 <div class="card">
-  <div class="filter-bar" style="margin-bottom:14px;">
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-f3tp="month">Fiscal Year</button>
-      <button class="fpill" data-f3tp="fy">Full Year</button>
-    </div>
-    <div class="filter-group">
-      <span class="flabel">Year</span>
-      <button class="fpill on" data-f3yr="2026">2026</button>
-    </div>
-    <div class="filter-group">
-      <span class="flabel">Platform</span>
-      <button class="fpill on" data-folplat="all">All</button>
-      <button class="fpill" data-folplat="Facebook">Facebook</button>
-      <button class="fpill" data-folplat="Instagram">Instagram</button>
-      <button class="fpill" data-folplat="X">X</button>
-      <button class="fpill" data-folplat="TikTok">TikTok</button>
+  <div class="fb">
+    <div class="fg"><span class="fl">Platform</span>
+      <button class="fp on" data-folplat="all">All</button>
+      <button class="fp" data-folplat="Facebook">Facebook</button>
+      <button class="fp" data-folplat="Instagram">Instagram</button>
+      <button class="fp" data-folplat="Twitter">Twitter</button>
+      <button class="fp" data-folplat="TikTok">TikTok</button>
     </div>
   </div>
-  <div class="fol-grid" id="folGrid"></div>
+  <div class="fgrid" id="folGrid"></div>
 </div>
 
-<!-- SECTION 4 -->
-<div class="sec-divider"><div class="line"></div><div class="num">4</div><div class="label-text">New Followers by Platform</div><div class="line"></div></div>
+<!-- SECTION 4: NEW FOLLOWERS -->
+<div class="sdiv"><div class="line"></div><div class="num">4</div><div class="txt">New Followers by Platform</div><div class="line"></div></div>
 <div class="card">
-  <div class="card-title">New followers by platform</div>
-  <div class="card-sub" id="nfolSub">Select a profile and year to compare platforms month over month &middot; Note: 2024 data is Jan&ndash;Apr only</div>
-  <div class="filter-bar">
-    <div class="filter-group">
-      <span class="flabel">Time Period</span>
-      <button class="fpill on" data-n4tp="month">Fiscal Year</button>
-      <button class="fpill" data-n4tp="fy">Full Year</button>
+  <div class="card-t">New followers by platform</div>
+  <div class="card-s" id="nfolSub">Select a profile and year to compare</div>
+  <div class="fb">
+    <div class="fg"><span class="fl">Time Period</span>
+      <button class="fp on" data-n4tp="month">Fiscal Year</button>
+      <button class="fp" data-n4tp="fy">Full Year</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Year</span>
-      <button class="fpill" data-nyr="2022">2022</button>
-      <button class="fpill" data-nyr="2023">2023</button>
-      <button class="fpill" data-nyr="2024">2024</button>
-      <button class="fpill" data-nyr="2025">2025</button>
-      <button class="fpill on" data-nyr="2026">2026</button></div>
-    <div class="filter-group">
-      <span class="flabel">Profile</span>
-      <button class="fpill" data-prof="all">All</button>
-      <button class="fpill on" data-prof="usga">USGA</button>
-      <button class="fpill" data-prof="uso">U.S. Open</button>
-      <button class="fpill" data-prof="uswo">U.S. Women's Open</button>
-      <button class="fpill" data-prof="wghof">WGHOF</button>
-      <button class="fpill" data-prof="usndp">USNDP</button>
+    <div class="fg"><span class="fl">Year</span>
+      <button class="fp" data-nyr="2022">2022</button>
+      <button class="fp" data-nyr="2023">2023</button>
+      <button class="fp" data-nyr="2024">2024</button>
+      <button class="fp" data-nyr="2025">2025</button>
+      <button class="fp on" data-nyr="2026">2026</button>
     </div>
-    <div class="filter-group">
-      <span class="flabel">Platform</span>
-      <button class="fpill on" data-nplat="Facebook">Facebook</button>
-      <button class="fpill on" data-nplat="Instagram">Instagram</button>
-      <button class="fpill on" data-nplat="X">X</button>
-      <button class="fpill on" data-nplat="TikTok">TikTok</button>
+    <div class="fg"><span class="fl">Profile</span>
+      <button class="fp" data-prof="all">All</button>
+      <button class="fp on" data-prof="usga">USGA</button>
+      <button class="fp" data-prof="uso">U.S. Open</button>
+      <button class="fp" data-prof="uswo">U.S. Women's Open</button>
+      <button class="fp" data-prof="wghof">WGHOF</button>
+      <button class="fp" data-prof="usndp">USNDP</button>
+    </div>
+    <div class="fg"><span class="fl">Platform</span>
+      <button class="fp on" data-nplat="Facebook">Facebook</button>
+      <button class="fp on" data-nplat="Instagram">Instagram</button>
+      <button class="fp on" data-nplat="Twitter">Twitter</button>
+      <button class="fp on" data-nplat="TikTok">TikTok</button>
     </div>
   </div>
-  <div class="legend" id="nfolLeg"></div>
-  <div style="position:relative;height:230px;"><canvas id="newFolChart"></canvas></div>
+  <div class="leg" id="nfolLeg"></div>
+  <div style="position:relative;height:250px;"><canvas id="newFolChart"></canvas></div>
 </div>
 
-</div><!-- /dashboard -->
-
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
 const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A',BR='#B79157';
-const MO=['Jan','Feb','Mar','Apr'];
 const ALL_MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const COLS={'2024':N,'2025':B,'2026':R};
-const fmt=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(0)+'K':String(n);
-const fmtK=n=>n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
-let charts={};
+const MO=['Jan','Feb','Mar','Apr'];
+const COLS={'2022':'#6B2D8B','2023':BR,'2024':N,'2025':B,'2026':R};
+const fmt=n=>n==null?'—':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
+const charts={};
 
-function pg(sel,multi,cb){
-  document.querySelectorAll(sel).forEach(b=>{
-    b.addEventListener('click',()=>{
-      if(multi)b.classList.toggle('on');
-      else{document.querySelectorAll(sel).forEach(x=>x.classList.remove('on'));b.classList.add('on');}
-      cb();
-    });
-  });
-}
 function on(sel){return[...document.querySelectorAll(sel)].filter(b=>b.classList.contains('on')).map(b=>Object.values(b.dataset)[0]);}
+function pill(sel,multi,cb){
+  document.querySelectorAll(sel).forEach(b=>b.addEventListener('click',()=>{
+    if(multi){b.classList.toggle('on');if(!on(sel).length)b.classList.add('on');}
+    else{document.querySelectorAll(sel).forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+    cb();
+  }));
+}
+function pillSingle(sel,cb){
+  document.querySelectorAll(sel).forEach(b=>b.addEventListener('click',()=>{
+    document.querySelectorAll(sel).forEach(x=>x.classList.remove('on'));b.classList.add('on');cb();
+  }));
+}
+function setDelta(id,val,prev){
+  const el=document.getElementById(id);if(!el)return;
+  if(prev==null||prev===0){el.textContent='';return;}
+  const p=((val-prev)/prev*100).toFixed(1);
+  const up=parseFloat(p)>=0;
+  el.textContent=(up?'↑':'↓')+Math.abs(p)+'% YoY';
+  el.className='dlt '+(up?'up':'dn');
+}
 
-/* ── TOPLINE CHART ── */
 const TOP={
-  pv:{lbl:'Page views',fmt:v=>(v/1e6).toFixed(2)+'M',
+  pv:{lbl:'Page Views',
+    '2022':[1268088,1387027,1737361,2754104,4232356,57983643,5463202,9879376,3549190,1132805,1202277,996454],
+    '2023':[1535140,1836993,2225963,2840460,4439392,49247698,10489228,8404826,3362096,1493071,1371351,1513072],
     '2024':[1618318,1722036,1722346,3168890,9092316,42815180,3281855,3798196,1425785,1026227,806840,948039],
     '2025':[955676,615000,1918892,3153742,8279691,72192509,5378239,10728037,4396930,1523938,1356769,1907057],
-    '2026':[1258883,1577765,2126439,3430939,null,null,null,null,null,null,null,null]},
-  vis:{lbl:'Visits',fmt:v=>(v/1e6).toFixed(2)+'M',
+    '2026':[1258883,1577765,2126439,3430939,null,null,null,null,null,null,null,null],
+  },
+  vis:{lbl:'Visits',
+    '2022':[582302,611002,765580,1176488,1741819,16406003,1896949,3096801,1378847,561783,601757,506904],
+    '2023':[714155,857458,1067740,1428684,2204512,17290257,5288492,4038265,1888632,885831,1352143,866722],
     '2024':[908651,906761,1037774,1685078,3038191,11640258,1649475,1946223,1007055,597994,475840,536376],
     '2025':[535663,292202,1062923,1888990,4013659,21812421,2938133,5557578,2437325,832774,955739,1447030],
-    '2026':[810739,978498,1222403,2219659,null,null,null,null,null,null,null,null]},
-  uv:{lbl:'Unique visitors',fmt:v=>(v/1e6).toFixed(2)+'M',
+    '2026':[810739,978498,1222403,2219659,null,null,null,null,null,null,null,null],
+  },
+  uv:{lbl:'Unique Visitors',
+    '2022':[436315,447036,569527,837948,1151849,5215838,1141053,1593295,894172,438680,478182,412488],
+    '2023':[553660,667164,825359,1137321,1533935,6529801,2539675,2054157,1223571,684450,645377,730876],
     '2024':[717029,685898,689782,1319945,1998395,4425074,1133673,1244868,1113907,482328,381240,441285],
     '2025':[440833,196873,825181,1507353,2572327,8266799,1966621,2775966,1536121,617209,819740,1204656],
-    '2026':[675990,790293,958129,1821855,null,null,null,null,null,null,null,null]},
-  ome:{lbl:'Engagements',fmt:v=>(v/1000).toFixed(0)+'K',
+    '2026':[675990,790293,958129,1821855,null,null,null,null,null,null,null,null],
+  },
+  ome:{lbl:'Engagements',
+    '2022':[195011,207471,308827,344425,450100,3289532,385483,637540,237514,204301,259439,182771],
+    '2023':[199200,240169,332130,342968,498046,4587018,1417253,1071745,541250,318630,238770,214063],
     '2024':[337371,257776,292706,353603,1015450,12458861,324670,357685,175781,123609,118526,71316],
     '2025':[51806,39558,166162,204178,773737,10280871,424544,840476,435860,129589,119761,54194],
-    '2026':[49132,103548,143447,192470,null,null,null,null,null,null,null,null]},
-  art:{lbl:'Article page views',fmt:v=>(v/1000).toFixed(0)+'K',
+    '2026':[49132,103548,143447,192470,null,null,null,null,null,null,null,null],
+  },
+  art:{lbl:'Article PVs',
+    '2022':[99192,122700,196556,231590,323708,775368,241255,402228,139529,142850,194348,128559],
+    '2023':[104223,165331,221482,236344,340559,1103630,547298,595934,254109,206039,152325,145532],
     '2024':[143841,178111,203767,245752,493071,519187,179160,109524,112139,87905,90528,56537],
     '2025':[22294,13045,112388,136225,326136,889366,275828,457839,322760,87913,91649,29073],
-    '2026':[19205,70954,101726,138912,null,null,null,null,null,null,null,null]},
-  vid:{lbl:'Web/app video views',fmt:v=>(v/1000).toFixed(0)+'K',
-    '2024':[151723,70445,78519,88978,478699,11840659,121862,227383,53750,33790,26540,71316],
-    '2025':[27609,24761,42245,52141,399283,9279201,104280,288726,51336,25141,20354,19793],
-    '2026':[20689,22882,34136,39637,null,null,null,null,null,null,null,null]},
-  pg:{lbl:'PG launches',fmt:v=>(v/1000).toFixed(1)+'K',
+    '2026':[19205,70954,101726,138912,null,null,null,null,null,null,null,null],
+  },
+  pg:{lbl:'PG Launches',
+    '2022':[8737,6711,8009,14612,25612,106123,45108,89683,35694,4289,4005,4396],
+    '2023':[6809,5878,6139,7541,34137,340961,140055,279201,207512,56196,12133,12263],
     '2024':[41807,9220,10420,18873,43680,99015,23648,20778,9892,1914,1458,1752],
     '2025':[1903,1752,11529,15812,48318,112304,44436,93911,61764,16535,7758,5328],
-    '2026':[7421,9712,7585,13921,null,null,null,null,null,null,null,null]},
-  app:{lbl:'App installs',fmt:v=>(v/1000).toFixed(1)+'K',
+    '2026':[7421,9712,7585,13921,null,null,null,null,null,null,null,null],
+  },
+  vid:{lbl:'Video Views',
+    '2022':[87082,78060,104262,98223,100780,2408041,99120,145629,62291,57162,61086,49816],
+    '2023':[88168,68960,104509,99083,123350,3142427,729900,196610,79629,56395,74312,56268],
+    '2024':[151723,70445,78519,88978,478699,11840659,121862,227383,53750,33790,26540,71316],
+    '2025':[27609,24761,42245,52141,399283,9279201,104280,288726,51336,25141,20354,19793],
+    '2026':[20689,22882,34136,39637,null,null,null,null,null,null,null,null],
+  },
+  app:{lbl:'App Installs',
+    '2022':[1166,942,1249,6642,30337,479043,14647,2444,1681,856,4008,802],
+    '2023':[1604,1848,4152,17416,31708,382043,40769,14782,4973,3547,3210,4014],
     '2024':[6391,7450,11821,26577,56274,368188,16491,19063,9886,5967,4263,5207],
     '2025':[5558,5930,9158,23280,61840,333587,16469,19342,9832,7959,4582,4904],
-    '2026':[4914,4972,8277,14156,null,null,null,null,null,null,null,null]}
-};
-function rebuildMain(){
-  const m=on('[data-m]')[0]||'pv', tp=on('[data-view]')[0]||'month', yrs=on('[data-fy]'), d=TOP[m];
-  // Year group: single-select in Full Year mode, multi-select in Fiscal Year mode
-  document.getElementById('mainYearGroup').style.display='flex';
-  const activeYrs=on('[data-fy]');
-  let labels,datasets,subtitle;
-  if(tp==='fy'){
-    // Full Year: show all 12 months for the selected year (filter out nulls)
-    const yr=activeYrs[0]||'2025';
-    const raw=d[yr];
-    const pairs=ALL_MO.map((mo,i)=>({mo,v:raw[i]})).filter(p=>p.v!=null);
-    labels=pairs.map(p=>p.mo);
-    datasets=[{label:yr,data:pairs.map(p=>p.v),backgroundColor:COLS[yr]||N,borderRadius:4,barPercentage:.8}];
-    subtitle=d.lbl+' — Full year '+yr+' (all available months)';
-  } else {
-    labels=MO;
-    datasets=['2024','2025','2026'].filter(yr=>activeYrs.includes(yr)).map(yr=>({label:yr,data:d[yr].slice(0,4),backgroundColor:COLS[yr],borderRadius:4,barPercentage:.8}));
-    subtitle=d.lbl+' — Fiscal year, Jan–Apr';
-  }
-  document.getElementById('mainTitle').textContent=subtitle;
-  const dlp={id:'dl',afterDatasetsDraw(c){
-    const ctx=c.ctx;
-    c.data.datasets.forEach((ds,di)=>{
-      c.getDatasetMeta(di).data.forEach((bar,i)=>{
-        const v=ds.data[i];if(!v)return;
-        ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 10px "Helvetica Neue",Helvetica,Arial,sans-serif';
-        ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(d.fmt(v),bar.x,bar.y-4);ctx.restore();
-      });
-    });
-  }};
-  if(charts.main)charts.main.destroy();
-  charts.main=new Chart(document.getElementById('mainChart'),{type:'bar',plugins:[dlp],data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:26}},plugins:{legend:{display:false}},scales:{x:{ticks:{font:{size:11,family:'Helvetica Neue'},color:GR},grid:{display:false},autoSkip:false},y:{ticks:{font:{size:10},color:GR,callback:v=>d.fmt(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
-}
-pg('[data-m]',false,rebuildMain);
-pg('[data-view]',false,rebuildMain);
-
-// Year buttons: behaviour depends on current Time Period mode
-document.querySelectorAll('[data-fy]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const tp=on('[data-view]')[0]||'month';
-    if(tp==='fy'){
-      // single-select: deselect all, select clicked
-      document.querySelectorAll('[data-fy]').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-    } else {
-      // multi-select: toggle
-      btn.classList.toggle('on');
-    }
-    rebuildMain();
-  });
-});
-rebuildMain();
-
-/* PLAT constant removed — using PLAT_DATA instead */
-
-/* ── PLATFORM & VIDEO DATA (all months, by year) ── */
-const PLAT_DATA={
-  '2024':{labels:ALL_MO,series:[
-    {label:'usga.org',       data:[674555,605366,707754,915740,1010142,1454102,951576,1095646,770641,529900,421275,481811],borderColor:N},
-    {label:'usopen.com',     data:[129123,167727,190611,481723,772874,4663367,50069,18146,16716,5963,7046,9117],borderColor:B},
-    {label:'uswomensopen.com',data:[15560,33090,30086,92348,556749,361293,6257,4090,2442,973,1692,2054],borderColor:R},
-    {label:'Champ pages',    data:[34172,39033,45778,94249,416494,4885285,261337,338047,111815,47497,38638,35987],borderColor:G},
-    {label:'USGA App',       data:[58263,65241,63920,102094,282208,281840,380236,490294,105441,13661,7439,8670],borderColor:GR}
-  ]},
-  '2025':{labels:ALL_MO,series:[
-    {label:'usga.org',       data:[265461,238350,581855,834253,1112382,1541172,1233540,1276662,713439,468115,481728,331935],borderColor:N},
-    {label:'usopen.com',     data:[9963,39273,299230,738456,1165409,13417744,352056,432535,390615,95748,201440,672336],borderColor:B},
-    {label:'uswomensopen.com',data:[10284,29454,34351,100558,965386,421599,22867,33219,14975,9129,166579,337881],borderColor:R},
-    {label:'Champ pages',    data:[37862,45894,50660,89917,421481,5807844,250977,480788,164800,69582,44255,61815],borderColor:G},
-    {label:'USGA App',       data:[16752,24527,96827,125806,349001,624062,1078693,3334374,1153496,190200,61737,43063],borderColor:GR}
-  ]},
-  '2026':{labels:['Jan','Feb','Mar','Apr'],series:[
-    {label:'usga.org',       data:[519316,644641,864041,1134818],borderColor:N},
-    {label:'usopen.com',     data:[141617,172738,184071,679276],borderColor:B},
-    {label:'uswomensopen.com',data:[39765,38867,23953,162226],borderColor:R},
-    {label:'Champ pages',    data:[63856,73268,59968,156937],borderColor:G},
-    {label:'USGA App',       data:[46185,48984,90370,86402],borderColor:GR}
-  ]}
-};
-const VID_DATA={
-  '2024':{labels:ALL_MO,series:[
-    {label:'YouTube',data:[2336631,2000866,3024769,13694590,10788640,20050418,18704196,10034418,4754591,4783415,4820856,8959560],borderColor:R},
-    {label:'USGA IG',data:[6767325,1773316,5146708,2632253,5976362,4530426,9011557,13547971,6354994,9124121,1382431,2063516],borderColor:B},
-    {label:'USO FB', data:[0,0,11341,0,0,8652193,0,0,8386,0,669052,1675375],borderColor:N},
-    {label:'TikTok', data:[236596,258427,837431,1385667,1477230,13669721,1750139,2250488,291860,1336190,1600184,229900],borderColor:G},
-    {label:'Other',  data:[1121652,792231,926318,285446,0,0,0,0,0,0,0,0],borderColor:GR}
-  ]},
-  '2025':{labels:ALL_MO,series:[
-    {label:'YouTube',data:[3388762,2289656,2545995,6296027,18336379,22971987,1152840,9530953,4103673,3651435,14129331,21786921],borderColor:R},
-    {label:'USGA IG',data:[2866294,2136449,1343465,1686751,8444894,17758570,19289170,26652903,21215494,9768946,4157016,5278049],borderColor:B},
-    {label:'USO FB', data:[0,15423,146109,1287230,8503,71411065,153120,6914,4061,35246,405828,515634],borderColor:N},
-    {label:'TikTok', data:[168600,690436,471666,477787,5269935,35500996,4791973,10170045,2856500,1099733,832174,496651],borderColor:G},
-    {label:'Other',  data:[0,0,0,0,0,0,0,0,0,0,0,0],borderColor:GR}
-  ]},
-  '2026':{labels:['Jan','Feb','Mar','Apr'],series:[
-    {label:'YouTube',data:[1653815,2223326,2734457,6724415],borderColor:R},
-    {label:'USGA IG',data:[4742173,945238,2848133,2422727],borderColor:B},
-    {label:'USO FB', data:[12201,1282488,7202243,45289],borderColor:N},
-    {label:'TikTok', data:[552198,245436,700211,677160],borderColor:G},
-    {label:'Other',  data:[431417,1911029,75092,1539837],borderColor:GR}
-  ]}
+    '2026':[4914,4972,8277,14156,null,null,null,null,null,null,null,null],
+  },
 };
 
-
-// Section 1 year: single-select always (both modes show one year at a time)
-
-
-/* ── APP VISUAL ── */
 const APP={
-  '2024':{apple:[5776,6661,10710,23917,48271,326816,14838,17581,9020,5301,3610,4457],android:[621,789,1111,2660,8003,41372,1653,1482,866,814,652,750],ipad:[0,0,0,0,0,0,0,0,0,0,0,0],total:[6391,7450,11821,26577,56274,368188,16491,19063,9886,5967,4263,5207]},
-  '2025':{apple:[4880,5015,9029,20643,52099,296469,14748,17531,8718,7121,3724,4065],android:[678,915,1124,2639,9741,37118,1721,1811,1114,840,699,839],ipad:[0,0,0,149,1356,21179,446,718,442,244,159,241],total:[5558,5930,9158,23280,61840,333587,16469,19342,9832,7959,4582,4904]},
-  '2026':{apple:[4165,4289,7140,12878,null,null,null,null,null,null,null,null],android:[749,683,1137,1278,null,null,null,null,null,null,null,null],ipad:[262,235,245,377,null,null,null,null,null,null,null,null],total:[4914,4972,8277,14156,null,null,null,null,null,null,null,null]}
+  '2022':{
+    total:[1166,942,1249,6642,30337,479043,14647,2444,1681,856,4008,802],
+    apple:[null,null,null,478,3227,18838,1961,5638,1369,1217,1031,674],
+    android:[null,null,null,32,797,3996,933,1119,384,311,375,341],
+    ipad:[null,null,null,null,null,null,null,null,null,null,null,null],
+  },
+  '2023':{
+    total:[1604,1848,4152,17416,31708,382043,40769,14782,4973,3547,3210,4014],
+    apple:[1086,1307,3388,15775,25992,329203,33011,12247,4245,2882,2731,3551],
+    android:[518,541,765,1641,5716,52840,7758,2535,728,665,479,463],
+    ipad:[null,null,null,null,null,null,null,null,null,null,null,null],
+  },
+  '2024':{
+    total:[6391,7450,11821,26577,56274,368188,16491,19063,9886,5967,4263,5207],
+    apple:[5776,6661,10710,23917,48271,326816,14838,17581,9020,5301,3610,4457],
+    android:[621,789,1111,2660,8003,41372,1653,1482,866,814,652,750],
+    ipad:[null,null,null,null,null,null,null,null,null,null,null,null],
+  },
+  '2025':{
+    total:[5558,5930,9158,23280,61840,333587,16469,19342,9832,7959,4582,4904],
+    apple:[4880,5015,9029,20643,52099,296469,14748,17531,8718,7121,3724,4065],
+    android:[678,915,1124,2639,9741,37118,1721,1811,1114,840,699,839],
+    ipad:[null,null,null,149,1356,21179,446,718,442,244,159,241],
+  },
+  '2026':{
+    total:[4914,4972,8277,14156,null,null,null,null,null,null,null,null],
+    apple:[4165,4289,7140,12878,null,null,null,null,null,null,null,null],
+    android:[749,683,1137,1278,null,null,null,null,null,null,null,null],
+    ipad:[262,235,245,377,null,null,null,null,null,null,null,null],
+  },
 };
-function buildApp(){
-  const tp=on('[data-a2tp]')[0]||'month';
-  const activeYrs=on('[data-ayr]');
-  const yrs=tp==='fy'?(activeYrs.length?[activeYrs[0]]:['2026']):(['2024','2025','2026'].filter(y=>activeYrs.includes(y)));
-  const months=tp==='fy'?ALL_MO:MO;
-  const el=document.getElementById('appVisual');el.innerHTML='';
-  yrs.forEach((yr,yi)=>{
-    const d=APP[yr];
-    if(yi>0){
-      const sep=document.createElement('div');
-      sep.style.cssText='width:1px;background:#D8DEE3;height:100px;margin:20px 6px 0;flex-shrink:0;';
-      el.appendChild(sep);
-    }
-    const lbl=document.createElement('div');
-    lbl.style.cssText='display:flex;flex-direction:column;align-items:center;flex-shrink:0;';
-    lbl.innerHTML=`<div style="font-size:10px;color:#00365F;font-weight:700;letter-spacing:.06em;margin-bottom:4px;">${yr}</div>`;
-    el.appendChild(lbl);
-    months.forEach((m,i)=>{
-      const tot=d.total[i];if(!tot)return;
-      const ap=Math.round(d.apple[i]/tot*100),an=Math.round(d.android[i]/tot*100),ip=Math.max(0,100-ap-an);
-      const col=document.createElement('div');col.className='app-col';
-      col.innerHTML=`<div class="app-month-lbl">${m}</div>
-      <div class="app-bar-stack">
-        <div class="app-seg" style="flex:${ap};background:#00365F14;border-left-color:#00365F;"><span class="app-seg-pct" style="color:#00365F;">${ap}%</span><span class="app-seg-lbl" style="color:#00365F;">iOS</span></div>
-        <div class="app-seg" style="flex:${an};background:#0088CE14;border-left-color:#0088CE;"><span class="app-seg-pct" style="color:#0088CE;">${an}%</span><span class="app-seg-lbl" style="color:#0088CE;">Android</span></div>
-        ${ip>1?`<div class="app-seg" style="flex:${ip};background:#B7915714;border-left-color:#B79157;"><span class="app-seg-pct" style="color:#B79157;">${ip}%</span><span class="app-seg-lbl" style="color:#B79157;">iPad</span></div>`:''}
-      </div>
-      <div class="app-total-lbl">${fmtK(tot)}</div>`;
-      el.appendChild(col);
-    });
-  });
-}
 
-/* ── SECTION 3: FOLLOWERS ── */
+const PLAT_DATA={
+  '2024':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'usga.org',data:[674555,605366,707754,915740,1010142,1454102,951576,1095646,770641,529900,421275,481811]},
+      {label:'usopen.com',data:[129123,167727,190611,481723,772874,4663367,50069,18146,16716,5963,7046,9117]},
+      {label:'uswomensopen.com',data:[15560,33090,30086,92348,556749,361293,6257,4090,2442,973,1692,2054]},
+      {label:'USGA App',data:[58263,65241,63920,102094,282208,281840,380236,490294,105441,13661,7439,8670]},
+      {label:'Champ pages',data:[34172,39033,45778,94249,416494,4885285,261337,338047,111815,47497,38638,35987]},
+    ]
+  },
+  '2025':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'usga.org',data:[265461,238350,581855,834253,1112382,1541172,1233540,1276662,713439,468115,481728,331935]},
+      {label:'usopen.com',data:[9963,39273,299230,738456,1165409,13417744,352056,432535,390615,95748,201440,672336]},
+      {label:'uswomensopen.com',data:[10284,29454,34351,100558,965386,421599,22867,33219,14975,9129,166579,337881]},
+      {label:'USGA App',data:[16752,24527,96827,125806,349001,624062,1078693,3334374,1153496,190200,61737,43063]},
+      {label:'Champ pages',data:[37862,45894,50660,89917,421481,5807844,250977,480788,164800,69582,44255,61815]},
+    ]
+  },
+  '2026':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'usga.org',data:[519316,644641,864041,1134818,null,null,null,null,null,null,null,null]},
+      {label:'usopen.com',data:[141617,172738,184071,679276,null,null,null,null,null,null,null,null]},
+      {label:'uswomensopen.com',data:[39765,38867,23953,162226,null,null,null,null,null,null,null,null]},
+      {label:'USGA App',data:[46185,48984,90370,156937,null,null,null,null,null,null,null,null]},
+      {label:'Champ pages',data:[63856,73268,59968,86402,null,null,null,null,null,null,null,null]},
+    ]
+  },
+};
+
+const VID_DATA={
+  '2023':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'YouTube',data:[2471982,1659585,1898407,2405607,8135763,15705573,10441774,9122011,7549760,5222215,8014869,2739889]},
+      {label:'Instagram',data:[1128219,1179986,857659,2543150,1705870,40529721,12128770,13813313,5367702,6110321,4268393,3964592]},
+      {label:'Facebook',data:[1522328,236528,121964,1394786,819067,5559187,4656862,5422771,1255729,1251881,773140,405279]},
+      {label:'Twitter',data:[405228,365371,89178,59095,847739,18077479,2911193,8407391,156304,56940,34969,92184]},
+      {label:'TikTok',data:[170004,523857,957783,7726018,1953916,5541607,3628349,5060713,1204284,994617,635617,686309]},
+      {label:'Web & App',data:[88168,68960,104509,99083,123350,3142427,729900,196610,79629,56395,74312,56268]},
+      {label:'OnDemand',data:[9440,7912,8107,6658,5816,34354,18939,10182,7824,5624,5349,6118]},
+      {label:'Other',data:[31002,26803,31226,31896,34736,79869,52635,48102,774504,959651,1053433,898959]},
+    ]
+  },
+  '2024':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'YouTube',data:[2336631,2000866,3024769,13694590,10788640,20050418,18704196,10034418,4754591,4783415,4820856,8959560]},
+      {label:'Instagram',data:[7166547,1789488,5629734,2632253,11405951,71525629,9011557,13838423,6900963,9616299,1633210,3969770]},
+      {label:'Facebook',data:[375060,153636,573099,844997,977167,9541967,2229636,3742023,1013877,3202442,1286598,2319405]},
+      {label:'Twitter',data:[74418,103810,262183,73535,1494524,7798965,1349791,1525103,92526,569963,869454,386538]},
+      {label:'TikTok',data:[236596,258427,837431,1385667,1477230,13669721,1750139,2250488,291860,1336190,1600184,229900]},
+      {label:'Web & App',data:[151723,70445,78519,88978,478699,11840659,121862,227383,53750,33790,26540,71316]},
+      {label:'OnDemand',data:[6638,5681,6218,5256,6196,21332,7246,6047,5128,3956,4249,4230]},
+      {label:'Other',data:[1147190,813437,952291,308130,19629,36428,24341,20947,21387,19019,null,null]},
+    ]
+  },
+  '2025':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'YouTube',data:[3388762,2289656,2545995,6296027,18336379,22971987,1152840,9530953,4103673,3651435,14129331,21786921]},
+      {label:'Instagram',data:[3269917,2776346,1907919,1835917,27820108,117599505,20771964,29194501,21215494,10185564,6070067,5740429]},
+      {label:'Facebook',data:[157849,680263,507626,2040121,7647227,73878887,2910639,7819502,1841212,2904771,5469407,1919965]},
+      {label:'Twitter',data:[273782,130977,437509,2286122,2904314,47905307,3208194,6703574,675500,468614,584500,484900]},
+      {label:'TikTok',data:[168600,690436,471666,477787,5269935,35500996,4791973,10170045,2856500,1099733,832174,496651]},
+      {label:'Web & App',data:[27609,24761,42245,52141,399283,9279201,104280,288726,51336,25141,20354,19793]},
+      {label:'OnDemand',data:[4084,3721,3699,null,null,null,null,null,null,null,null,null]},
+      {label:'Other',data:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    ]
+  },
+  '2026':{
+    labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+    series:[
+      {label:'YouTube',data:[1653815,2223326,2734457,6724415,null,null,null,null,null,null,null,null]},
+      {label:'Instagram',data:[4819597,1231817,5131482,2489570,null,null,null,null,null,null,null,null]},
+      {label:'Facebook',data:[974161,2290134,8607742,1297430,null,null,null,null,null,null,null,null]},
+      {label:'Twitter',data:[323149,1595325,362108,183205,null,null,null,null,null,null,null,null]},
+      {label:'TikTok',data:[552198,245436,700211,677160,null,null,null,null,null,null,null,null]},
+      {label:'Web & App',data:[20689,22479,34136,40362,null,null,null,null,null,null,null,null]},
+      {label:'OnDemand',data:[null,null,null,null,null,null,null,null,null,null,null,null]},
+      {label:'Other',data:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    ]
+  },
+};
+
 const FOL={
-  Facebook:{profiles:['USGA','U.S. Open',"U.S. Women's Open",'WGHOF','USNDP'],cur:[397203,368469,25856,30624,446],prev:[383330,345611,21798,29250,327]},
-  Instagram:{profiles:['USGA','U.S. Open',"U.S. Women's Open",'WGHOF','USNDP'],cur:[986136,529046,57376,43897,14070],prev:[924711,500246,50348,32979,10855]},
-  X:{profiles:['U.S. Open','USGA','WGHOF',"U.S. Women's Open",'USNDP'],cur:[517317,410999,30306,16457,726],prev:[513937,407218,30306,16275,626]},
-  TikTok:{profiles:['USGA'],cur:[350221],prev:[334681]}
+  'Facebook':{profiles:['U.S. Open','U.S. Women\x27s Open','USGA','USNDP','WGHOF'],cur:[368469,25856,397203,446,30624],prev:[0,0,0,0,0]},
+  'Instagram':{profiles:['U.S. Open','U.S. Women\x27s Open','USGA','USNDP','WGHOF'],cur:[529046,57376,986136,14070,43897],prev:[0,0,0,0,0]},
+  'TikTok':{profiles:['USGA'],cur:[350221],prev:[0]},
+  'Twitter':{profiles:['U.S. Open','U.S. Women\x27s Open','USGA','USNDP','WGHOF'],cur:[517317,16457,410999,726,30306],prev:[0,0,0,0,0]},
 };
-function buildFol(){
-  const plat=on('[data-folplat]')[0]||'all';
-  const grid=document.getElementById('folGrid');
-  grid.innerHTML='';
-  const entries=plat==='all'?Object.entries(FOL):Object.entries(FOL).filter(([p])=>p===plat);
-  entries.forEach(([plt,d])=>{
-    const tot=d.cur.reduce((a,b)=>a+b,0);
-    const pTot=d.prev.reduce((a,b)=>a+b,0);
-    const yoy=((tot-pTot)/pTot*100).toFixed(1);
-    const yc=parseFloat(yoy)>=0?'delta-up-sm':'delta-dn-sm';
-    let rows='';
-    d.profiles.forEach((p,i)=>{
-      const pct=(d.cur[i]/tot*100).toFixed(1);
-      const yp=d.prev[i]?((d.cur[i]-d.prev[i])/d.prev[i]*100).toFixed(1):'0';
-      const ypc=parseFloat(yp)>=0?'delta-up-sm':'delta-dn-sm';
-      rows+=`<tr><td>${p}</td><td class="fol-count">${fmt(d.cur[i])}</td><td>${pct}%</td><td class="${ypc}">${parseFloat(yp)>=0?'▲':'▼'}${Math.abs(yp)}%</td></tr>`;
-    });
-    grid.innerHTML+=`<div class="fol-card"><div class="fol-platform">${plt}</div>
-    <table class="fol-table">
-      <thead><tr><th>Profile</th><th>Count</th><th>Share</th><th>YoY</th></tr></thead>
-      <tbody>${rows}</tbody>
-      <tfoot><tr><td>Total</td><td>${fmt(tot)}</td><td></td><td class="${yc}">${parseFloat(yoy)>=0?'▲':'▼'}${Math.abs(yoy)}% YoY</td></tr></tfoot>
-    </table></div>`;
-  });
-}
-pg('[data-folplat]',false,buildFol);
-pg('[data-f3tp]',false,buildFol);
-pg('[data-f3yr]',false,buildFol);
-buildFol();
 
-/* ── SECTION 4: NEW FOLLOWERS ── */
 const NFOL={
   usga:{
     '2022':{labels:ALL_MO,Facebook:[436,533,758,789,780,1821,2824,2161,1548,223,902,878],Instagram:[804,1426,1170,2122,2671,4515,3209,5919,2177,387,332,1026],X:[894,1408,977,3594,-433,2677,6480,296,4352,3353,1017,1340],TikTok:[null,null,null,null,null,null,null,null,null,null,100,200]},
@@ -672,552 +528,256 @@ const NFOL={
   },
 };
 
-const PC={Facebook:N,Instagram:B,X:R,TikTok:G};
+const TL_KEYS=['pv','vis','uv','ome','art','vid','pg','app'];
+const TL_IDS=['tl-pv','tl-vis','tl-uv','tl-ome','tl-art','tl-vid','tl-pg','tl-app'];
+
+// ── TOPLINE ──
+function rebuildTopline(){
+  const mode=on('[data-tl]')[0]||'ytd';
+  document.getElementById('tlMonthG').style.display=mode==='month'?'flex':'none';
+  document.getElementById('tlMonthYearG').style.display=mode==='month'?'flex':'none';
+  document.getElementById('tlYearG').style.display=mode==='year'?'flex':'none';
+  const labels={ytd:'FY2026 YTD',month:'Monthly',year:'Full Year'};
+  document.getElementById('tlLabel').innerHTML='Web &amp; App KPI Topline &mdash; '+labels[mode];
+  TL_IDS.forEach((id,i)=>{
+    const k=TL_KEYS[i];
+    let val=null,prev=null;
+    if(mode==='ytd'){
+      // Sum Jan-Apr 2026 vs Jan-Apr 2025
+      val=[0,1,2,3].reduce((s,mi)=>s+(TOP[k]['2026'][mi]||0),0);
+      prev=[0,1,2,3].reduce((s,mi)=>s+(TOP[k]['2025'][mi]||0),0);
+    } else if(mode==='month'){
+      const mi=parseInt(document.getElementById('tlMonthSel').value);
+      const yr=document.getElementById('tlMonthYearSel').value;
+      const prevYr=String(parseInt(yr)-1);
+      val=TOP[k][yr]?.[mi]??null;
+      prev=TOP[k][prevYr]?.[mi]??null;
+    } else {
+      const yr=document.getElementById('tlYearSel').value;
+      const prevYr=String(parseInt(yr)-1);
+      val=TOP[k][yr].reduce((s,v)=>s+(v||0),0);
+      prev=TOP[k][prevYr]?.reduce((s,v)=>s+(v||0),0)||null;
+    }
+    document.getElementById(id).textContent=fmt(val);
+    setDelta(id+'-d',val,prev);
+  });
+}
+pill('[data-tl]',false,rebuildTopline);
+
+// ── MONTHLY KPI TRENDS ──
+function rebuildMain(){
+  const m=on('[data-m]')[0]||'pv', tp=on('[data-view]')[0]||'month', d=TOP[m];
+  const activeYrs=on('[data-fy]');
+  const f1=v=>v==null?null:v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':String(v);
+  let labels,datasets;
+  if(tp==='fy'){
+    // Full Year: single year, all months
+    const yr=activeYrs[0]||'2026';
+    const pairs=ALL_MO.map((mo,i)=>({mo,v:d[yr][i]})).filter(p=>p.v!=null);
+    labels=pairs.map(p=>p.mo);
+    datasets=[{label:yr,data:pairs.map(p=>p.v),backgroundColor:COLS[yr]||N,borderRadius:4,barPercentage:.8}];
+    document.getElementById('mainYrGroup').style.display='flex';
+  } else {
+    // Fiscal Year: Jan-Apr, multi-year
+    labels=MO;
+    datasets=['2022','2023','2024','2025','2026'].filter(yr=>activeYrs.includes(yr))
+      .map(yr=>({label:yr,data:d[yr].slice(0,4),backgroundColor:COLS[yr],borderRadius:4,barPercentage:.8}));
+    document.getElementById('mainYrGroup').style.display='flex';
+  }
+  document.getElementById('mainTitle').textContent=d.lbl+(tp==='fy'?' — Full year '+(activeYrs[0]||'2026'):' — Fiscal Year, Jan–Apr');
+  const dlp={id:'dl',afterDatasetsDraw(c){const ctx=c.ctx;c.data.datasets.forEach((ds,di)=>{c.getDatasetMeta(di).data.forEach((bar,i)=>{const v=ds.data[i];if(!v)return;ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(f1(v),bar.x,bar.y-3);ctx.restore();});});}};
+  if(charts.main)charts.main.destroy();
+  charts.main=new Chart(document.getElementById('mainChart'),{type:'bar',plugins:[dlp],data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24}},plugins:{legend:{display:datasets.length>1,position:'top',labels:{font:{size:10},boxWidth:10}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},y:{ticks:{font:{size:10},color:GR,callback:v=>f1(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
+}
+pill('[data-m]',false,rebuildMain);
+pill('[data-view]',false,rebuildMain);
+document.querySelectorAll('[data-fy]').forEach(b=>b.addEventListener('click',()=>{
+  const tp=on('[data-view]')[0]||'month';
+  if(tp==='fy'){document.querySelectorAll('[data-fy]').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+  else{b.classList.toggle('on');if(!on('[data-fy]').length)b.classList.add('on');}
+  rebuildMain();
+}));
+
+// ── PLATFORM PIE ──
+const PIE_LABELS=['usga.org','usopen.com','uswomensopen.com','Champ pages','USGA App'];
+const PIE_COLORS=[N,B,R,G,GR];
+function buildPlatPie(){
+  const tp=on('[data-pltp]')[0]||'month';
+  const yr=on('[data-plyr]')[0]||'2026';
+  const yrData=PLAT_DATA[yr];if(!yrData)return;
+  const data=PIE_LABELS.map(lbl=>{
+    const s=yrData.series.find(x=>x.label===lbl);if(!s)return 0;
+    return tp==='fy'?s.data.reduce((a,b)=>a+(b||0),0):s.data[3]||0;
+  });
+  const total=data.reduce((a,b)=>a+b,0);
+  document.getElementById('platLeg').innerHTML=PIE_LABELS.map((l,i)=>{
+    const pct=(data[i]/total*100).toFixed(1);
+    return `<div class="pie-leg-row"><div style="width:13px;height:13px;border-radius:3px;background:${PIE_COLORS[i]};flex-shrink:0;margin-top:2px;"></div><div><div style="font-size:11px;font-weight:600;color:var(--tp);">${l}</div><div style="font-size:11px;color:var(--navy);font-weight:700;margin-top:3px;">${fmt(data[i])}</div><div style="font-size:10px;color:var(--tm);margin-top:1px;">${pct}% of total</div></div></div>`;
+  }).join('');
+  const piePlugin={id:'pl',afterDraw(c){const ctx=c.ctx,ds=c.data.datasets[0],meta=c.getDatasetMeta(0);meta.data.forEach((arc,i)=>{const pct=ds.data[i]/total*100;if(pct<4)return;const angle=(arc.startAngle+arc.endAngle)/2,r=arc.outerRadius*.65,x=arc.x+Math.cos(angle)*r,y=arc.y+Math.sin(angle)*r;ctx.save();ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=3;ctx.fillText(pct.toFixed(1)+'%',x,y);ctx.restore();});}};
+  if(charts.pie)charts.pie.destroy();
+  charts.pie=new Chart(document.getElementById('platPieChart'),{type:'pie',plugins:[piePlugin],data:{labels:PIE_LABELS,datasets:[{data,backgroundColor:PIE_COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.parsed)+' ('+(c.parsed/total*100).toFixed(1)+'%)'}}}}});
+}
+pill('[data-pltp]',false,buildPlatPie);
+pillSingle('[data-plyr]',buildPlatPie);
+
+// ── VIDEO VIEWS ──
+const VID_CHANNELS=['YouTube','Instagram','Facebook','Twitter','TikTok','Web & App','OnDemand','Other'];
+const VID_COLS={YouTube:R,Instagram:B,Facebook:N,Twitter:'#1DA1F2',TikTok:G,'Web & App':GR,OnDemand:BR,Other:'#9B59B6'};
+function buildVidLine(){
+  const tp=on('[data-vvtp]')[0]||'month';
+  const activeYrs=on('[data-vvyr]');
+  let labels,datasets;
+  if(tp==='fy'){
+    const yr=activeYrs[0]||'2026';
+    const yrData=VID_DATA[yr];if(!yrData)return;
+    labels=yrData.labels;
+    datasets=VID_CHANNELS.map(ch=>{
+      const s=yrData.series.find(x=>x.label===ch);
+      return{label:ch,data:s?s.data:[],borderColor:VID_COLS[ch],tension:.4,pointRadius:3,pointBackgroundColor:VID_COLS[ch],fill:false,borderWidth:2.5};
+    }).filter(ds=>ds.data.some(v=>v>0));
+  } else {
+    const yrs=activeYrs.length?activeYrs:['2026'];
+    labels=MO;datasets=[];
+    VID_CHANNELS.forEach(ch=>{
+      yrs.forEach(yr=>{
+        const yrData=VID_DATA[yr];if(!yrData)return;
+        const s=yrData.series.find(x=>x.label===ch);
+        const data=s?s.data.slice(0,4):[];
+        if(!data.some(v=>v>0))return;
+        datasets.push({label:ch+' ('+yr+')',data,borderColor:VID_COLS[ch],borderDash:yr==='2024'?[6,3]:yr==='2025'?[3,3]:[],tension:.4,pointRadius:3,pointBackgroundColor:VID_COLS[ch],fill:false,borderWidth:2});
+      });
+    });
+  }
+  document.getElementById('vidLeg').innerHTML=VID_CHANNELS.filter(ch=>datasets.some(d=>d.label===ch||d.label.startsWith(ch+' ('))).map(ch=>`<div class="li"><div class="ld" style="background:${VID_COLS[ch]}"></div>${ch}</div>`).join('');
+  if(charts.vid)charts.vid.destroy();
+  charts.vid=new Chart(document.getElementById('vidLineChart'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},y:{ticks:{font:{size:10},color:GR,callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
+}
+pill('[data-vvtp]',false,buildVidLine);
+document.querySelectorAll('[data-vvyr]').forEach(b=>b.addEventListener('click',()=>{
+  const tp=on('[data-vvtp]')[0]||'month';
+  if(tp==='fy'){document.querySelectorAll('[data-vvyr]').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+  else{b.classList.toggle('on');if(!on('[data-vvyr]').length)b.classList.add('on');}
+  buildVidLine();
+}));
+
+// ── APP INSTALLS ──
+function buildApp(){
+  const tp=on('[data-a2tp]')[0]||'month';
+  const activeYrs=on('[data-ayr]');
+  const yrs=tp==='fy'?(activeYrs.length?[activeYrs[0]]:['2026']):['2024','2025','2026'].filter(y=>activeYrs.includes(y));
+  const months=tp==='fy'?ALL_MO:MO;
+  const el=document.getElementById('appVisual');el.innerHTML='';
+  yrs.forEach((yr,yi)=>{
+    if(yi>0){const s=document.createElement('div');s.className='asep';el.appendChild(s);}
+    const d=APP[yr];
+    const lbl=document.createElement('div');lbl.style.cssText='display:flex;flex-direction:column;align-items:center;flex-shrink:0;';
+    lbl.innerHTML=`<div style="font-size:10px;color:var(--navy);font-weight:700;margin-bottom:4px;">${yr}</div>`;
+    el.appendChild(lbl);
+    months.forEach((m,i)=>{
+      const tot=d.total[i];if(!tot)return;
+      const ap=d.apple[i]||0,an=d.android[i]||0,ip=d.ipad[i]||0;
+      const apPct=Math.round(ap/tot*100),anPct=Math.round(an/tot*100),ipPct=Math.max(0,100-apPct-anPct);
+      const col=document.createElement('div');col.className='ac';
+      col.innerHTML=`<div class="am">${m}</div><div class="abs">
+        ${apPct>0?`<div class="aseg" style="flex:${apPct};background:#00365F14;border-left-color:#00365F;"><span class="aseg-p" style="color:#00365F;">${apPct}%</span><span class="aseg-l" style="color:#00365F;">${fmt(ap)}</span></div>`:''}
+        ${anPct>0?`<div class="aseg" style="flex:${anPct};background:#0088CE14;border-left-color:#0088CE;"><span class="aseg-p" style="color:#0088CE;">${anPct}%</span><span class="aseg-l" style="color:#0088CE;">${fmt(an)}</span></div>`:''}
+        ${ipPct>1?`<div class="aseg" style="flex:${ipPct};background:#B7915714;border-left-color:#B79157;"><span class="aseg-p" style="color:#B79157;">${ipPct}%</span><span class="aseg-l" style="color:#B79157;">${fmt(ip)}</span></div>`:''}</div>
+      <div class="atot">${fmt(tot)}</div>`;
+      el.appendChild(col);
+    });
+  });
+}
+function buildAppFY(){
+  const totals=['2024','2025','2026'].map(yr=>{
+    const d=APP[yr];
+    const tot=d.total.reduce((s,v)=>s+(v||0),0);
+    const apple=d.apple.reduce((s,v)=>s+(v||0),0);
+    const android=d.android.reduce((s,v)=>s+(v||0),0);
+    const ipad=d.ipad.reduce((s,v)=>s+(v||0),0);
+    return{yr,tot,apple,android,ipad};
+  });
+  document.getElementById('appFYTotals').innerHTML=totals.map(t=>`<div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 16px;"><div style="font-size:10px;font-weight:700;color:var(--navy);margin-bottom:4px;">${t.yr}</div><div style="font-size:14px;font-weight:700;color:var(--navy);">${fmt(t.tot)}</div><div style="font-size:9px;color:var(--tm);margin-top:3px;"><span style="color:#00365F;">iOS: ${fmt(t.apple)}</span> &middot; <span style="color:#0088CE;">Android: ${fmt(t.android)}</span>${t.ipad>0?' &middot; <span style="color:#B79157;">iPad: '+fmt(t.ipad)+'</span>':''}</div></div>`).join('');
+}
+pill('[data-a2tp]',false,buildApp);
+document.querySelectorAll('[data-ayr]').forEach(b=>b.addEventListener('click',()=>{
+  const tp=on('[data-a2tp]')[0]||'month';
+  if(tp==='fy'){document.querySelectorAll('[data-ayr]').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+  else{b.classList.toggle('on');if(!on('[data-ayr]').length)b.classList.add('on');}
+  buildApp();
+}));
+
+// ── FOLLOWERS ──
+function buildFol(){
+  const plat=on('[data-folplat]')[0]||'all';
+  const entries=plat==='all'?Object.entries(FOL):Object.entries(FOL).filter(([p])=>p===plat);
+  document.getElementById('folGrid').innerHTML=entries.map(([plt,d])=>{
+    const tot=d.cur.reduce((a,b)=>a+b,0),pTot=d.prev.reduce((a,b)=>a+b,0);
+    const yoy=pTot?((tot-pTot)/pTot*100).toFixed(1):'—';
+    const rows=d.profiles.map((p,i)=>{
+      const pct=tot?(d.cur[i]/tot*100).toFixed(1):'—';
+      const yp=d.prev[i]?((d.cur[i]-d.prev[i])/d.prev[i]*100).toFixed(1):'—';
+      const c=yp!=='—'&&parseFloat(yp)>=0?'#3A6614':R;
+      return `<tr><td>${p}</td><td style="font-weight:600;color:var(--navy);">${fmt(d.cur[i])}</td><td>${pct}%</td><td style="color:${c}">${yp!=='—'?(parseFloat(yp)>=0?'▲':'▼')+Math.abs(yp)+'%':'—'}</td></tr>`;
+    }).join('');
+    const yc=yoy!=='—'&&parseFloat(yoy)>=0?'#3A6614':R;
+    return `<div class="fc"><div class="fp2">${plt}</div><table class="ftbl"><thead><tr><th>Profile</th><th>Count</th><th>Share</th><th>YoY</th></tr></thead><tbody>${rows}</tbody><tfoot><tr><td>Total</td><td>${fmt(tot)}</td><td></td><td style="color:${yc}">${yoy!=='—'?(parseFloat(yoy)>=0?'▲':'▼')+Math.abs(yoy)+'% YoY':'—'}</td></tr></tfoot></table></div>`;
+  }).join('');
+}
+pill('[data-folplat]',false,buildFol);
+
+// ── NEW FOLLOWERS (Twitter = X+Twitter combined) ──
+const PC={Facebook:N,Instagram:B,Twitter:R,TikTok:G};
+const YR_DASH={'2022':[8,3],'2023':[6,3],'2024':[4,3],'2025':[2,2],'2026':[]};
 function rebuildNFol(){
   const profSel=on('[data-prof]')[0]||'usga';
   const profKeys=profSel==='all'?['usga','uso','uswo','wghof','usndp']:[profSel];
   const tp=on('[data-n4tp]')[0]||'month';
   const activeYrs=on('[data-nyr]');
-  const YR_DASH={'2022':[8,3],'2023':[6,3],'2024':[4,3],'2025':[2,2],'2026':[]};
-  const allPlats=['Facebook','Instagram','X','TikTok'];
-  const activePlats=on('[data-nplat]').length?on('[data-nplat]'):allPlats;
-  const platKeys=allPlats.filter(p=>activePlats.includes(p));
-  // Helper: sum across profiles
-  function sumProfiles(plat,yr,idx){
-    return profKeys.reduce((s,p)=>{
-      const d=NFOL[p]&&NFOL[p][yr];
-      return s+(d&&d[plat]&&d[plat][idx]!=null?d[plat][idx]:0);
-    },0);
+  const platKeys=['Facebook','Instagram','Twitter','TikTok'].filter(p=>on('[data-nplat]').includes(p));
+  // NFOL uses 'X' key — map Twitter display to X data key
+  function sumP(plat,yr,i){
+    const dataKey=plat==='Twitter'?'X':plat;
+    return profKeys.reduce((s,p)=>s+(NFOL[p]?.[yr]?.[dataKey]?.[i]??0),0);
   }
-  let labels, ds;
+  let labels,ds;
   if(tp==='fy'){
     const yr=activeYrs[0]||'2026';
-    const sampleD=NFOL[profKeys[0]][yr];
+    const sampleD=NFOL[profKeys[0]]?.[yr];if(!sampleD)return;
     labels=sampleD.labels;
-    ds=platKeys.map(plat=>({
-      label:plat+' ('+yr+')',
-      data:labels.map((_,i)=>sumProfiles(plat,yr,i)),
-      borderColor:PC[plat],borderDash:[],tension:.4,pointRadius:4,
-      pointBackgroundColor:PC[plat],fill:false,borderWidth:2.5
-    }));
+    ds=platKeys.map(plat=>({label:plat+' ('+yr+')',data:labels.map((_,i)=>sumP(plat,yr,i)),borderColor:PC[plat],borderDash:[],tension:.4,pointRadius:4,pointBackgroundColor:PC[plat],fill:false,borderWidth:2.5}));
   } else {
     const yrs=activeYrs.length?activeYrs:['2026'];
     labels=MO;ds=[];
-    yrs.forEach(yr=>{
-      platKeys.forEach(plat=>{
-        ds.push({
-          label:plat+' ('+yr+')',
-          data:MO.map((_,i)=>sumProfiles(plat,yr,i)),
-          borderColor:PC[plat],borderDash:YR_DASH[yr]||[],tension:.4,pointRadius:4,
-          pointBackgroundColor:PC[plat],fill:false,borderWidth:2
-        });
-      });
-    });
+    yrs.forEach(yr=>platKeys.forEach(plat=>{
+      ds.push({label:plat+' ('+yr+')',data:MO.map((_,i)=>sumP(plat,yr,i)),borderColor:PC[plat],borderDash:YR_DASH[yr]||[],tension:.4,pointRadius:4,pointBackgroundColor:PC[plat],fill:false,borderWidth:2});
+    }));
   }
-  const dummy_yr=activeYrs[0]||'2026'; // for compat below
-  // Update subtitle to show data availability
-  const nfolSub=document.querySelector('#newFolChart')?.closest('.card')?.querySelector('.card-sub');
-  if(nfolSub){
-    if(tp==='fy'){
-      const yr=activeYrs[0]||'2026';
-      const sampleD=NFOL[profKeys[0]][yr];
-      nfolSub.textContent='Full Year '+yr+' · '+sampleD.labels.length+' months available';
-    } else {
-      const yrs=activeYrs.length?activeYrs:['2026'];
-      nfolSub.textContent='Fiscal Year Jan–Apr · '+yrs.join(', ')+' · '+profSel.toUpperCase();
-    }
-  }
+  document.getElementById('nfolLeg').innerHTML=ds.map(x=>`<div class="li"><div class="ld" style="background:${x.borderColor}"></div>${x.label}</div>`).join('');
+  const nfolSub=document.getElementById('nfolSub');
+  if(nfolSub)nfolSub.textContent=tp==='fy'?'Full Year '+(activeYrs[0]||'2026')+' · '+(NFOL[profKeys[0]]?.[activeYrs[0]||'2026']?.labels?.length||0)+' months available':'Fiscal Year Jan–Apr';
   if(charts.nfol)charts.nfol.destroy();
-  charts.nfol=new Chart(document.getElementById('newFolChart'),{
-    type:'line',
-    data:{labels,datasets:ds},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},
-      scales:{
-        x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},
-        y:{
-          ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},
-          grid:{color:'rgba(0,0,0,.06)'},
-          border:{dash:[4,4]},
-          // show zero line prominently for negative values
-          afterBuildTicks(axis){
-            if(axis.min<0){
-              axis.options.grid.color=function(ctx){
-                return ctx.tick&&ctx.tick.value===0?'rgba(0,0,0,.25)':'rgba(0,0,0,.06)';
-              };
-            }
-          }
-        }
-      }
-    }
-  });
-  document.getElementById('nfolLeg').innerHTML=ds.map(ds2=>`<div class="legend-item"><div class="legend-dot" style="background:${ds2.borderColor}"></div>${ds2.label}</div>`).join('');
+  charts.nfol=new Chart(document.getElementById('newFolChart'),{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},y:{ticks:{font:{size:10},color:GR,callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
 }
-pg('[data-prof]',false,rebuildNFol);
-pg('[data-n4tp]',false,rebuildNFol);
-// Platform filter: multi-select, at least one always on
-document.querySelectorAll('[data-nplat]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    btn.classList.toggle('on');
-    if(on('[data-nplat]').length===0) btn.classList.add('on');
-    rebuildNFol();
-  });
-});
-document.querySelectorAll('[data-nyr]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const tp=on('[data-n4tp]')[0]||'month';
-    if(tp==='fy'){
-      // Full Year: single-select
-      document.querySelectorAll('[data-nyr]').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-    } else {
-      // Fiscal Year: multi-select
-      btn.classList.toggle('on');
-      if(on('[data-nyr]').length===0) btn.classList.add('on');
-    }
-    rebuildNFol();
-  });
-});
-pg('[data-a2tp]',false,buildApp);
-document.querySelectorAll('[data-ayr]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const tp=on('[data-a2tp]')[0]||'month';
-    if(tp==='fy'){
-      document.querySelectorAll('[data-ayr]').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-    } else {
-      btn.classList.toggle('on');
-      if(on('[data-ayr]').length===0) btn.classList.add('on');
-    }
-    buildApp();
-  });
-});
-buildApp();
-rebuildNFol();
+pill('[data-n4tp]',false,rebuildNFol);
+pill('[data-nplat]',true,rebuildNFol);
+pill('[data-prof]',false,rebuildNFol);
+document.querySelectorAll('[data-nyr]').forEach(b=>b.addEventListener('click',()=>{
+  const tp=on('[data-n4tp]')[0]||'month';
+  if(tp==='fy'){document.querySelectorAll('[data-nyr]').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
+  else{b.classList.toggle('on');if(!on('[data-nyr]').length)b.classList.add('on');}
+  rebuildNFol();
+}));
 
-/* ══════════════════════════════════════════════════
-   TOPLINE FILTER (YTD / Month / Year)
-══════════════════════════════════════════════════ */
-// Monthly data for topline (Jan-Apr 2026)
-const TL_MONTH={
-  pv:[1258883,1577765,2126439,3430939],
-  vis:[810739,978498,1222403,2219659],
-  uv:[675990,790293,958129,1821855],
-  ome:[49132,103548,143447,192470],
-  art:[19205,70954,101726,138912],
-  vid:[20689,22882,34136,39637],
-  pg:[7421,9712,7585,13921],
-  app:[4914,4972,8277,14156]
-};
-// YTD 2026 (Jan-Apr sum)
-const TL_YTD={pv:8393986,vis:5231299,uv:4246267,ome:488597,art:330797,vid:117344,pg:38639,app:32319};
-// YTD 2025 (Jan-Apr sum for delta)
-const TL_YTD25={pv:6643310,vis:3779778,uv:2970240,ome:461704,art:283952,vid:146756,pg:30996,app:43926};
-// Year totals
-const TL_YEAR={
-  '2024':{pv:71298854,vis:28538676,uv:14433654,ome:15879354,art:2420471,vid:25557137,pg:282748,app:537518},
-  '2025':{pv:112202777,vis:44283437,uv:22520240,ome:13320535,art:2765769,vid:13334206,pg:421368,app:502658},
-  '2026':{pv:8393986,vis:5231299,uv:4246267,ome:488597,art:330797,vid:117344,pg:38639,app:32319}
-};
-const fmtTL=v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':String(v);
-
-function setTLVal(id,val,delta,prevVal){
-  const el=document.getElementById(id);
-  const de=document.getElementById(id+'-d');
-  if(el) el.textContent=fmtTL(val);
-  if(de && prevVal){
-    const pct=((val-prevVal)/prevVal*100).toFixed(1);
-    const up=parseFloat(pct)>=0;
-    de.textContent=(up?'↑':'↓')+Math.abs(pct)+'% vs prior';
-    de.style.color=up?'#3A6614':'#DA1A31';
-  } else if(de){
-    de.textContent='';
-  }
-}
-
-function rebuildTopline(){
-  const mode=on('[data-tl]')[0]||'ytd';
-  document.getElementById('tlMonthGroup').style.display=mode==='month'?'flex':'none';
-  document.getElementById('tlYearGroup').style.display=mode==='year'?'flex':'none';
-  document.getElementById('toplineLabel').textContent=
-    mode==='ytd'?'Web & App KPI Topline — FY2026 YTD':
-    mode==='month'?'Web & App KPI Topline — Monthly':
-    'Web & App KPI Topline — Full Year';
-
-  if(mode==='ytd'){
-    setTLVal('tl-pv',TL_YTD.pv,true,TL_YTD25.pv);
-    setTLVal('tl-vis',TL_YTD.vis,true,TL_YTD25.vis);
-    setTLVal('tl-uv',TL_YTD.uv,true,TL_YTD25.uv);
-    setTLVal('tl-ome',TL_YTD.ome,true,TL_YTD25.ome);
-    setTLVal('tl-art',TL_YTD.art,true,TL_YTD25.art);
-    setTLVal('tl-vid',TL_YTD.vid,true,TL_YTD25.vid);
-    setTLVal('tl-pg',TL_YTD.pg,true,TL_YTD25.pg);
-    setTLVal('tl-app',TL_YTD.app,true,TL_YTD25.app);
-  } else if(mode==='month'){
-    const mi=parseInt(document.getElementById('tlMonthSel').value);
-    ['pv','vis','uv','ome','art','vid','pg','app'].forEach(k=>{
-      setTLVal('tl-'+k, TL_MONTH[k][mi], false, null);
-    });
-  } else {
-    const yr=document.getElementById('tlYearSel').value;
-    const d=TL_YEAR[yr];
-    const prev=TL_YEAR[yr==='2026'?'2025':yr==='2025'?'2024':null];
-    ['pv','vis','uv','ome','art','vid','pg','app'].forEach(k=>{
-      setTLVal('tl-'+k, d[k], !!prev, prev?prev[k]:null);
-    });
-  }
-}
-pg('[data-tl]',false,rebuildTopline);
-
-/* ══════════════════════════════════════════════════
-   MONTHLY KPI TRENDS — Full Year stacked fix
-   Full Year = all months all years side by side
-   Fiscal Year = Jan-Apr only, all years compared
-══════════════════════════════════════════════════ */
-// Patch rebuildMain for full-year stacked side-by-side
-// Override rebuildMain with improved version
-rebuildMain=function(){
-  const m=on('[data-m]')[0]||'pv', tp=on('[data-view]')[0]||'month';
-  const d=TOP[m];
-  const activeYrs=on('[data-fy]');
-
-  if(tp==='fy'){
-    // Full Year: all months for selected year, single-select
-    const yr=activeYrs[0]||'2026';
-    const raw=d[yr];
-    const pairs=ALL_MO.map((mo,i)=>({mo,v:raw[i]})).filter(p=>p.v!=null);
-    const labels=pairs.map(p=>p.mo);
-    const fmtLocal=v=>{
-      if(v>=1e6) return (v/1e6).toFixed(1)+'M';
-      if(v>=1e3) return (v/1e3).toFixed(1)+'K';
-      return String(v);
-    };
-    const dlp={id:'dl2',afterDatasetsDraw(c){
-      const ctx=c.ctx;
-      c.data.datasets.forEach((ds,di)=>{
-        c.getDatasetMeta(di).data.forEach((bar,i)=>{
-          const v=ds.data[i];if(!v)return;
-          ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';
-          ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(fmtLocal(v),bar.x,bar.y-2);ctx.restore();
-        });
-      });
-    }};
-    if(charts.main)charts.main.destroy();
-    const subtitle=d.lbl+' — Full year '+yr;
-    document.getElementById('mainTitle').textContent=subtitle;
-    charts.main=new Chart(document.getElementById('mainChart'),{
-      type:'bar',plugins:[dlp],
-      data:{labels,datasets:[{label:yr,data:pairs.map(p=>p.v),backgroundColor:COLS[yr]||N,borderRadius:3,barPercentage:.8}]},
-      options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:false}},
-        scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},
-          y:{ticks:{font:{size:10},color:GR,callback:v=>fmtLocal(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
-    });
-  } else {
-    // Fiscal Year: Jan-Apr for each selected year, grouped side by side
-    const labels=['Jan','Feb','Mar','Apr'];
-    const yrs=['2024','2025','2026'].filter(yr=>activeYrs.includes(yr));
-    const fmtLocal=v=>{
-      if(v>=1e6) return (v/1e6).toFixed(1)+'M';
-      if(v>=1e3) return (v/1e3).toFixed(1)+'K';
-      return String(v);
-    };
-    const datasets=yrs.map(yr=>({
-      label:yr, data:d[yr].slice(0,4), backgroundColor:COLS[yr], borderRadius:3, barPercentage:.8
-    }));
-    const dlp={id:'dl3',afterDatasetsDraw(c){
-      const ctx=c.ctx;
-      c.data.datasets.forEach((ds,di)=>{
-        c.getDatasetMeta(di).data.forEach((bar,i)=>{
-          const v=ds.data[i];if(!v)return;
-          ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';
-          ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(fmtLocal(v),bar.x,bar.y-2);ctx.restore();
-        });
-      });
-    }};
-    document.getElementById('mainTitle').textContent=d.lbl+' — Fiscal year Jan–Apr (all years)';
-    if(charts.main)charts.main.destroy();
-    charts.main=new Chart(document.getElementById('mainChart'),{
-      type:'bar',plugins:[dlp],
-      data:{labels,datasets},
-      options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
-        plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10}}},
-        scales:{x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},
-          y:{ticks:{font:{size:10},color:GR,callback:v=>fmtLocal(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
-    });
-  }
-};
-
-/* ══════════════════════════════════════════════════
-   VISITS BY PLATFORM — PIE CHART
-══════════════════════════════════════════════════ */
-// April 2026 data (most recent month)
-const PLAT_PIE_APR26={
-  'usga.org':1134818,'usopen.com':679276,'uswomensopen.com':162226,
-  'Champ pages':156937,'USGA App':86402
-};
-// Fiscal Jan-Apr 2026 sums
-const PLAT_PIE_FY26={
-  'usga.org':519316+644641+864041+1134818,
-  'usopen.com':141617+172738+184071+679276,
-  'uswomensopen.com':39765+38867+23953+162226,
-  'Champ pages':63856+73268+59968+156937,
-  'USGA App':46185+48984+90370+86402
-};
-const PIE_COLORS=[N,B,R,G,GR];
-const PIE_LABELS=['usga.org','usopen.com','uswomensopen.com','Champ pages','USGA App'];
-
-function buildPlatPie(){
-  const tp=on('[data-pltp]')[0]||'month';
-  const yrs=on('[data-plyr]');
-  // Use April 2026 by default; in fiscal year mode sum Jan-Apr
-  let data, title;
-  if(tp==='fy'){
-    // Sum Jan-Apr for each selected year across PLAT_DATA
-    const activeYr=yrs[0]||'2026';
-    const yrData=PLAT_DATA[activeYr];
-    data=PIE_LABELS.map((lbl,li)=>{
-      const s=yrData.series.find(s=>s.label===lbl);
-      return s?s.data.slice(0,4).reduce((a,b)=>a+(b||0),0):0;
-    });
-    title='Fiscal Year Jan–Apr '+activeYr;
-  } else {
-    // Use April (index 3) of the selected year
-    const activeYr=yrs[0]||'2026';
-    const yrData=PLAT_DATA[activeYr];
-    data=PIE_LABELS.map(lbl=>{
-      const s=yrData.series.find(s=>s.label===lbl);
-      return s?s.data[3]||0:0;
-    });
-    title='April '+activeYr+' (most recent month)';
-  }
-  const total=data.reduce((a,b)=>a+b,0);
-  // Stacked legend on right with counts + %
-  document.getElementById('platLeg').innerHTML=PIE_LABELS.map((l,i)=>{
-    const pct=(data[i]/total*100).toFixed(1);
-    const val=fmtK(data[i]);
-    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #EEF1F3;">
-      <div style="width:13px;height:13px;border-radius:3px;background:${PIE_COLORS[i]};flex-shrink:0;margin-top:2px;"></div>
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--text-primary);line-height:1.3;">${l}</div>
-        <div style="font-size:11px;color:var(--navy);font-weight:700;margin-top:3px;">${val}</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${pct}% of total</div>
-      </div>
-    </div>`;
-  }).join('');
-  // Custom plugin to draw % labels on pie slices
-  const pieLabelsPlugin={
-    id:'pieLabels',
-    afterDraw(chart){
-      const ctx=chart.ctx;
-      const ds=chart.data.datasets[0];
-      const meta=chart.getDatasetMeta(0);
-      meta.data.forEach((arc,i)=>{
-        const pct=(ds.data[i]/total*100);
-        if(pct<4) return; // skip tiny slices
-        const angle=(arc.startAngle+arc.endAngle)/2;
-        const r=arc.outerRadius*0.65;
-        const x=arc.x+Math.cos(angle)*r;
-        const y=arc.y+Math.sin(angle)*r;
-        ctx.save();
-        ctx.fillStyle='#fff';
-        ctx.font='bold 11px Helvetica Neue,Helvetica,Arial,sans-serif';
-        ctx.textAlign='center';
-        ctx.textBaseline='middle';
-        ctx.shadowColor='rgba(0,0,0,.35)';
-        ctx.shadowBlur=3;
-        ctx.fillText(pct.toFixed(1)+'%',x,y);
-        ctx.restore();
-      });
-    }
-  };
-  if(charts.platPie)charts.platPie.destroy();
-  charts.platPie=new Chart(document.getElementById('platPieChart'),{
-    type:'pie',
-    plugins:[pieLabelsPlugin],
-    data:{labels:PIE_LABELS,datasets:[{data,backgroundColor:PIE_COLORS,borderWidth:2,borderColor:'#fff'}]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{label:c=>{
-          const pct=(c.parsed/total*100).toFixed(1);
-          return c.label+': '+fmtK(c.parsed)+' ('+pct+'%)';
-        }}}
-      }
-    }
-  });
-}
-pg('[data-pltp]',false,buildPlatPie);
-document.querySelectorAll('[data-plyr]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('[data-plyr]').forEach(b=>b.classList.remove('on'));
-    btn.classList.add('on');
-    buildPlatPie();
-  });
-});
-buildPlatPie();
-
-/* ══════════════════════════════════════════════════
-   VIDEO VIEWS BY CHANNEL — LINE CHART
-   Rolled-up by channel, profile filter to isolate
-══════════════════════════════════════════════════ */
-// Per-profile video data by channel
-const VID_BY_PROFILE={
-  usga:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[1653815,2223326,2734457,6724415],Instagram:[4742173,945238,2848133,2422727],Facebook:[12201,1282488,7202243,45289],TikTok:[552198,245436,700211,677160],Other:[431417,1911029,75092,1539837]},
-    '2025':{labels:ALL_MO,YouTube:[3388762,2289656,2545995,6296027,18336379,22971987,1152840,9530953,4103673,3651435,14129331,21786921],Instagram:[2866294,2136449,1343465,1686751,8444894,17758570,19289170,26652903,21215494,9768946,4157016,5278049],Facebook:[0,15423,146109,1287230,8503,71411065,153120,6914,4061,35246,405828,515634],TikTok:[168600,690436,471666,477787,5269935,35500996,4791973,10170045,2856500,1099733,832174,496651],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,YouTube:[2336631,2000866,3024769,13694590,10788640,20050418,18704196,10034418,4754591,4783415,4820856,8959560],Instagram:[6767325,1773316,5146708,2632253,5976362,4530426,9011557,13547971,6354994,9124121,1382431,2063516],Facebook:[0,0,11341,0,0,8652193,0,0,8386,0,669052,1675375],TikTok:[236596,258427,837431,1385667,1477230,13669721,1750139,2250488,291860,1336190,1600184,229900],Other:[1121652,792231,926318,285446,0,0,0,0,0,0,0,0]}
-  },
-  uso:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[0,0,0,0],Instagram:[0,0,0,0],Facebook:[0,0,0,0],TikTok:[0,0,0,0],Other:[0,0,0,0]},
-    '2025':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]}
-  },
-  uswo:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[0,0,0,0],Instagram:[0,0,0,0],Facebook:[0,0,0,0],TikTok:[0,0,0,0],Other:[0,0,0,0]},
-    '2025':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]}
-  }
-};
-const VID_CHANNELS=['YouTube','Instagram','Facebook','TikTok','Other'];
-const VID_CHAN_COLS={YouTube:R,Instagram:B,Facebook:N,TikTok:G,Other:GR};
-
-function buildVidLine(){
-  const tp=on('[data-vvtp]')[0]||'month';
-  const activeYrs=on('[data-vvyr]');
-  const prof=on('[data-vvprof]')[0]||'all';
-  const profiles=prof==='all'?['usga','uso','uswo']:['usga','uso','uswo'].filter(p=>p===prof);
-
-  let labels, datasets;
-  if(tp==='fy'){
-    const yr=activeYrs[0]||'2026';
-    const yrLabels=VID_BY_PROFILE.usga[yr].labels;
-    labels=yrLabels;
-    datasets=VID_CHANNELS.map(ch=>({
-      label:ch,
-      data:labels.map((mo,i)=>profiles.reduce((sum,p)=>{
-        const d=VID_BY_PROFILE[p][yr];
-        return sum+(d&&d[ch]?d[ch][i]||0:0);
-      },0)),
-      borderColor:VID_CHAN_COLS[ch],tension:.4,pointRadius:4,
-      pointBackgroundColor:VID_CHAN_COLS[ch],fill:false,borderWidth:2.5
-    }));
-  } else {
-    // Fiscal year: Jan-Apr for each selected year
-    const yrs=activeYrs.length?activeYrs:['2026'];
-    labels=['Jan','Feb','Mar','Apr'];
-    datasets=[];
-    VID_CHANNELS.forEach(ch=>{
-      yrs.forEach(yr=>{
-        datasets.push({
-          label:ch+' ('+yr+')',
-          data:labels.map((mo,i)=>profiles.reduce((sum,p)=>{
-            const d=VID_BY_PROFILE[p][yr];
-            return sum+(d&&d[ch]?d[ch][i]||0:0);
-          },0)),
-          borderColor:VID_CHAN_COLS[ch],
-          borderDash:yr==='2024'?[6,3]:yr==='2025'?[3,3]:[],
-          tension:.4,pointRadius:3,
-          pointBackgroundColor:VID_CHAN_COLS[ch],fill:false,borderWidth:2
-        });
-      });
-    });
-  }
-  document.getElementById('vidLeg').innerHTML=VID_CHANNELS.map(ch=>`<div class="legend-item"><div class="legend-dot" style="background:${VID_CHAN_COLS[ch]}"></div>${ch}</div>`).join('');
-  if(charts.vid)charts.vid.destroy();
-  charts.vid=new Chart(document.getElementById('vidLineChart'),{
-    type:'line',data:{labels,datasets},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},
-      scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},
-        y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
-  });
-}
-pg('[data-vvtp]',false,buildVidLine);
-pg('[data-vvprof]',false,buildVidLine);
-document.querySelectorAll('[data-vvyr]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const tp=on('[data-vvtp]')[0]||'month';
-    if(tp==='fy'){
-      document.querySelectorAll('[data-vvyr]').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-    } else {
-      btn.classList.toggle('on');
-      if(on('[data-vvyr]').length===0) btn.classList.add('on');
-    }
-    buildVidLine();
-  });
-});
-buildVidLine();
-
-/* ══════════════════════════════════════════════════
-   APP INSTALLS — FY Total row
-══════════════════════════════════════════════════ */
-function buildAppFYTotals(){
-  const totals=[
-    {yr:'2024',apple:448047,android:15504,ipad:0,total:537518},
-    {yr:'2025',apple:453069,android:43977,ipad:24639,total:502658},
-    {yr:'2026',apple:28472,android:3568,ipad:1119,total:32319}
-  ];
-  const el=document.getElementById('appFYTotals');
-  if(!el)return;
-  el.innerHTML=totals.map(t=>`
-    <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 16px;min-width:140px;">
-      <div style="font-size:10px;font-weight:700;color:var(--navy);margin-bottom:6px;">${t.yr}</div>
-      <div style="font-size:14px;font-weight:700;color:var(--navy);">${fmtK(t.total)}</div>
-      <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">
-        <span style="color:#00365F;">iOS: ${fmtK(t.apple)}</span> &middot;
-        <span style="color:#0088CE;">Android: ${fmtK(t.android)}</span>
-        ${t.ipad>0?` &middot; <span style="color:#B79157;">iPad: ${fmtK(t.ipad)}</span>`:''}
-      </div>
-    </div>
-  `).join('');
-}
-buildAppFYTotals();
-
-/* ══════════════════════════════════════════════════
-   APP INSTALLS — Larger bars + counts in %
-   Patch buildApp to enlarge bars and show count
-══════════════════════════════════════════════════ */
-// Make app bars taller when rebuilding
-const _afterBuildApp=buildApp;
-buildApp=function(){
-  _afterBuildApp();
-  setTimeout(()=>{
-    document.querySelectorAll('.app-bar-stack').forEach(stack=>{
-      stack.style.height='120px';
-    });
-  },50);
-};
-
-/* ══════════════════════════════════════════════════
-   NEW FOLLOWERS — Handle negative X values
-══════════════════════════════════════════════════ */
-const _origRebuildNFol=rebuildNFol;
-rebuildNFol=function(){
-  _origRebuildNFol();
-  // Chart.js already handles negatives natively in line charts
-  // Just ensure the y-axis shows 0 line prominently
-  if(charts.nfol){
-    charts.nfol.options.scales.y.grid.color=function(ctx){
-      return ctx.tick.value===0?'rgba(0,0,0,.3)':'rgba(0,0,0,.06)';
-    };
-    charts.nfol.options.scales.y.grid.lineWidth=function(ctx){
-      return ctx.tick.value===0?2:1;
-    };
-    charts.nfol.update();
-  }
-};
-
-// Init — call everything
+// ── INIT ──
 rebuildTopline();
 rebuildMain();
 buildFol();
 buildApp();
-buildAppFYTotals();
-rebuildNFol();
+buildAppFY();
 buildPlatPie();
 buildVidLine();
+rebuildNFol();
 </script>
 </body>
 </html>
