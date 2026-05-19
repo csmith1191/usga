@@ -177,20 +177,49 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 </div>
 
 <!-- TOPLINE -->
-<div class="section-label">YTD web &amp; app topline</div>
+<div style="display:flex;align-items:center;justify-content:space-between;margin:18px 0 10px;">
+  <div class="section-label" style="margin:0;" id="toplineLabel">Web &amp; App KPI Topline</div>
+  <div class="filter-bar" style="margin:0;">
+    <div class="filter-group">
+      <span class="flabel">Period</span>
+      <button class="fpill on" data-tl="ytd">YTD</button>
+      <button class="fpill" data-tl="month">Month</button>
+      <button class="fpill" data-tl="year">Year</button>
+    </div>
+    <div class="filter-group" id="tlMonthGroup" style="display:none;">
+      <span class="flabel">Month</span>
+      <select id="tlMonthSel" onchange="rebuildTopline()" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:110px;">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3" selected>April</option>
+      </select>
+      <span style="margin-left:-20px;color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+    </div>
+    <div class="filter-group" id="tlYearGroup" style="display:none;">
+      <span class="flabel">Year</span>
+      <select id="tlYearSel" onchange="rebuildTopline()" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:90px;">
+        <option value="2026" selected>2026</option>
+        <option value="2025">2025</option>
+        <option value="2024">2024</option>
+      </select>
+      <span style="margin-left:-20px;color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+    </div>
+  </div>
+</div>
 <div class="metric-grid">
-  <div class="metric-card"><div class="label">Page Views</div><div class="value">8.4M</div><div class="delta delta-up">&#8593; 26.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Visits</div><div class="value">5.2M</div><div class="delta delta-up">&#8593; 38.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Unique Visitors</div><div class="value">4.2M</div><div class="delta delta-up">&#8593; 43.0% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Engagements</div><div class="value">486.8K</div><div class="delta delta-up">&#8593; 5.4% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Article PVs</div><div class="value">330.8K</div><div class="delta delta-up">&#8593; 16.5% vs 2025</div></div>
-  <div class="metric-card"><div class="label">Video Views</div><div class="value">117.3K</div><div class="delta delta-dn">&#8595; 20.0% vs 2025</div></div>
-  <div class="metric-card"><div class="label">PG Launches</div><div class="value">38.6K</div><div class="delta delta-up">&#8593; 24.7% vs 2025</div></div>
-  <div class="metric-card"><div class="label">App Installs</div><div class="value">32.3K</div><div class="delta delta-dn">&#8595; 26.4% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Page Views</div><div class="value" id="tl-pv">8.4M</div><div class="delta" id="tl-pv-d" style="color:#3A6614;">&#8593; 26.4% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Visits</div><div class="value" id="tl-vis">5.2M</div><div class="delta" id="tl-vis-d" style="color:#3A6614;">&#8593; 38.4% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Unique Visitors</div><div class="value" id="tl-uv">4.2M</div><div class="delta" id="tl-uv-d" style="color:#3A6614;">&#8593; 43.0% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Engagements</div><div class="value" id="tl-ome">486.8K</div><div class="delta" id="tl-ome-d" style="color:#3A6614;">&#8593; 5.4% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Article PVs</div><div class="value" id="tl-art">330.8K</div><div class="delta" id="tl-art-d" style="color:#3A6614;">&#8593; 16.5% vs 2025</div></div>
+  <div class="metric-card"><div class="label">Video Views</div><div class="value" id="tl-vid">117.3K</div><div class="delta" id="tl-vid-d" style="color:#DA1A31;">&#8595; 20.0% vs 2025</div></div>
+  <div class="metric-card"><div class="label">PG Launches</div><div class="value" id="tl-pg">38.6K</div><div class="delta" id="tl-pg-d" style="color:#3A6614;">&#8593; 24.7% vs 2025</div></div>
+  <div class="metric-card"><div class="label">App Installs</div><div class="value" id="tl-app">32.3K</div><div class="delta" id="tl-app-d" style="color:#DA1A31;">&#8595; 26.4% vs 2025</div></div>
 </div>
 
 <!-- MONTHLY TREND -->
-<div class="sec-divider"><div class="line"></div><div class="label-text">Monthly Trend</div><div class="line"></div></div>
+<div class="sec-divider"><div class="line"></div><div class="label-text">Monthly KPI Trends</div><div class="line"></div></div>
 <div class="card">
   <div class="card-title" id="mainTitle">Page views &mdash; Fiscal year, Jan&ndash;Apr</div>
   <div class="card-sub">Toggle metric, time period, and year</div>
@@ -217,45 +246,63 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <button class="fpill on" data-fy="2025">2025</button>
       <button class="fpill on" data-fy="2026">2026</button></div>
   </div>
-  <div class="legend">
-    <div class="legend-item"><div class="legend-dot" style="background:#00365F"></div>2024</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#0088CE"></div>2025</div>
-    <div class="legend-item"><div class="legend-dot" style="background:#DA1A31"></div>2026</div>
-  </div>
   <div style="position:relative;height:240px;"><canvas id="mainChart"></canvas></div>
 </div>
 
-<!-- SECTION 1 -->
-<div class="sec-divider"><div class="line"></div><div class="num">1</div><div class="label-text">Platform &amp; Video Views &mdash; Monthly Trends</div><div class="line"></div></div>
+<!-- SECTION 1a: Visits by Platform (PIE) -->
+<div class="sec-divider"><div class="line"></div><div class="num">1</div><div class="label-text">Visits by Platform</div><div class="line"></div></div>
 <div class="card">
-  <div class="card-title" id="lineTitle">Visits by platform</div>
-  <div class="card-sub">Jan&ndash;Apr 2026 &middot; toggle view</div>
   <div class="filter-bar">
     <div class="filter-group">
       <span class="flabel">Time Period</span>
-      <button class="fpill on" data-s1tp="month">Fiscal Year</button>
-      <button class="fpill" data-s1tp="fy">Full Year</button>
+      <button class="fpill on" data-pltp="month">Fiscal Year</button>
+      <button class="fpill" data-pltp="fy">Full Year</button>
     </div>
     <div class="filter-group">
       <span class="flabel">Year</span>
-      <button class="fpill on" data-s1yr="2024">2024</button>
-      <button class="fpill on" data-s1yr="2025">2025</button>
-      <button class="fpill on" data-s1yr="2026">2026</button></div>
-    <div class="filter-group">
-      <span class="flabel">View</span>
-      <button class="fpill on" data-s1lv="plat">Visits by Platform</button>
-      <button class="fpill" data-s1lv="vid">Video Views by Channel</button>
+      <button class="fpill on" data-plyr="2024">2024</button>
+      <button class="fpill on" data-plyr="2025">2025</button>
+      <button class="fpill on" data-plyr="2026">2026</button>
     </div>
   </div>
-  <div class="legend" id="lineLeg"></div>
-  <div style="position:relative;height:220px;"><canvas id="lineChart"></canvas></div>
+  <div style="display:flex;align-items:center;gap:20px;">
+    <div style="position:relative;height:280px;flex:1;min-width:0;"><canvas id="platPieChart"></canvas></div>
+    <div id="platLeg" style="display:flex;flex-direction:column;gap:8px;min-width:180px;"></div>
+  </div>
+</div>
+
+<!-- SECTION 1b: Video Views by Channel (LINE) -->
+<div class="sec-divider"><div class="line"></div><div class="num" style="background:var(--red);">1b</div><div class="label-text">Video Views by Channel</div><div class="line"></div></div>
+<div class="card">
+  <div class="filter-bar">
+    <div class="filter-group">
+      <span class="flabel">Time Period</span>
+      <button class="fpill on" data-vvtp="month">Fiscal Year</button>
+      <button class="fpill" data-vvtp="fy">Full Year</button>
+    </div>
+    <div class="filter-group">
+      <span class="flabel">Year</span>
+      <button class="fpill on" data-vvyr="2024">2024</button>
+      <button class="fpill on" data-vvyr="2025">2025</button>
+      <button class="fpill on" data-vvyr="2026">2026</button>
+    </div>
+    <div class="filter-group">
+      <span class="flabel">Profile</span>
+      <button class="fpill on" data-vvprof="all">All</button>
+      <button class="fpill" data-vvprof="usga">USGA</button>
+      <button class="fpill" data-vvprof="uso">U.S. Open</button>
+      <button class="fpill" data-vvprof="uswo">U.S. Women's Open</button>
+    </div>
+  </div>
+  <div class="legend" id="vidLeg"></div>
+  <div style="position:relative;height:280px;"><canvas id="vidLineChart"></canvas></div>
 </div>
 
 <!-- SECTION 2 -->
-<div class="sec-divider"><div class="line"></div><div class="num">2</div><div class="label-text">App Installs &mdash; Device Breakdown</div><div class="line"></div></div>
+<div class="sec-divider"><div class="line"></div><div class="num">2</div><div class="label-text">App Installs by Device</div><div class="line"></div></div>
 <div class="card">
   <div class="card-title">App installs by device</div>
-  <div class="card-sub">Proportional breakdown per month &middot; scroll to see all years</div>
+
   <div class="filter-bar">
     <div class="filter-group">
       <span class="flabel">Time Period</span>
@@ -274,6 +321,11 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     <div class="legend-item"><div class="legend-dot" style="background:#B79157"></div>iPad</div>
   </div>
   <div class="app-scroll"><div class="app-row" id="appVisual"></div></div>
+  <!-- FY Total Summary -->
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+    <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">FY2026 YTD Totals</div>
+    <div id="appFYTotals" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+  </div>
 </div>
 
 <!-- SECTION 3 -->
@@ -302,10 +354,10 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 </div>
 
 <!-- SECTION 4 -->
-<div class="sec-divider"><div class="line"></div><div class="num">4</div><div class="label-text">New Followers &mdash; Monthly Trend by Profile &amp; Platform</div><div class="line"></div></div>
+<div class="sec-divider"><div class="line"></div><div class="num">4</div><div class="label-text">New Followers by Platform</div><div class="line"></div></div>
 <div class="card">
   <div class="card-title">New followers by platform</div>
-  <div class="card-sub">Select a profile and year to compare platforms month over month</div>
+  <div class="card-sub" id="nfolSub">Select a profile and year to compare platforms month over month &middot; Note: 2024 data is Jan&ndash;Apr only</div>
   <div class="filter-bar">
     <div class="filter-group">
       <span class="flabel">Time Period</span>
@@ -314,11 +366,14 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     </div>
     <div class="filter-group">
       <span class="flabel">Year</span>
+      <button class="fpill" data-nyr="2022">2022</button>
+      <button class="fpill" data-nyr="2023">2023</button>
       <button class="fpill" data-nyr="2024">2024</button>
       <button class="fpill" data-nyr="2025">2025</button>
       <button class="fpill on" data-nyr="2026">2026</button></div>
     <div class="filter-group">
       <span class="flabel">Profile</span>
+      <button class="fpill" data-prof="all">All</button>
       <button class="fpill on" data-prof="usga">USGA</button>
       <button class="fpill" data-prof="uso">U.S. Open</button>
       <button class="fpill" data-prof="uswo">U.S. Women's Open</button>
@@ -448,14 +503,7 @@ document.querySelectorAll('[data-fy]').forEach(btn=>{
 });
 rebuildMain();
 
-/* ── LINE CHART ── */
-const PLAT={labels:MO,datasets:[
-  {label:'usga.org',data:[519316,644641,864041,1134818],borderColor:N,tension:.4,pointRadius:4,pointBackgroundColor:N,fill:false,borderWidth:2.5},
-  {label:'usopen.com',data:[141617,172738,184071,679276],borderColor:B,tension:.4,pointRadius:4,pointBackgroundColor:B,fill:false,borderWidth:2.5},
-  {label:'uswomensopen.com',data:[39765,38867,23953,162226],borderColor:R,tension:.4,pointRadius:4,pointBackgroundColor:R,fill:false,borderWidth:2.5},
-  {label:'Champ pages',data:[63856,73268,59968,156937],borderColor:G,tension:.4,pointRadius:4,pointBackgroundColor:G,fill:false,borderWidth:2.5},
-  {label:'USGA App',data:[46185,48984,90370,86402],borderColor:GR,tension:.4,pointRadius:4,pointBackgroundColor:GR,fill:false,borderWidth:2.5}
-]};
+/* PLAT constant removed — using PLAT_DATA instead */
 
 /* ── PLATFORM & VIDEO DATA (all months, by year) ── */
 const PLAT_DATA={
@@ -504,72 +552,10 @@ const VID_DATA={
     {label:'Other',  data:[431417,1911029,75092,1539837],borderColor:GR}
   ]}
 };
-function rebuildLine(){
-  const lv=on('[data-s1lv]')[0]||'plat';
-  const tp=on('[data-s1tp]')[0]||'month';
-  const activeYrs=on('[data-s1yr]');
-  const SRC=lv==='plat'?PLAT_DATA:VID_DATA;
-  const YR_COLS={'2024':N,'2025':B,'2026':R};
-  let labels, datasets, subtitle;
-  if(tp==='fy'){
-    // Full Year: single year, all available months
-    const yr=activeYrs[0]||'2026';
-    const yrData=SRC[yr];
-    labels=yrData.labels;
-    datasets=yrData.series.map(s=>({
-      label:s.label, data:s.data,
-      borderColor:s.borderColor, tension:.4, pointRadius:4,
-      pointBackgroundColor:s.borderColor, fill:false, borderWidth:2.5
-    }));
-    subtitle=(lv==='plat'?'Visits by platform':'Video views by channel')+' — Full year '+yr;
-  } else {
-    // Fiscal Year: multi-year, Jan–Apr only, one line per platform per year
-    const yrs=activeYrs.length?activeYrs:['2026'];
-    // Build one dataset per series per year
-    datasets=[];
-    const baseLabels=['Jan','Feb','Mar','Apr'];
-    labels=baseLabels;
-    yrs.forEach(yr=>{
-      const yrData=SRC[yr];
-      yrData.series.forEach(s=>{
-        datasets.push({
-          label:s.label+' ('+yr+')',
-          data:s.data.slice(0,4),
-          borderColor:s.borderColor,
-          borderDash: yr==='2024'?[6,3]:yr==='2025'?[3,3]:[],
-          tension:.4, pointRadius:4,
-          pointBackgroundColor:s.borderColor, fill:false, borderWidth:2
-        });
-      });
-    });
-    subtitle=(lv==='plat'?'Visits by platform':'Video views by channel')+' — Fiscal year, Jan–Apr';
-  }
-  document.getElementById('lineTitle').textContent=subtitle;
-  document.getElementById('lineLeg').innerHTML=datasets.map(ds=>`<div class="legend-item"><div class="legend-dot" style="background:${ds.borderColor}"></div>${ds.label}</div>`).join('');
-  if(charts.line)charts.line.destroy();
-  charts.line=new Chart(document.getElementById('lineChart'),{type:'line',data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},scales:{x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
-}
 
-pg('[data-s1lv]',false,rebuildLine);
-pg('[data-s1tp]',false,rebuildLine);
+
 // Section 1 year: single-select always (both modes show one year at a time)
-document.querySelectorAll('[data-s1yr]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    const tp=on('[data-s1tp]')[0]||'month';
-    if(tp==='fy'){
-      // Full Year: single-select
-      document.querySelectorAll('[data-s1yr]').forEach(b=>b.classList.remove('on'));
-      btn.classList.add('on');
-    } else {
-      // Fiscal Year: multi-select
-      btn.classList.toggle('on');
-      // ensure at least one stays on
-      if(on('[data-s1yr]').length===0) btn.classList.add('on');
-    }
-    rebuildLine();
-  });
-});
-rebuildLine();
+
 
 /* ── APP VISUAL ── */
 const APP={
@@ -650,65 +636,121 @@ buildFol();
 /* ── SECTION 4: NEW FOLLOWERS ── */
 const NFOL={
   usga:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[2350,1552,3873,9049],Instagram:[16458,9184,16131,19652],X:[1011,674,918,1178],TikTok:[3489,1314,3848,6889]},
-    '2025':{labels:ALL_MO,Facebook:[1303,879,746,2652,7006,35492,4505,640,860,1090,831,1803],Instagram:[3689,3068,4966,12809,16131,28542,8153,4172,4889,8153,10787,12315],X:[255,1590,1206,1442,918,2851,1128,764,778,1128,181,174],TikTok:[1535,1909,2487,1918,3848,9049,6889,3489,1314,3848,6889,4521]},
-    '2024':{labels:ALL_MO,Facebook:[1580,487,1202,5912,8845,35492,7006,7962,4505,640,860,1090],Instagram:[14899,13455,21259,18243,16131,28542,8153,4172,4889,8153,10787,12315],X:[661,1706,null,670,null,2851,1128,764,778,1128,181,174],TikTok:[1164,1352,4094,7167,3848,9049,6889,3489,1314,3848,6889,4521]}
+    '2022':{labels:ALL_MO,Facebook:[436,533,758,789,780,1821,2824,2161,1548,223,902,878],Instagram:[804,1426,1170,2122,2671,4515,3209,5919,2177,387,332,1026],X:[894,1408,977,3594,-433,2677,6480,296,4352,3353,1017,1340],TikTok:[null,null,null,null,null,null,null,null,null,null,100,200]},
+    '2023':{labels:ALL_MO,Facebook:[4172,4650,2509,5195,5867,2413,3658,8738,4495,3419,4531,1677],Instagram:[2316,5064,4776,20972,9883,9696,11574,35977,20519,23564,19440,9288],X:[1343,1622,1028,1705,1220,2940,1368,1665,963,537,403,213],TikTok:[900,7200,5200,23951,8806,18602,13140,20018,6688,4539,2049,2859]},
+    '2024':{labels:ALL_MO,Facebook:[1580,487,1202,5912,1832,1899,2690,4171,1485,5477,2282,1487],Instagram:[14899,13455,21259,18243,23865,20695,19402,20847,3095,13726,6875,6703],X:[661,1706,-191,670,787,2401,1525,1321,750,630,2154,1302],TikTok:[1164,1352,4094,7167,6350,33219,8441,9323,2950,5826,5650,1665]},
+    '2025':{labels:ALL_MO,Facebook:[1424,1784,1404,1584,6208,4151,3103,6863,7521,5154,5862,2127],Instagram:[7840,6626,10783,8409,33955,25228,30314,54764,34042,20247,13063,10125],X:[1575,1661,1580,726,667,3426,1369,2316,1477,930,820,591],TikTok:[1535,1909,2487,1918,17026,52386,12149,20841,8146,5897,3140,3605]},
+    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[2350,1552,3873,3274],Instagram:[16458,9184,16131,19652],X:[1011,674,918,1178],TikTok:[3489,1314,3848,6889]},
   },
   uso:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[831,1803,9663,10561],Instagram:[4172,4889,8153,10787],X:[764,778,1128,181],TikTok:[0,0,0,0]},
-    '2025':{labels:ALL_MO,Facebook:[1303,879,746,2652,9663,22858,10561,831,1803,9663,10561,7245],Instagram:[3689,3068,4966,12809,8153,18214,10787,4172,4889,8153,10787,8432],X:[255,1590,1206,1442,1128,2851,181,764,778,1128,181,174],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,Facebook:[23,7,40,452,511,8845,47,775,1157,2175,1303,879],Instagram:[208,null,843,2806,4966,12809,16131,28542,8153,4172,4889,8153],X:[346,1876,null,827,null,2175,1303,879,746,2652,1206,1442],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]}
+    '2022':{labels:ALL_MO,Facebook:[30,34,603,301,408,5337,1013,911,1008,-88,29,96],Instagram:[403,455,1308,2055,2248,15971,1641,3160,2741,949,516,534],X:[871,1671,1173,4546,6345,7180,1030,2067,2067,739,-406,828],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2023':{labels:ALL_MO,Facebook:[734,539,894,1247,829,5550,2977,810,263,118,54,-56],Instagram:[1531,4546,3271,1717,3257,36601,5171,6476,1879,1601,974,-32],X:[1154,1743,666,1498,829,15453,285,199,569,811,142,36],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2024':{labels:ALL_MO,Facebook:[23,7,40,452,511,8845,-47,775,303,413,1157,2175],Instagram:[208,-171,843,2806,4651,43410,1092,-37,-459,-596,2494,2669],X:[346,1876,-660,827,920,10398,727,344,370,-506,208,1416],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2025':{labels:ALL_MO,Facebook:[1303,879,746,2652,1086,35492,7006,7962,4505,640,860,1090],Instagram:[3689,3068,4966,12809,4034,82715,5516,4891,5575,4255,4480,3463],X:[255,1590,1206,1442,-646,16747,165,4,1097,734,640,523],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[831,1803,9663,10561],Instagram:[4172,4889,8153,10787],X:[764,778,1128,181],TikTok:[null,null,null,null]},
   },
   uswo:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[1299,1777,521,461],Instagram:[690,632,1438,1567],X:[25,42,41,74],TikTok:[0,0,0,0]},
-    '2025':{labels:ALL_MO,Facebook:[208,1378,91,100,521,4058,461,1299,1777,521,461,312],Instagram:[364,390,349,394,1438,5827,1567,690,632,1438,1567,943],X:[14,89,54,93,41,182,74,25,42,41,74,58],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,Facebook:[37,89,55,125,278,1374,162,278,679,255,162,98],Instagram:[133,89,100,545,349,690,394,364,390,349,394,287],X:[31,29,3,17,54,25,74,14,89,54,93,41],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]}
+    '2022':{labels:ALL_MO,Facebook:[null,null,null,51,581,765,55,-31,34,46,34,15],Instagram:[395,136,249,306,1775,3102,333,482,262,115,158,147],X:[262,75,32,125,212,1532,45,-28,92,-37,-83,13],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2023':{labels:ALL_MO,Facebook:[70,105,107,128,114,212,1933,1641,875,31,82,13],Instagram:[139,214,189,465,425,664,6150,349,93,6,130,40],X:[-13,-3,10,76,184,191,1875,6,7,-16,-28,-1],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2024':{labels:ALL_MO,Facebook:[37,89,55,125,531,394,-12,4,1,21,48,37],Instagram:[133,89,100,545,3516,2912,52,-151,-178,-161,335,427],X:[31,29,3,17,594,616,33,-5,33,-49,10,78],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2025':{labels:ALL_MO,Facebook:[208,1378,91,100,1421,1056,202,321,79,39,6710,2630],Instagram:[364,390,349,394,3986,3378,901,1130,818,694,2459,952],X:[14,89,54,93,611,390,9,25,225,56,46,18],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[1299,1777,521,461],Instagram:[690,632,1438,1567],X:[25,42,41,74],TikTok:[null,null,null,null]},
   },
   wghof:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[278,679,255,162],Instagram:[4959,2682,2041,1236],X:[0,0,0,0],TikTok:[0,0,0,0]},
-    '2025':{labels:ALL_MO,Facebook:[34,20,40,44,255,1374,162,278,679,255,162,98],Instagram:[249,379,862,569,2041,10918,1236,4959,2682,2041,1236,743],X:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,Facebook:[0,0,0,0,0,1374,162,278,679,255,162,98],Instagram:[0,0,0,0,862,10918,1236,4959,2682,2041,1236,743],X:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]}
+    '2022':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2023':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2024':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2025':{labels:ALL_MO,Facebook:[34,20,40,44,49,52,31,29,78,122,48,42],Instagram:[249,379,862,569,430,449,487,648,423,379,369,1468],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[278,679,255,162],Instagram:[4959,2682,2041,1236],X:[null,null,null,null],TikTok:[null,null,null,null]},
   },
   usndp:{
-    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[16,11,26,66],Instagram:[723,472,710,1310],X:[14,8,28,25],TikTok:[0,0,0,0]},
-    '2025':{labels:ALL_MO,Facebook:[16,3,3,8,26,119,66,16,11,26,66,44],Instagram:[764,549,470,716,710,3215,1310,723,472,710,1310,892],X:[35,35,22,27,28,75,25,14,8,28,25,19],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]},
-    '2024':{labels:ALL_MO,Facebook:[0,0,0,0,0,119,66,16,11,26,66,44],Instagram:[0,0,0,0,470,3215,1310,723,472,710,1310,892],X:[0,0,0,0,22,75,25,14,8,28,25,19],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0]}
-  }
+    '2022':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2023':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2024':{labels:ALL_MO,Facebook:[null,null,null,null,null,null,null,null,null,null,null,null],Instagram:[null,null,null,null,null,null,null,null,null,null,null,null],X:[null,null,null,null,null,null,null,null,null,null,null,null],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2025':{labels:ALL_MO,Facebook:[16,3,3,8,19,13,18,13,15,14,19,11],Instagram:[764,549,470,716,430,472,972,587,369,495,717,798],X:[35,35,22,27,28,25,20,13,22,14,20,7],TikTok:[null,null,null,null,null,null,null,null,null,null,null,null]},
+    '2026':{labels:['Jan','Feb','Mar','Apr'],Facebook:[16,11,26,66],Instagram:[723,472,710,1310],X:[14,8,28,25],TikTok:[null,null,null,null]},
+  },
 };
 
 const PC={Facebook:N,Instagram:B,X:R,TikTok:G};
 function rebuildNFol(){
-  const prof=on('[data-prof]')[0]||'usga';
+  const profSel=on('[data-prof]')[0]||'usga';
+  const profKeys=profSel==='all'?['usga','uso','uswo','wghof','usndp']:[profSel];
   const tp=on('[data-n4tp]')[0]||'month';
   const activeYrs=on('[data-nyr]');
-  const YR_DASH={'2024':[6,3],'2025':[3,3],'2026':[]};
+  const YR_DASH={'2022':[8,3],'2023':[6,3],'2024':[4,3],'2025':[2,2],'2026':[]};
+  const allPlats=['Facebook','Instagram','X','TikTok'];
+  const activePlats=on('[data-nplat]').length?on('[data-nplat]'):allPlats;
+  const platKeys=allPlats.filter(p=>activePlats.includes(p));
+  // Helper: sum across profiles
+  function sumProfiles(plat,yr,idx){
+    return profKeys.reduce((s,p)=>{
+      const d=NFOL[p]&&NFOL[p][yr];
+      return s+(d&&d[plat]&&d[plat][idx]!=null?d[plat][idx]:0);
+    },0);
+  }
   let labels, ds;
   if(tp==='fy'){
-    // Full Year: single year, all available months from data
     const yr=activeYrs[0]||'2026';
-    const d=NFOL[prof][yr];
-    labels=d.labels;
-    const allPlats=['Facebook','Instagram','X','TikTok'];
-    const activePlats=on('[data-nplat]').length?on('[data-nplat]'):allPlats;
-    const platKeys=allPlats.filter(p=>activePlats.includes(p));
-    ds=platKeys.map(plat=>({label:plat+' ('+yr+')',data:d[plat],borderColor:PC[plat],borderDash:[],tension:.4,pointRadius:4,pointBackgroundColor:PC[plat],fill:false,borderWidth:2.5}));
+    const sampleD=NFOL[profKeys[0]][yr];
+    labels=sampleD.labels;
+    ds=platKeys.map(plat=>({
+      label:plat+' ('+yr+')',
+      data:labels.map((_,i)=>sumProfiles(plat,yr,i)),
+      borderColor:PC[plat],borderDash:[],tension:.4,pointRadius:4,
+      pointBackgroundColor:PC[plat],fill:false,borderWidth:2.5
+    }));
   } else {
-    // Fiscal Year: multi-year comparison, one line per platform per year
     const yrs=activeYrs.length?activeYrs:['2026'];
     labels=MO;ds=[];
     yrs.forEach(yr=>{
-      const d=NFOL[prof][yr];
-      const allPlats=['Facebook','Instagram','X','TikTok'];
-      const activePlats=on('[data-nplat]').length?on('[data-nplat]'):allPlats;
-      const platKeys=allPlats.filter(p=>activePlats.includes(p));
       platKeys.forEach(plat=>{
-        ds.push({label:plat+' ('+yr+')',data:d[plat].slice(0,4),borderColor:PC[plat],borderDash:YR_DASH[yr]||[],tension:.4,pointRadius:4,pointBackgroundColor:PC[plat],fill:false,borderWidth:2});
+        ds.push({
+          label:plat+' ('+yr+')',
+          data:MO.map((_,i)=>sumProfiles(plat,yr,i)),
+          borderColor:PC[plat],borderDash:YR_DASH[yr]||[],tension:.4,pointRadius:4,
+          pointBackgroundColor:PC[plat],fill:false,borderWidth:2
+        });
       });
     });
   }
   const dummy_yr=activeYrs[0]||'2026'; // for compat below
+  // Update subtitle to show data availability
+  const nfolSub=document.querySelector('#newFolChart')?.closest('.card')?.querySelector('.card-sub');
+  if(nfolSub){
+    if(tp==='fy'){
+      const yr=activeYrs[0]||'2026';
+      const sampleD=NFOL[profKeys[0]][yr];
+      nfolSub.textContent='Full Year '+yr+' · '+sampleD.labels.length+' months available';
+    } else {
+      const yrs=activeYrs.length?activeYrs:['2026'];
+      nfolSub.textContent='Fiscal Year Jan–Apr · '+yrs.join(', ')+' · '+profSel.toUpperCase();
+    }
+  }
   if(charts.nfol)charts.nfol.destroy();
-  charts.nfol=new Chart(document.getElementById('newFolChart'),{type:'line',data:{labels,datasets:ds},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},scales:{x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
+  charts.nfol=new Chart(document.getElementById('newFolChart'),{
+    type:'line',
+    data:{labels,datasets:ds},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},
+      scales:{
+        x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},
+        y:{
+          ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},
+          grid:{color:'rgba(0,0,0,.06)'},
+          border:{dash:[4,4]},
+          // show zero line prominently for negative values
+          afterBuildTicks(axis){
+            if(axis.min<0){
+              axis.options.grid.color=function(ctx){
+                return ctx.tick&&ctx.tick.value===0?'rgba(0,0,0,.25)':'rgba(0,0,0,.06)';
+              };
+            }
+          }
+        }
+      }
+    }
+  });
   document.getElementById('nfolLeg').innerHTML=ds.map(ds2=>`<div class="legend-item"><div class="legend-dot" style="background:${ds2.borderColor}"></div>${ds2.label}</div>`).join('');
 }
 pg('[data-prof]',false,rebuildNFol);
@@ -741,11 +783,9 @@ document.querySelectorAll('[data-ayr]').forEach(btn=>{
   btn.addEventListener('click',()=>{
     const tp=on('[data-a2tp]')[0]||'month';
     if(tp==='fy'){
-      // Full Year: single-select
       document.querySelectorAll('[data-ayr]').forEach(b=>b.classList.remove('on'));
       btn.classList.add('on');
     } else {
-      // Fiscal Year: multi-select
       btn.classList.toggle('on');
       if(on('[data-ayr]').length===0) btn.classList.add('on');
     }
@@ -754,6 +794,430 @@ document.querySelectorAll('[data-ayr]').forEach(btn=>{
 });
 buildApp();
 rebuildNFol();
+
+/* ══════════════════════════════════════════════════
+   TOPLINE FILTER (YTD / Month / Year)
+══════════════════════════════════════════════════ */
+// Monthly data for topline (Jan-Apr 2026)
+const TL_MONTH={
+  pv:[1258883,1577765,2126439,3430939],
+  vis:[810739,978498,1222403,2219659],
+  uv:[675990,790293,958129,1821855],
+  ome:[49132,103548,143447,192470],
+  art:[19205,70954,101726,138912],
+  vid:[20689,22882,34136,39637],
+  pg:[7421,9712,7585,13921],
+  app:[4914,4972,8277,14156]
+};
+// YTD 2026 (Jan-Apr sum)
+const TL_YTD={pv:8393986,vis:5231299,uv:4246267,ome:488597,art:330797,vid:117344,pg:38639,app:32319};
+// YTD 2025 (Jan-Apr sum for delta)
+const TL_YTD25={pv:6643310,vis:3779778,uv:2970240,ome:461704,art:283952,vid:146756,pg:30996,app:43926};
+// Year totals
+const TL_YEAR={
+  '2024':{pv:71298854,vis:28538676,uv:14433654,ome:15879354,art:2420471,vid:25557137,pg:282748,app:537518},
+  '2025':{pv:112202777,vis:44283437,uv:22520240,ome:13320535,art:2765769,vid:13334206,pg:421368,app:502658},
+  '2026':{pv:8393986,vis:5231299,uv:4246267,ome:488597,art:330797,vid:117344,pg:38639,app:32319}
+};
+const fmtTL=v=>v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':String(v);
+
+function setTLVal(id,val,delta,prevVal){
+  const el=document.getElementById(id);
+  const de=document.getElementById(id+'-d');
+  if(el) el.textContent=fmtTL(val);
+  if(de && prevVal){
+    const pct=((val-prevVal)/prevVal*100).toFixed(1);
+    const up=parseFloat(pct)>=0;
+    de.textContent=(up?'↑':'↓')+Math.abs(pct)+'% vs prior';
+    de.style.color=up?'#3A6614':'#DA1A31';
+  } else if(de){
+    de.textContent='';
+  }
+}
+
+function rebuildTopline(){
+  const mode=on('[data-tl]')[0]||'ytd';
+  document.getElementById('tlMonthGroup').style.display=mode==='month'?'flex':'none';
+  document.getElementById('tlYearGroup').style.display=mode==='year'?'flex':'none';
+  document.getElementById('toplineLabel').textContent=
+    mode==='ytd'?'Web & App KPI Topline — FY2026 YTD':
+    mode==='month'?'Web & App KPI Topline — Monthly':
+    'Web & App KPI Topline — Full Year';
+
+  if(mode==='ytd'){
+    setTLVal('tl-pv',TL_YTD.pv,true,TL_YTD25.pv);
+    setTLVal('tl-vis',TL_YTD.vis,true,TL_YTD25.vis);
+    setTLVal('tl-uv',TL_YTD.uv,true,TL_YTD25.uv);
+    setTLVal('tl-ome',TL_YTD.ome,true,TL_YTD25.ome);
+    setTLVal('tl-art',TL_YTD.art,true,TL_YTD25.art);
+    setTLVal('tl-vid',TL_YTD.vid,true,TL_YTD25.vid);
+    setTLVal('tl-pg',TL_YTD.pg,true,TL_YTD25.pg);
+    setTLVal('tl-app',TL_YTD.app,true,TL_YTD25.app);
+  } else if(mode==='month'){
+    const mi=parseInt(document.getElementById('tlMonthSel').value);
+    ['pv','vis','uv','ome','art','vid','pg','app'].forEach(k=>{
+      setTLVal('tl-'+k, TL_MONTH[k][mi], false, null);
+    });
+  } else {
+    const yr=document.getElementById('tlYearSel').value;
+    const d=TL_YEAR[yr];
+    const prev=TL_YEAR[yr==='2026'?'2025':yr==='2025'?'2024':null];
+    ['pv','vis','uv','ome','art','vid','pg','app'].forEach(k=>{
+      setTLVal('tl-'+k, d[k], !!prev, prev?prev[k]:null);
+    });
+  }
+}
+pg('[data-tl]',false,rebuildTopline);
+
+/* ══════════════════════════════════════════════════
+   MONTHLY KPI TRENDS — Full Year stacked fix
+   Full Year = all months all years side by side
+   Fiscal Year = Jan-Apr only, all years compared
+══════════════════════════════════════════════════ */
+// Patch rebuildMain for full-year stacked side-by-side
+// Override rebuildMain with improved version
+rebuildMain=function(){
+  const m=on('[data-m]')[0]||'pv', tp=on('[data-view]')[0]||'month';
+  const d=TOP[m];
+  const activeYrs=on('[data-fy]');
+
+  if(tp==='fy'){
+    // Full Year: all months for selected year, single-select
+    const yr=activeYrs[0]||'2026';
+    const raw=d[yr];
+    const pairs=ALL_MO.map((mo,i)=>({mo,v:raw[i]})).filter(p=>p.v!=null);
+    const labels=pairs.map(p=>p.mo);
+    const fmtLocal=v=>{
+      if(v>=1e6) return (v/1e6).toFixed(1)+'M';
+      if(v>=1e3) return (v/1e3).toFixed(1)+'K';
+      return String(v);
+    };
+    const dlp={id:'dl2',afterDatasetsDraw(c){
+      const ctx=c.ctx;
+      c.data.datasets.forEach((ds,di)=>{
+        c.getDatasetMeta(di).data.forEach((bar,i)=>{
+          const v=ds.data[i];if(!v)return;
+          ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';
+          ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(fmtLocal(v),bar.x,bar.y-2);ctx.restore();
+        });
+      });
+    }};
+    if(charts.main)charts.main.destroy();
+    const subtitle=d.lbl+' — Full year '+yr;
+    document.getElementById('mainTitle').textContent=subtitle;
+    charts.main=new Chart(document.getElementById('mainChart'),{
+      type:'bar',plugins:[dlp],
+      data:{labels,datasets:[{label:yr,data:pairs.map(p=>p.v),backgroundColor:COLS[yr]||N,borderRadius:3,barPercentage:.8}]},
+      options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:false}},
+        scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},
+          y:{ticks:{font:{size:10},color:GR,callback:v=>fmtLocal(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
+    });
+  } else {
+    // Fiscal Year: Jan-Apr for each selected year, grouped side by side
+    const labels=['Jan','Feb','Mar','Apr'];
+    const yrs=['2024','2025','2026'].filter(yr=>activeYrs.includes(yr));
+    const fmtLocal=v=>{
+      if(v>=1e6) return (v/1e6).toFixed(1)+'M';
+      if(v>=1e3) return (v/1e3).toFixed(1)+'K';
+      return String(v);
+    };
+    const datasets=yrs.map(yr=>({
+      label:yr, data:d[yr].slice(0,4), backgroundColor:COLS[yr], borderRadius:3, barPercentage:.8
+    }));
+    const dlp={id:'dl3',afterDatasetsDraw(c){
+      const ctx=c.ctx;
+      c.data.datasets.forEach((ds,di)=>{
+        c.getDatasetMeta(di).data.forEach((bar,i)=>{
+          const v=ds.data[i];if(!v)return;
+          ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';
+          ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(fmtLocal(v),bar.x,bar.y-2);ctx.restore();
+        });
+      });
+    }};
+    document.getElementById('mainTitle').textContent=d.lbl+' — Fiscal year Jan–Apr (all years)';
+    if(charts.main)charts.main.destroy();
+    charts.main=new Chart(document.getElementById('mainChart'),{
+      type:'bar',plugins:[dlp],
+      data:{labels,datasets},
+      options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:22}},
+        plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10}}},
+        scales:{x:{ticks:{font:{size:11},color:GR},grid:{display:false},autoSkip:false},
+          y:{ticks:{font:{size:10},color:GR,callback:v=>fmtLocal(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
+    });
+  }
+};
+
+/* ══════════════════════════════════════════════════
+   VISITS BY PLATFORM — PIE CHART
+══════════════════════════════════════════════════ */
+// April 2026 data (most recent month)
+const PLAT_PIE_APR26={
+  'usga.org':1134818,'usopen.com':679276,'uswomensopen.com':162226,
+  'Champ pages':156937,'USGA App':86402
+};
+// Fiscal Jan-Apr 2026 sums
+const PLAT_PIE_FY26={
+  'usga.org':519316+644641+864041+1134818,
+  'usopen.com':141617+172738+184071+679276,
+  'uswomensopen.com':39765+38867+23953+162226,
+  'Champ pages':63856+73268+59968+156937,
+  'USGA App':46185+48984+90370+86402
+};
+const PIE_COLORS=[N,B,R,G,GR];
+const PIE_LABELS=['usga.org','usopen.com','uswomensopen.com','Champ pages','USGA App'];
+
+function buildPlatPie(){
+  const tp=on('[data-pltp]')[0]||'month';
+  const yrs=on('[data-plyr]');
+  // Use April 2026 by default; in fiscal year mode sum Jan-Apr
+  let data, title;
+  if(tp==='fy'){
+    // Sum Jan-Apr for each selected year across PLAT_DATA
+    const activeYr=yrs[0]||'2026';
+    const yrData=PLAT_DATA[activeYr];
+    data=PIE_LABELS.map((lbl,li)=>{
+      const s=yrData.series.find(s=>s.label===lbl);
+      return s?s.data.slice(0,4).reduce((a,b)=>a+(b||0),0):0;
+    });
+    title='Fiscal Year Jan–Apr '+activeYr;
+  } else {
+    // Use April (index 3) of the selected year
+    const activeYr=yrs[0]||'2026';
+    const yrData=PLAT_DATA[activeYr];
+    data=PIE_LABELS.map(lbl=>{
+      const s=yrData.series.find(s=>s.label===lbl);
+      return s?s.data[3]||0:0;
+    });
+    title='April '+activeYr+' (most recent month)';
+  }
+  const total=data.reduce((a,b)=>a+b,0);
+  // Stacked legend on right with counts + %
+  document.getElementById('platLeg').innerHTML=PIE_LABELS.map((l,i)=>{
+    const pct=(data[i]/total*100).toFixed(1);
+    const val=fmtK(data[i]);
+    return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #EEF1F3;">
+      <div style="width:13px;height:13px;border-radius:3px;background:${PIE_COLORS[i]};flex-shrink:0;margin-top:2px;"></div>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text-primary);line-height:1.3;">${l}</div>
+        <div style="font-size:11px;color:var(--navy);font-weight:700;margin-top:3px;">${val}</div>
+        <div style="font-size:10px;color:var(--text-muted);margin-top:1px;">${pct}% of total</div>
+      </div>
+    </div>`;
+  }).join('');
+  // Custom plugin to draw % labels on pie slices
+  const pieLabelsPlugin={
+    id:'pieLabels',
+    afterDraw(chart){
+      const ctx=chart.ctx;
+      const ds=chart.data.datasets[0];
+      const meta=chart.getDatasetMeta(0);
+      meta.data.forEach((arc,i)=>{
+        const pct=(ds.data[i]/total*100);
+        if(pct<4) return; // skip tiny slices
+        const angle=(arc.startAngle+arc.endAngle)/2;
+        const r=arc.outerRadius*0.65;
+        const x=arc.x+Math.cos(angle)*r;
+        const y=arc.y+Math.sin(angle)*r;
+        ctx.save();
+        ctx.fillStyle='#fff';
+        ctx.font='bold 11px Helvetica Neue,Helvetica,Arial,sans-serif';
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.shadowColor='rgba(0,0,0,.35)';
+        ctx.shadowBlur=3;
+        ctx.fillText(pct.toFixed(1)+'%',x,y);
+        ctx.restore();
+      });
+    }
+  };
+  if(charts.platPie)charts.platPie.destroy();
+  charts.platPie=new Chart(document.getElementById('platPieChart'),{
+    type:'pie',
+    plugins:[pieLabelsPlugin],
+    data:{labels:PIE_LABELS,datasets:[{data,backgroundColor:PIE_COLORS,borderWidth:2,borderColor:'#fff'}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{label:c=>{
+          const pct=(c.parsed/total*100).toFixed(1);
+          return c.label+': '+fmtK(c.parsed)+' ('+pct+'%)';
+        }}}
+      }
+    }
+  });
+}
+pg('[data-pltp]',false,buildPlatPie);
+document.querySelectorAll('[data-plyr]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('[data-plyr]').forEach(b=>b.classList.remove('on'));
+    btn.classList.add('on');
+    buildPlatPie();
+  });
+});
+buildPlatPie();
+
+/* ══════════════════════════════════════════════════
+   VIDEO VIEWS BY CHANNEL — LINE CHART
+   Rolled-up by channel, profile filter to isolate
+══════════════════════════════════════════════════ */
+// Per-profile video data by channel
+const VID_BY_PROFILE={
+  usga:{
+    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[1653815,2223326,2734457,6724415],Instagram:[4742173,945238,2848133,2422727],Facebook:[12201,1282488,7202243,45289],TikTok:[552198,245436,700211,677160],Other:[431417,1911029,75092,1539837]},
+    '2025':{labels:ALL_MO,YouTube:[3388762,2289656,2545995,6296027,18336379,22971987,1152840,9530953,4103673,3651435,14129331,21786921],Instagram:[2866294,2136449,1343465,1686751,8444894,17758570,19289170,26652903,21215494,9768946,4157016,5278049],Facebook:[0,15423,146109,1287230,8503,71411065,153120,6914,4061,35246,405828,515634],TikTok:[168600,690436,471666,477787,5269935,35500996,4791973,10170045,2856500,1099733,832174,496651],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
+    '2024':{labels:ALL_MO,YouTube:[2336631,2000866,3024769,13694590,10788640,20050418,18704196,10034418,4754591,4783415,4820856,8959560],Instagram:[6767325,1773316,5146708,2632253,5976362,4530426,9011557,13547971,6354994,9124121,1382431,2063516],Facebook:[0,0,11341,0,0,8652193,0,0,8386,0,669052,1675375],TikTok:[236596,258427,837431,1385667,1477230,13669721,1750139,2250488,291860,1336190,1600184,229900],Other:[1121652,792231,926318,285446,0,0,0,0,0,0,0,0]}
+  },
+  uso:{
+    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[0,0,0,0],Instagram:[0,0,0,0],Facebook:[0,0,0,0],TikTok:[0,0,0,0],Other:[0,0,0,0]},
+    '2025':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
+    '2024':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]}
+  },
+  uswo:{
+    '2026':{labels:['Jan','Feb','Mar','Apr'],YouTube:[0,0,0,0],Instagram:[0,0,0,0],Facebook:[0,0,0,0],TikTok:[0,0,0,0],Other:[0,0,0,0]},
+    '2025':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]},
+    '2024':{labels:ALL_MO,YouTube:[0,0,0,0,0,0,0,0,0,0,0,0],Instagram:[0,0,0,0,0,0,0,0,0,0,0,0],Facebook:[0,0,0,0,0,0,0,0,0,0,0,0],TikTok:[0,0,0,0,0,0,0,0,0,0,0,0],Other:[0,0,0,0,0,0,0,0,0,0,0,0]}
+  }
+};
+const VID_CHANNELS=['YouTube','Instagram','Facebook','TikTok','Other'];
+const VID_CHAN_COLS={YouTube:R,Instagram:B,Facebook:N,TikTok:G,Other:GR};
+
+function buildVidLine(){
+  const tp=on('[data-vvtp]')[0]||'month';
+  const activeYrs=on('[data-vvyr]');
+  const prof=on('[data-vvprof]')[0]||'all';
+  const profiles=prof==='all'?['usga','uso','uswo']:['usga','uso','uswo'].filter(p=>p===prof);
+
+  let labels, datasets;
+  if(tp==='fy'){
+    const yr=activeYrs[0]||'2026';
+    const yrLabels=VID_BY_PROFILE.usga[yr].labels;
+    labels=yrLabels;
+    datasets=VID_CHANNELS.map(ch=>({
+      label:ch,
+      data:labels.map((mo,i)=>profiles.reduce((sum,p)=>{
+        const d=VID_BY_PROFILE[p][yr];
+        return sum+(d&&d[ch]?d[ch][i]||0:0);
+      },0)),
+      borderColor:VID_CHAN_COLS[ch],tension:.4,pointRadius:4,
+      pointBackgroundColor:VID_CHAN_COLS[ch],fill:false,borderWidth:2.5
+    }));
+  } else {
+    // Fiscal year: Jan-Apr for each selected year
+    const yrs=activeYrs.length?activeYrs:['2026'];
+    labels=['Jan','Feb','Mar','Apr'];
+    datasets=[];
+    VID_CHANNELS.forEach(ch=>{
+      yrs.forEach(yr=>{
+        datasets.push({
+          label:ch+' ('+yr+')',
+          data:labels.map((mo,i)=>profiles.reduce((sum,p)=>{
+            const d=VID_BY_PROFILE[p][yr];
+            return sum+(d&&d[ch]?d[ch][i]||0:0);
+          },0)),
+          borderColor:VID_CHAN_COLS[ch],
+          borderDash:yr==='2024'?[6,3]:yr==='2025'?[3,3]:[],
+          tension:.4,pointRadius:3,
+          pointBackgroundColor:VID_CHAN_COLS[ch],fill:false,borderWidth:2
+        });
+      });
+    });
+  }
+  document.getElementById('vidLeg').innerHTML=VID_CHANNELS.map(ch=>`<div class="legend-item"><div class="legend-dot" style="background:${VID_CHAN_COLS[ch]}"></div>${ch}</div>`).join('');
+  if(charts.vid)charts.vid.destroy();
+  charts.vid=new Chart(document.getElementById('vidLineChart'),{
+    type:'line',data:{labels,datasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}},
+      scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},
+        y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
+  });
+}
+pg('[data-vvtp]',false,buildVidLine);
+pg('[data-vvprof]',false,buildVidLine);
+document.querySelectorAll('[data-vvyr]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    const tp=on('[data-vvtp]')[0]||'month';
+    if(tp==='fy'){
+      document.querySelectorAll('[data-vvyr]').forEach(b=>b.classList.remove('on'));
+      btn.classList.add('on');
+    } else {
+      btn.classList.toggle('on');
+      if(on('[data-vvyr]').length===0) btn.classList.add('on');
+    }
+    buildVidLine();
+  });
+});
+buildVidLine();
+
+/* ══════════════════════════════════════════════════
+   APP INSTALLS — FY Total row
+══════════════════════════════════════════════════ */
+function buildAppFYTotals(){
+  const totals=[
+    {yr:'2024',apple:448047,android:15504,ipad:0,total:537518},
+    {yr:'2025',apple:453069,android:43977,ipad:24639,total:502658},
+    {yr:'2026',apple:28472,android:3568,ipad:1119,total:32319}
+  ];
+  const el=document.getElementById('appFYTotals');
+  if(!el)return;
+  el.innerHTML=totals.map(t=>`
+    <div style="background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:10px 16px;min-width:140px;">
+      <div style="font-size:10px;font-weight:700;color:var(--navy);margin-bottom:6px;">${t.yr}</div>
+      <div style="font-size:14px;font-weight:700;color:var(--navy);">${fmtK(t.total)}</div>
+      <div style="font-size:9px;color:var(--text-muted);margin-top:4px;">
+        <span style="color:#00365F;">iOS: ${fmtK(t.apple)}</span> &middot;
+        <span style="color:#0088CE;">Android: ${fmtK(t.android)}</span>
+        ${t.ipad>0?` &middot; <span style="color:#B79157;">iPad: ${fmtK(t.ipad)}</span>`:''}
+      </div>
+    </div>
+  `).join('');
+}
+buildAppFYTotals();
+
+/* ══════════════════════════════════════════════════
+   APP INSTALLS — Larger bars + counts in %
+   Patch buildApp to enlarge bars and show count
+══════════════════════════════════════════════════ */
+// Make app bars taller when rebuilding
+const _afterBuildApp=buildApp;
+buildApp=function(){
+  _afterBuildApp();
+  setTimeout(()=>{
+    document.querySelectorAll('.app-bar-stack').forEach(stack=>{
+      stack.style.height='120px';
+    });
+  },50);
+};
+
+/* ══════════════════════════════════════════════════
+   NEW FOLLOWERS — Handle negative X values
+══════════════════════════════════════════════════ */
+const _origRebuildNFol=rebuildNFol;
+rebuildNFol=function(){
+  _origRebuildNFol();
+  // Chart.js already handles negatives natively in line charts
+  // Just ensure the y-axis shows 0 line prominently
+  if(charts.nfol){
+    charts.nfol.options.scales.y.grid.color=function(ctx){
+      return ctx.tick.value===0?'rgba(0,0,0,.3)':'rgba(0,0,0,.06)';
+    };
+    charts.nfol.options.scales.y.grid.lineWidth=function(ctx){
+      return ctx.tick.value===0?2:1;
+    };
+    charts.nfol.update();
+  }
+};
+
+// Init — call everything
+rebuildTopline();
+rebuildMain();
+buildFol();
+buildApp();
+buildAppFYTotals();
+rebuildNFol();
+buildPlatPie();
+buildVidLine();
 </script>
 </body>
 </html>
