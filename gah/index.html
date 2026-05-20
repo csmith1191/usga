@@ -3,456 +3,239 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Get A Handicap — Analytics Dashboard</title>
+<title>Get A Handicap &mdash; Analytics Dashboard</title>
 <style>
-:root{
-  --navy:#00365F;--blue:#0088CE;--red:#DA1A31;--green:#A2B528;--gray:#63666A;--bronze:#B79157;
-  --border:#D8DEE3;--bg:#F5F7F9;--white:#FFFFFF;
-  --text-primary:#1A2733;--text-secondary:#4A5A64;--text-muted:#7A8B94;
-}
+:root{--navy:#00365F;--blue:#0088CE;--red:#DA1A31;--green:#A2B528;--gray:#63666A;--bronze:#B79157;--border:#D8DEE3;--bg:#F5F7F9;--white:#fff;--tp:#1A2733;--ts:#4A5A64;--tm:#7A8B94;}
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:var(--text-primary);background:var(--bg);}
-.dashboard{max-width:980px;margin:0 auto;padding:20px 16px 48px;}
-
-/* HEADER */
-.hdr{background:var(--navy);border-radius:10px;padding:14px 20px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;}
-.hdr-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:.01em;}
-.hdr-sub{font-size:11px;color:#9AB8CC;margin-top:3px;}
-.hdr-right{display:flex;align-items:center;gap:12px;}
-.hdr-badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 13px;border-radius:999px;}
+html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:var(--tp);background:var(--bg);}
+.dash{max-width:980px;margin:0 auto;padding:20px 16px 48px;}
+.hdr{background:var(--navy);border-radius:10px;padding:14px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
+.hdr-t{font-size:17px;font-weight:700;color:#fff;}.hdr-s{font-size:11px;color:#9AB8CC;margin-top:3px;}
+.hdr-r{display:flex;align-items:center;gap:12px;}
+.badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 13px;border-radius:999px;}
 .hdr-logo{height:42px;width:42px;border-radius:5px;object-fit:contain;background:#fff;padding:3px;display:block;}
-
-/* GLOBAL FILTER BAR */
-.global-filter{background:#2C3A47;border-radius:8px;padding:8px 12px;display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
-.gf-label{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#7A97AA;white-space:nowrap;}
-.gf-sep{width:1px;height:18px;background:#3E5060;}
-.gfpill{font-size:10px;font-weight:500;padding:3px 10px;border-radius:4px;border:1px solid transparent;background:transparent;color:#94AABB;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .12s;}
-.gfpill:hover{background:#3A5060;color:#C8D8E4;}
-.gfpill.on{background:var(--navy);color:#fff;border-color:#004A7F;font-weight:600;}
-
-/* SECTION DIVIDER */
-.sec-div{display:flex;align-items:center;gap:10px;margin:22px 0 12px;}
-.sec-num{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sec-label{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--navy);}
-.sec-line{flex:1;height:1px;background:var(--border);}
-.topline-panel{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
-.topline-panel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border);}
-.topline-panel-title{font-size:13px;font-weight:700;color:var(--navy);}
-.topsec{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);border-left:3px solid var(--red);padding-left:8px;margin-bottom:10px;}
-
-/* METRIC CARDS */
-.mgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px;}
-.mgrid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
-.mc{background:var(--white);border:1px solid var(--border);border-radius:8px;border-top:3px solid var(--navy);padding:12px 14px;}
-.mc.blue{border-top-color:var(--blue);}
-.mc.red{border-top-color:var(--red);}
-.mc.green{border-top-color:var(--green);}
-.mc .label{font-size:10px;color:var(--text-muted);font-weight:500;margin-bottom:4px;}
-.mc .value{font-size:22px;font-weight:700;color:var(--navy);line-height:1;}
-.mc .sub{font-size:10px;color:var(--text-secondary);margin-top:2px;}
-.mc .delta{font-size:10px;font-weight:600;margin-top:4px;}
-.up{color:#3A6614;}.dn{color:var(--red);}
-
-/* CARD */
+.gf{background:#2C3A47;border-radius:8px;padding:7px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.gfl{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#7A97AA;white-space:nowrap;}
+.gfp{font-size:10px;font-weight:500;padding:3px 10px;border-radius:4px;border:1px solid transparent;background:transparent;color:#94AABB;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .12s;}
+.gfp:hover{background:#3A5060;color:#C8D8E4;}.gfp.on{background:var(--navy);color:#fff;font-weight:600;}
+.fsel{background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 22px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;}
+.sdiv{display:flex;align-items:center;gap:8px;margin:20px 0 12px;}
+.sdiv .line{flex:1;height:1px;background:var(--border);}
+.sdiv .num{width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sdiv .txt{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--navy);white-space:nowrap;}
 .card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px;}
-.card-title{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:2px;}
-.card-sub{font-size:10px;color:var(--text-muted);margin-bottom:12px;}
-
-/* FUNNEL */
-.funnel-wrap{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
-.funnel-row{display:grid;grid-template-columns:26px 160px 70px 60px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
-.funnel-row .step-badge{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.funnel-row .step-name{font-size:11px;font-weight:600;color:var(--text-primary);line-height:1.3;}
-.funnel-row .step-name span{display:block;font-size:9px;font-weight:400;color:var(--text-muted);}
-.funnel-row .step-clicks{font-size:16px;font-weight:700;color:var(--navy);text-align:right;}
-.funnel-row .step-pct-label{font-size:11px;font-weight:700;text-align:right;}
-.funnel-row .step-bar-wrap{background:var(--bg);border-radius:4px;height:8px;overflow:hidden;}
-.funnel-row .step-bar-fill{height:100%;border-radius:4px;transition:width .4s ease;}
-
-.efficiency-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px;}
+.card-t{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:1px;}
+.card-s{font-size:10px;color:var(--tm);margin-bottom:10px;}
+.pgrid{display:grid;grid-template-columns:240px repeat(3,1fr);gap:6px;margin-bottom:6px;align-items:center;}
+.pcol-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--tm);text-align:center;padding-bottom:4px;}
+.prow-lbl{font-size:11px;font-weight:600;color:var(--tp);display:flex;align-items:center;gap:7px;padding-right:8px;line-height:1.3;}
+.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.pmc{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;min-height:58px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
+.pmc .val{font-size:18px;font-weight:700;color:var(--navy);}.pmc .sub{font-size:9px;color:var(--tm);margin-top:3px;}
+.pmc.r{border-top:3px solid var(--red);}.pmc.b{border-top:3px solid var(--blue);}.pmc.g{border-top:3px solid var(--green);}
+.tpanel{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
+.tpanel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
+.tpanel-t{font-size:13px;font-weight:700;color:var(--navy);}
+.conv-banner{background:var(--navy);border-radius:8px;padding:14px 20px;margin-bottom:14px;}
+.conv-lbl{font-size:11px;color:#9AB8CC;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between;}
+.conv-boxes{display:flex;gap:12px;}
+.conv-box{flex:1;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;}
+.conv-box .lbl{font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
+.conv-box .val{font-size:28px;font-weight:700;color:#fff;margin-top:4px;}
+.conv-box .sub{font-size:9px;color:#9AB8CC;margin-top:3px;}
+.funnel-wrap{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
+.frow{display:grid;grid-template-columns:24px 160px 70px 58px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
+.fbadge{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.fname{font-size:11px;font-weight:600;color:var(--tp);line-height:1.3;}.fname span{display:block;font-size:9px;font-weight:400;color:var(--tm);}
+.fclicks{font-size:16px;font-weight:700;color:var(--navy);text-align:right;}
+.fpctlbl{font-size:11px;font-weight:700;text-align:right;}
+.fbar{background:var(--bg);border-radius:4px;height:8px;overflow:hidden;}
+.fbar-fill{height:100%;border-radius:4px;}
+.eff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .eff-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:4px solid var(--blue);}
-.eff-label{font-size:10px;color:var(--text-muted);margin-bottom:4px;}
-.eff-arrow{font-size:9px;color:var(--text-muted);margin-bottom:6px;}
-.eff-pct{font-size:24px;font-weight:700;color:var(--navy);}
-.eff-note{font-size:9px;color:var(--text-muted);margin-top:4px;}
-
-/* TABLE */
+.eff-lbl{font-size:10px;color:var(--tm);margin-bottom:4px;}.eff-val{font-size:24px;font-weight:700;color:var(--navy);}.eff-note{font-size:9px;color:var(--tm);margin-top:4px;}
 .tbl{width:100%;border-collapse:collapse;}
-.tbl th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--text-muted);padding:0 0 6px;border-bottom:1.5px solid var(--border);text-align:right;}
-.tbl th:first-child{text-align:left;}
-.tbl td{font-size:11px;padding:5px 0;border-bottom:.5px solid #EEF1F3;text-align:right;color:var(--text-secondary);}
-.tbl td:first-child{text-align:left;color:var(--text-primary);font-weight:500;}
-.tbl tr:last-child td{border-bottom:none;}
-.tbl .num{font-weight:600;color:var(--navy);}
-
-/* TWO COL */
+.tbl th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tm);padding:0 0 6px;border-bottom:1.5px solid var(--border);text-align:right;}
+.tbl th:first-child{text-align:left;}.tbl td{font-size:11px;padding:5px 0;border-bottom:.5px solid #EEF1F3;text-align:right;color:var(--ts);}
+.tbl td:first-child{text-align:left;color:var(--tp);font-weight:500;}.tbl tr:last-child td{border-bottom:none;}.num{font-weight:600;color:var(--navy);}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-
-/* LEGEND */
-.legend{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px;}
-.legend-item{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text-secondary);font-weight:500;}
-.legend-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-
-.prop-grid{display:grid;grid-template-columns:240px repeat(3,1fr);gap:6px;margin-bottom:6px;align-items:center;}
-.prop-header-spacer{} 
-.prop-col-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-muted);text-align:center;padding-bottom:4px;}
-.prop-row-label{font-size:11px;font-weight:600;color:var(--text-primary);display:flex;align-items:center;gap:7px;padding-right:8px;line-height:1.3;}
-.prop-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.prop-mc{padding:10px 14px;text-align:center;min-height:58px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.prop-mc .value{font-size:18px;font-weight:700;color:var(--navy);}
-.prop-mc .sub{font-size:9px;color:var(--text-muted);margin-top:3px;}
-.conversion-banner{background:var(--navy);border-radius:8px;padding:14px 20px;display:flex;flex-direction:column;margin-bottom:14px;}
-.conv-label{font-size:11px;color:#9AB8CC;font-weight:500;}
-.conv-value{font-size:32px;font-weight:700;color:#fff;}
-.conv-sub{font-size:10px;color:#9AB8CC;margin-top:2px;}
-.detour-badge{background:rgba(255,255,255,.12);border-radius:8px;padding:10px 16px;text-align:center;}
-.detour-val{font-size:20px;font-weight:700;color:#fff;}
-.detour-lbl{font-size:9px;color:#9AB8CC;text-transform:uppercase;letter-spacing:.06em;margin-top:2px;}
-
-/* SECTION TOGGLE */
-.conv-filter{font-size:10px;font-weight:600;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);color:#9AB8CC;cursor:pointer;transition:all .12s;white-space:nowrap;}
-.conv-filter.on{background:rgba(255,255,255,.95);color:var(--navy);}
-.conv-filter:hover{background:rgba(255,255,255,.15);color:#fff;}
-.mpill{font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;border:1px solid transparent;background:#EEF2F5;color:#4A5A64;cursor:pointer;white-space:nowrap;transition:all .1s;}
-.mpill:hover{background:#D5DDE3;color:var(--navy);}
-.mpill.on{background:var(--navy);color:#fff;font-weight:600;}
-.view-toggle{display:none;}
-.view-toggle.active{display:block;}
+.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
+.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ts);font-weight:500;}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+.vt{display:none;}.vt.on{display:block;}
+.mp{font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;border:1px solid transparent;background:#EEF2F5;color:#4A5A64;cursor:pointer;white-space:nowrap;transition:all .1s;}
+.mp:hover{background:#D5DDE3;color:var(--navy);}.mp.on{background:var(--navy);color:#fff;font-weight:600;}
 </style>
 </head>
 <body>
-<div class="dashboard">
+<div class="dash">
 
-<!-- HEADER -->
 <div class="hdr">
-  <div>
-    <div class="hdr-title">Get A Handicap — Analytics Dashboard</div>
-    <div class="hdr-sub">getahandicap.usga.org &middot; FY2026 through Week 19</div>
+  <div><div class="hdr-t">Get A Handicap &mdash; Analytics Dashboard</div><div class="hdr-s">getahandicap.usga.org &middot; FY2026 through Week 19</div></div>
+  <div class="hdr-r"><div class="badge" id="currentBadge">Week 19</div><img src="data:image/png;base64,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" class="hdr-logo" alt="USGA"/></div>
+</div>
+
+<div class="gf">
+  <span class="gfl">View</span>
+  <button class="gfp on" data-view="weekly">Weekly</button>
+  <button class="gfp" data-view="monthly">Monthly</button>
+  <div id="week-select-wrap" style="display:flex;align-items:center;gap:6px;">
+    <span class="gfl" style="margin-left:8px;">Week</span>
+    <div style="position:relative;">
+      <select id="weekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="min-width:175px;"><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
+      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+    </div>
   </div>
-  <div class="hdr-right">
-    <div class="hdr-badge" id="currentBadge">Week 19</div>
-    <img src="data:image/png;base64,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" class="hdr-logo" alt="USGA"/>
+  <div id="month-select-wrap" style="display:none;align-items:center;gap:6px;">
+    <span class="gfl" style="margin-left:8px;">Month</span>
+    <div style="position:relative;">
+      <select id="monthSelect" onchange="loadMonth(this.value)" class="fsel" style="min-width:150px;">
+        <option value="apr26">April 2026</option>
+        <option value="mar26">March 2026</option>
+        <option value="feb26">February 2026</option>
+        <option value="jan26" selected>January 2026</option>
+      </select>
+      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+    </div>
   </div>
 </div>
 
-<!-- GLOBAL FILTER BAR -->
-<div class="global-filter" style="justify-content:flex-start;">
-  <span class="gf-label">View</span>
-  <button class="gfpill on" data-view="weekly">Weekly</button>
-  <button class="gfpill" data-view="monthly">Monthly</button>
-  <div class="gf-sep" style="display:none;" id="month-sep-placeholder"></div>
-  <span class="gf-label" id="week-filter-label" style="display:none;">Week (hidden)</span>
-  <div style="position:relative;display:none;" id="week-select-wrap">
-    <select id="weekSelect" onchange="onWeekSelect(this.value)" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:5px 28px 5px 10px;font-size:11px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:140px;">
-      <option value="19">Week 19 — May 11–17</option>
-      <option value="18">Week 18 — May 04–10</option>
-      <option value="17">Week 17 — Apr 27–May 03</option>
-      <option value="16">Week 16 — Apr 20–26</option>
-      <option value="15">Week 15 — Apr 13–19</option>
-      <option value="14">Week 14 — Apr 06–12</option>
-      <option value="13">Week 13 — Mar 30–Apr 05</option>
-      <option value="12">Week 12 — Mar 23–29</option>
-      <option value="11">Week 11 — Mar 16–22</option>
-      <option value="10">Week 10 — Mar 09–15</option>
-      <option value="9">Week 9 — Mar 02–08</option>
-      <option value="8">Week 8 — Feb 23–Mar 01</option>
-      <option value="7">Week 7 — Feb 16–22</option>
-      <option value="6">Week 6 — Feb 09–15</option>
-      <option value="5">Week 5 — Feb 02–08</option>
-      <option value="4">Week 4 — Jan 26–Feb 01</option>
-      <option value="3">Week 3 — Jan 19–25</option>
-      <option value="2">Week 2 — Jan 12–18</option>
-      <option value="1">Week 1 — Jan 05–11</option>
-    </select>
-    <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
-  </div>
-  <div class="gf-sep" id="month-sep" style="display:none;"></div>
-  <span class="gf-label" id="month-filter-label" style="display:none;">Month</span>
-  <div style="position:relative;display:none;" id="month-select-wrap">
-    <select id="monthSelect" onchange="loadMonth(this.value)" style="background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:5px 28px 5px 10px;font-size:11px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
-      <option value="apr26">April 2026</option>
-      <option value="mar26">March 2026</option>
-      <option value="feb26">February 2026</option>
-      <option value="jan26">January 2026</option>
-    </select>
-    <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
-  </div>
-</div>
+<!-- WEEKLY VIEW -->
+<div class="vt on" id="view-weekly">
 
-<!-- ═══════════════════════════ WEEKLY VIEW ═══════════════════════════ -->
-<div class="view-toggle active" id="view-weekly">
-
-  <div class="topline-panel">
-    <!-- Panel header with inline week selector -->
-    <div class="topline-panel-hdr">
-      <div class="topline-panel-title" id="weeklyLabel">Week 19 &mdash; May 11&ndash;17, 2026</div>
+  <div class="tpanel">
+    <div class="tpanel-hdr">
+      <div class="tpanel-t" id="weeklyLabel">Week 19 &mdash; May 11&ndash;17, 2026</div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);">Week</span>
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Week</span>
         <div style="position:relative;">
-          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
-            <option value="19">Week 19 &mdash; May 11&ndash;17</option>
-            <option value="18">Week 18 &mdash; May 04&ndash;10</option>
-            <option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option>
-            <option value="16">Week 16 &mdash; Apr 20&ndash;26</option>
-            <option value="15">Week 15 &mdash; Apr 13&ndash;19</option>
-            <option value="14">Week 14 &mdash; Apr 06&ndash;12</option>
-            <option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option>
-            <option value="12">Week 12 &mdash; Mar 23&ndash;29</option>
-            <option value="11">Week 11 &mdash; Mar 16&ndash;22</option>
-            <option value="10">Week 10 &mdash; Mar 09&ndash;15</option>
-            <option value="9">Week 9 &mdash; Mar 02&ndash;08</option>
-            <option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option>
-            <option value="7">Week 7 &mdash; Feb 16&ndash;22</option>
-            <option value="6">Week 6 &mdash; Feb 09&ndash;15</option>
-            <option value="5">Week 5 &mdash; Feb 02&ndash;08</option>
-            <option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option>
-            <option value="3">Week 3 &mdash; Jan 19&ndash;25</option>
-            <option value="2">Week 2 &mdash; Jan 12&ndash;18</option>
-            <option value="1">Week 1 &mdash; Jan 05&ndash;11</option>
-          </select>
+          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:175px;"><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
           <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
         </div>
       </div>
     </div>
-    <!-- Column headers -->
-    <div class="prop-grid" style="margin-bottom:4px;padding:0 4px;">
-      <div class="prop-header-spacer"></div>
-      <div class="prop-col-label">Visits</div>
-      <div class="prop-col-label">Page Views</div>
-      <div class="prop-col-label">Unique Visitors</div>
+    <div class="pgrid" style="margin-bottom:4px;">
+      <div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div>
     </div>
-    <!-- All Pages: usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-      <div class="mc prop-mc"><div class="value" id="w-visits">289.2K</div></div>
-      <div class="mc prop-mc"><div class="value" id="w-pv">420.8K</div></div>
-      <div class="mc prop-mc"><div class="value" id="w-uv">246.6K</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+      <div class="pmc"><div class="val" id="w-vis">—</div></div>
+      <div class="pmc"><div class="val" id="w-pv">—</div></div>
+      <div class="pmc"><div class="val" id="w-uv">—</div></div>
     </div>
-    <!-- UTM Traffic: usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-      <div class="mc prop-mc red"><div class="value" id="w-utm">104.6K</div><div class="sub" id="w-utm-pct">36.2% of usga.org</div></div>
-      <div class="mc prop-mc red"><div class="value" id="w-utm-pv">121.3K</div><div class="sub" id="w-utm-pv-pct">&mdash;</div></div>
-      <div class="mc prop-mc red"><div class="value" id="w-utm-uv">97.3K</div><div class="sub" id="w-utm-uv-pct">&mdash;</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+      <div class="pmc r"><div class="val" id="w-utm">—</div><div class="sub" id="w-utm-pct">&mdash;</div></div>
+      <div class="pmc r"><div class="val" id="w-utm-pv">—</div><div class="sub" id="w-utm-pv-pct">&mdash;</div></div>
+      <div class="pmc r"><div class="val" id="w-utm-uv">—</div><div class="sub" id="w-utm-uv-pct">&mdash;</div></div>
     </div>
-    <!-- All Pages: getahandicap.usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-      <div class="mc prop-mc blue"><div class="value" id="w-gah-visits">117.7K</div><div class="sub" id="w-gah-visits-pct">&mdash;</div></div>
-      <div class="mc prop-mc blue"><div class="value" id="w-gah-pv">139.5K</div><div class="sub" id="w-gah-pv-pct">&mdash;</div></div>
-      <div class="mc prop-mc blue"><div class="value" id="w-gah-uv">108.7K</div><div class="sub" id="w-gah-uv-pct">&mdash;</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+      <div class="pmc b"><div class="val" id="w-gah-vis">—</div><div class="sub" id="w-gah-vis-pct">&mdash;</div></div>
+      <div class="pmc b"><div class="val" id="w-gah-pv">—</div><div class="sub" id="w-gah-pv-pct">&mdash;</div></div>
+      <div class="pmc b"><div class="val" id="w-gah-uv">—</div><div class="sub" id="w-gah-uv-pct">&mdash;</div></div>
     </div>
-    <!-- UTM Traffic: getahandicap.usga.org -->
-    <div class="prop-grid" style="padding:0 4px;margin-bottom:0;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-      <div class="mc prop-mc green"><div class="value" id="w-gah-utm">85.4K</div><div class="sub" id="w-gah-utm-pct">72.5% of getahandicap.usga.org</div></div>
-      <div class="mc prop-mc green"><div class="value" id="w-gah-utm-pv">93.2K</div><div class="sub" id="w-gah-utm-pv-pct">&mdash;</div></div>
-      <div class="mc prop-mc green"><div class="value" id="w-gah-utm-uv">81.3K</div><div class="sub" id="w-gah-utm-uv-pct">&mdash;</div></div>
+    <div class="pgrid" style="margin-bottom:0;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+      <div class="pmc g"><div class="val" id="w-gah-utm">—</div><div class="sub" id="w-gah-utm-pct">&mdash;</div></div>
+      <div class="pmc g"><div class="val" id="w-gah-utm-pv">—</div><div class="sub" id="w-gah-utm-pv-pct">&mdash;</div></div>
+      <div class="pmc g"><div class="val" id="w-gah-utm-uv">—</div><div class="sub" id="w-gah-utm-uv-pct">&mdash;</div></div>
     </div>
   </div>
 
-  <!-- CONVERSION BANNER -->
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num">1</div><div class="sec-label">Conversion Funnel</div><div class="sec-line"></div></div>
-  <div class="conversion-banner">
-    <!-- week/FY selector sits above the two badges -->
-    <div style="width:100%;">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
-        <div class="conv-label" style="margin:0;">Conversion Funnel</div>
-        <div style="position:relative;display:inline-block;">
-          <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:#00365F;border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:150px;">
-            <option value="week">Week 19 (current)</option>
-            <option value="fy">Full Year (FY2026)</option>
-            <option value="19">Week 19 — May 11–17</option>
-            <option value="18">Week 18 — May 04–10</option>
-            <option value="17">Week 17 — Apr 27–May 03</option>
-            <option value="16">Week 16 — Apr 20–26</option>
-            <option value="15">Week 15 — Apr 13–19</option>
-            <option value="14">Week 14 — Apr 06–12</option>
-            <option value="13">Week 13 — Mar 30–Apr 05</option>
-            <option value="12">Week 12 — Mar 23–29</option>
-            <option value="11">Week 11 — Mar 16–22</option>
-            <option value="10">Week 10 — Mar 09–15</option>
-            <option value="9">Week 9 — Mar 02–08</option>
-            <option value="8">Week 8 — Feb 23–Mar 01</option>
-            <option value="7">Week 7 — Feb 16–22</option>
-            <option value="6">Week 6 — Feb 09–15</option>
-            <option value="5">Week 5 — Feb 02–08</option>
-            <option value="4">Week 4 — Jan 26–Feb 01</option>
-            <option value="3">Week 3 — Jan 19–25</option>
-            <option value="2">Week 2 — Jan 12–18</option>
-            <option value="1">Week 1 — Jan 05–11</option>
-          </select>
-          <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:#00365F;font-size:8px;pointer-events:none;">&#9660;</span>
-        </div>
-      </div>
-      <!-- two badges side by side -->
-      <div style="display:flex;gap:12px;">
-        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
-          <div class="detour-lbl">Conversion Rate</div>
-          <div class="detour-val" id="w-conv" style="font-size:32px;margin-top:4px;">28.5%</div>
-          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;" id="conv-sub">Week 19 &middot; started &rarr; payment</div>
-        </div>
-        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
-          <div class="detour-lbl">Detour Rate</div>
-          <div class="detour-val" id="w-detour" style="font-size:32px;margin-top:4px;">13.2%</div>
-          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;" id="detour-sub">Week 19 &middot; club selection</div>
-        </div>
-      </div>
+  <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Web Traffic &mdash; Trends</div><div class="line"></div></div>
+  <div class="card">
+    <div class="card-t" id="metricChartTitle">Visits &mdash; usga.org vs getahandicap.usga.org</div>
+    <div class="card-s" id="weeklyTrendSub">Weeks 1&ndash;19 &middot; FY2026</div>
+    <div style="display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
+      <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-right:2px;">Metric</span>
+      <button class="mp on" data-metric="visits">Visits</button>
+      <button class="mp" data-metric="pv">Page Views</button>
+      <button class="mp" data-metric="uv">Unique Visitors</button>
     </div>
+    <div style="position:relative;height:230px;"><canvas id="metricLineChart"></canvas></div>
   </div>
 
-  <!-- FUNNEL STEPS -->
+  <div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Conversion Funnel</div><div class="line"></div></div>
+  <div class="conv-banner">
+    <div class="conv-lbl">
+      <span>Conversion Funnel</span>
+      <div style="position:relative;">
+        <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:var(--navy);border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:150px;"><option value="week">Current week</option><option value="fy">Full Year (FY2026)</option><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
+        <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--navy);font-size:8px;pointer-events:none;">&#9660;</span>
+      </div>
+    </div>
+    <div class="conv-boxes">
+      <div class="conv-box"><div class="lbl">Conversion Rate</div><div class="val" id="w-conv">—</div><div class="sub" id="conv-sub"></div></div>
+      <div class="conv-box"><div class="lbl">Detour Rate</div><div class="val" id="w-detour">—</div><div class="sub" id="detour-sub"></div></div>
+    </div>
+  </div>
   <div class="funnel-wrap" id="w-funnel"></div>
-
-  <!-- DECISION EFFICIENCY -->
   <div class="card">
-    <div class="card-title">Decision Efficiency &mdash; Step-by-step conversion</div>
-    <div class="card-sub">Once users reach a step, how many move forward?</div>
-    <div class="efficiency-grid">
-      <div class="eff-card">
-        <div class="eff-label">Get Started &rarr; Become Member</div>
-        <div class="eff-pct" id="w-eff1">55.3%</div>
-        <div class="eff-note">Step 1 &rarr; Step 2 conversion</div>
-      </div>
-      <div class="eff-card">
-        <div class="eff-label">Profile Lookup &rarr; Verify</div>
-        <div class="eff-pct" id="w-eff2">50.3%</div>
-        <div class="eff-note">Step 3 &rarr; Step 4a conversion</div>
-      </div>
-      <div class="eff-card">
-        <div class="eff-label">Address &rarr; Payment</div>
-        <div class="eff-pct" id="w-eff3">76.5%</div>
-        <div class="eff-note">Step 5 &rarr; Step 6 conversion</div>
-      </div>
+    <div class="card-t">Decision Efficiency</div>
+    <div class="card-s">Step-by-step conversion once a user reaches that step</div>
+    <div class="eff-grid">
+      <div class="eff-card"><div class="eff-lbl">Get Started &rarr; Become Member</div><div class="eff-val" id="w-eff1">—</div><div class="eff-note">Step 1 &rarr; Step 2</div></div>
+      <div class="eff-card"><div class="eff-lbl">Profile Lookup &rarr; Verify</div><div class="eff-val" id="w-eff2">—</div><div class="eff-note">Step 3 &rarr; Step 4a</div></div>
+      <div class="eff-card"><div class="eff-lbl">Address &rarr; Payment</div><div class="eff-val" id="w-eff3">—</div><div class="eff-note">Step 5 &rarr; Step 6</div></div>
     </div>
   </div>
 
-  <!-- WEB TRAFFIC -->
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num">2</div><div class="sec-label">Web Traffic &mdash; Trends</div><div class="sec-line"></div></div>
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-      <div>
-        <div class="card-title" id="metricChartTitle">Visits &mdash; usga.org vs getahandicap.usga.org</div>
-        <div class="card-sub" id="weeklyTrendSub">Weeks 1&ndash;19 &middot; FY2026</div>
-      </div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);margin-right:2px;">Metric</span>
-        <button class="mpill on" data-metric="visits">Visits</button>
-        <button class="mpill" data-metric="pv">Page Views</button>
-        <button class="mpill" data-metric="uv">Unique Visitors</button>
-      </div>
-    </div>
-    <div style="position:relative;height:230px;"><canvas id="metricLineChart" role="img" aria-label="Weekly metric trend">Metric trend chart.</canvas></div>
-  </div>
-
-  <!-- REFERRERS + STATES -->
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num">3</div><div class="sec-label">Traffic Sources &amp; Geography</div><div class="sec-line"></div></div>
+  <div class="sdiv"><div class="line"></div><div class="num">3</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
   <div class="two">
-    <div class="card" style="margin-bottom:0">
-      <div class="card-title">Referring domains</div>
-      <div class="card-sub" id="refSub">Week 19 &middot; top 10</div>
-      <table class="tbl">
-        <thead><tr><th>Domain</th><th>Visits (Wk)</th><th>Visits (YTD)</th></tr></thead>
-        <tbody>
-          <tr><td>instagram.com</td><td class="num">26.7K</td><td class="num">221.2K</td></tr>
-          <tr><td>facebook.com</td><td class="num">10.9K</td><td class="num">304.2K</td></tr>
-          <tr><td>google.com</td><td class="num">9.2K</td><td class="num">113.4K</td></tr>
-          <tr><td>youtube.com</td><td class="num">6.0K</td><td class="num">46.4K</td></tr>
-          <tr><td>tiktok.com</td><td class="num">5.8K</td><td class="num">43.6K</td></tr>
-          <tr><td>com.twitter</td><td class="num">3.1K</td><td class="num">6.0K</td></tr>
-          <tr><td>ghin.com</td><td class="num">2.0K</td><td class="num">26.5K</td></tr>
-          <tr><td>x.com</td><td class="num">1.4K</td><td class="num">2.7K</td></tr>
-          <tr><td>gapgolf.org</td><td class="num">388</td><td class="num">6.1K</td></tr>
-          <tr><td>txga.org</td><td class="num">332</td><td class="num">5.8K</td></tr>
-        </tbody>
-      </table>
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-t">Referring domains</div><div class="card-s" id="refSub">Week 19 &middot; top 10</div>
+      <table class="tbl"><thead><tr><th>Domain</th><th>Visits (Wk)</th><th>Visits (YTD)</th></tr></thead>
+      <tbody><tr><td>instagram.com</td><td class="num">26.7K</td><td class="num">221.2K</td></tr><tr><td>facebook.com</td><td class="num">10.9K</td><td class="num">304.2K</td></tr><tr><td>google.com</td><td class="num">9.2K</td><td class="num">113.4K</td></tr><tr><td>youtube.com</td><td class="num">6.0K</td><td class="num">46.4K</td></tr><tr><td>tiktok.com</td><td class="num">5.8K</td><td class="num">43.6K</td></tr><tr><td>com.twitter</td><td class="num">3.1K</td><td class="num">6.0K</td></tr><tr><td>ghin.com</td><td class="num">2.0K</td><td class="num">26.5K</td></tr><tr><td>x.com</td><td class="num">1.4K</td><td class="num">2.7K</td></tr><tr><td>gapgolf.org</td><td class="num">388</td><td class="num">6.1K</td></tr><tr><td>txga.org</td><td class="num">332</td><td class="num">5.8K</td></tr></tbody></table>
     </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-title">Visits by state</div>
-      <div class="card-sub">Week 19 &middot; top 10</div>
-      <table class="tbl">
-        <thead><tr><th>State</th><th>Visits (Wk)</th><th>% of Total</th></tr></thead>
-        <tbody>
-          <tr><td>California</td><td class="num">11.2K</td><td>9.5%</td></tr>
-          <tr><td>Texas</td><td class="num">8.7K</td><td>7.4%</td></tr>
-          <tr><td>New York</td><td class="num">8.2K</td><td>7.0%</td></tr>
-          <tr><td>Florida</td><td class="num">6.4K</td><td>5.4%</td></tr>
-          <tr><td>Virginia</td><td class="num">5.9K</td><td>5.0%</td></tr>
-          <tr><td>Illinois</td><td class="num">5.9K</td><td>5.0%</td></tr>
-          <tr><td>Georgia</td><td class="num">5.6K</td><td>4.7%</td></tr>
-          <tr><td>Pennsylvania</td><td class="num">4.2K</td><td>3.6%</td></tr>
-          <tr><td>Massachusetts</td><td class="num">4.0K</td><td>3.4%</td></tr>
-          <tr><td>New Jersey</td><td class="num">3.3K</td><td>2.8%</td></tr>
-        </tbody>
-      </table>
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-t">Visits by state</div><div class="card-s" id="statesSub">Week 19 &middot; top 10</div>
+      <table class="tbl"><thead><tr><th>State</th><th>Visits (Wk)</th><th>% of Total</th></tr></thead>
+      <tbody><tr><td>California</td><td class="num">11.2K</td><td>9.5%</td></tr><tr><td>Texas</td><td class="num">8.7K</td><td>7.4%</td></tr><tr><td>New York</td><td class="num">8.2K</td><td>7.0%</td></tr><tr><td>Florida</td><td class="num">6.4K</td><td>5.4%</td></tr><tr><td>Virginia</td><td class="num">5.9K</td><td>5.0%</td></tr><tr><td>Illinois</td><td class="num">5.9K</td><td>5.0%</td></tr><tr><td>Georgia</td><td class="num">5.6K</td><td>4.7%</td></tr><tr><td>Pennsylvania</td><td class="num">4.2K</td><td>3.6%</td></tr><tr><td>Massachusetts</td><td class="num">4.0K</td><td>3.4%</td></tr><tr><td>New Jersey</td><td class="num">3.3K</td><td>2.8%</td></tr></tbody></table>
     </div>
   </div>
 
-  <!-- FY TOTALS -->
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num">4</div><div class="sec-label">FY2026 Totals &mdash; YTD</div><div class="sec-line"></div></div>
-  <!-- FY column headers -->
-  <div class="prop-grid" style="margin-bottom:6px;">
-    <div class="prop-header-spacer"></div>
-    <div class="prop-col-label">Visits</div>
-    <div class="prop-col-label">Page Views</div>
-    <div class="prop-col-label">Unique Visitors</div>
+  <div class="sdiv"><div class="line"></div><div class="num">4</div><div class="txt">FY2026 Totals &mdash; YTD</div><div class="line"></div></div>
+  <div class="pgrid" style="margin-bottom:4px;"><div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div></div>
+  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+    <div class="pmc"><div class="val">3.81M</div></div><div class="pmc"><div class="val">6.27M</div></div><div class="pmc"><div class="val">3.21M</div></div>
   </div>
-  <!-- All Pages: usga.org -->
-  <div class="prop-grid">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-    <div class="mc prop-mc"><div class="value">3.81M</div></div>
-    <div class="mc prop-mc"><div class="value">6.27M</div></div>
-    <div class="mc prop-mc"><div class="value">3.21M</div></div>
+  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+    <div class="pmc r"><div class="val">694.6K</div><div class="sub">18.2% of usga.org</div></div>
+    <div class="pmc r"><div class="val">742.1K</div><div class="sub">11.8% of usga.org</div></div>
+    <div class="pmc r"><div class="val">668.3K</div><div class="sub">20.8% of usga.org</div></div>
   </div>
-  <!-- UTM: usga.org -->
-  <div class="prop-grid">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-    <div class="mc prop-mc red"><div class="value">694.6K</div><div class="sub">18.2% of usga.org</div></div>
-    <div class="mc prop-mc red"><div class="value">742.1K</div><div class="sub">11.8% of usga.org</div></div>
-    <div class="mc prop-mc red"><div class="value">668.3K</div><div class="sub">20.8% of usga.org</div></div>
+  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+    <div class="pmc b"><div class="val">1.38M</div><div class="sub">36.2% of usga.org</div></div>
+    <div class="pmc b"><div class="val">1.70M</div><div class="sub">27.1% of usga.org</div></div>
+    <div class="pmc b"><div class="val">1.26M</div><div class="sub">39.3% of usga.org</div></div>
   </div>
-  <!-- All Pages: getahandicap.usga.org -->
-  <div class="prop-grid">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc blue"><div class="value">1.38M</div><div class="sub">36.2% of usga.org</div></div>
-    <div class="mc prop-mc blue"><div class="value">1.70M</div><div class="sub">27.1% of usga.org</div></div>
-    <div class="mc prop-mc blue"><div class="value">1.26M</div><div class="sub">39.3% of usga.org</div></div>
-  </div>
-  <!-- UTM: getahandicap.usga.org -->
-  <div class="prop-grid" style="margin-bottom:14px;">
-    <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-    <div class="mc prop-mc green"><div class="value">624.3K</div><div class="sub">45.2% of getahandicap.usga.org</div></div>
-    <div class="mc prop-mc green"><div class="value">668.8K</div><div class="sub">39.3% of getahandicap.usga.org</div></div>
-    <div class="mc prop-mc green"><div class="value">596.1K</div><div class="sub">47.3% of getahandicap.usga.org</div></div>
+  <div class="pgrid" style="margin-bottom:14px;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+    <div class="pmc g"><div class="val">624.3K</div><div class="sub">45.3% of GAH</div></div>
+    <div class="pmc g"><div class="val">668.8K</div><div class="sub">39.3% of GAH</div></div>
+    <div class="pmc g"><div class="val">596.1K</div><div class="sub">47.3% of GAH</div></div>
   </div>
   <div class="card">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-      <div>
-        <div class="card-title">FY2026 weekly trend &mdash; all weeks</div>
-        <div class="card-sub">Weeks 1&ndash;19 &middot; toggle metric</div>
-      </div>
+      <div><div class="card-t">FY2026 weekly trend</div><div class="card-s">Weeks 1&ndash;19</div></div>
       <div style="display:flex;gap:5px;flex-wrap:wrap;">
-        <button class="mpill on" data-fym="visits" onclick="setFYMetric('visits',this)">Visits</button>
-        <button class="mpill" data-fym="pv" onclick="setFYMetric('pv',this)">Page Views</button>
-        <button class="mpill" data-fym="uv" onclick="setFYMetric('uv',this)">Unique Visitors</button>
+        <button class="mp on" data-fym="visits" onclick="setFYMetric('visits',this)">Visits</button>
+        <button class="mp" data-fym="pv" onclick="setFYMetric('pv',this)">Page Views</button>
+        <button class="mp" data-fym="uv" onclick="setFYMetric('uv',this)">Unique Visitors</button>
       </div>
     </div>
-    <div style="position:relative;height:220px;"><canvas id="fyTrendChart" role="img" aria-label="FY2026 weekly visits">FY2026 weekly trend chart.</canvas></div>
+    <div class="leg" id="fyLeg"></div>
+    <div style="position:relative;height:220px;"><canvas id="fyTrendChart"></canvas></div>
   </div>
 
-</div><!-- /view-weekly -->
+</div><!-- /weekly -->
 
-<!-- ═══════════════════════════ MONTHLY VIEW ═══════════════════════════ -->
-<div class="view-toggle" id="view-monthly">
+<!-- MONTHLY VIEW -->
+<div class="vt" id="view-monthly">
 
-  <div class="topline-panel">
-    <!-- Panel header with inline month selector -->
-    <div class="topline-panel-hdr">
-      <div class="topline-panel-title" id="m-label">January 2026 &mdash; Monthly Report</div>
+  <div class="tpanel">
+    <div class="tpanel-hdr">
+      <div class="tpanel-t" id="m-label">January 2026 &mdash; Monthly Report</div>
       <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);">Month</span>
+        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Month</span>
         <div style="position:relative;">
-          <select id="monthPanelSelect" onchange="loadMonth(this.value)" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);border-radius:5px;padding:4px 24px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
+          <select id="monthPanelSelect" onchange="loadMonth(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:175px;">
             <option value="apr26">April 2026</option>
             <option value="mar26">March 2026</option>
             <option value="feb26">February 2026</option>
@@ -462,102 +245,60 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
         </div>
       </div>
     </div>
-    <!-- Column headers -->
-    <div class="prop-grid" style="margin-bottom:4px;padding:0 4px;">
-      <div class="prop-header-spacer"></div>
-      <div class="prop-col-label">Visits</div>
-      <div class="prop-col-label">Page Views</div>
-      <div class="prop-col-label">Unique Visitors</div>
+    <div class="pgrid" style="margin-bottom:4px;"><div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+      <div class="pmc"><div class="val" id="m-vis">—</div></div><div class="pmc"><div class="val" id="m-pv">—</div></div><div class="pmc"><div class="val" id="m-uv">—</div></div>
     </div>
-    <!-- All Pages: usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-      <div class="mc prop-mc"><div class="value" id="m-visits">449.2K</div></div>
-      <div class="mc prop-mc"><div class="value" id="m-pv">532.1K</div></div>
-      <div class="mc prop-mc"><div class="value" id="m-uv">421.3K</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+      <div class="pmc r"><div class="val" id="m-utm-usga">—</div><div class="sub" id="m-utm-usga-pct">&mdash;</div></div>
+      <div class="pmc r"><div class="val" id="m-utm-usga-pv">—</div><div class="sub" id="m-utm-usga-pv-pct">&mdash;</div></div>
+      <div class="pmc r"><div class="val" id="m-utm-usga-uv">—</div><div class="sub" id="m-utm-usga-uv-pct">&mdash;</div></div>
     </div>
-    <!-- UTM Traffic: usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-      <div class="mc prop-mc red"><div class="value" id="m-utm-usga">71.2K</div><div class="sub" id="m-utm-usga-pct">&mdash;</div></div>
-      <div class="mc prop-mc red"><div class="value" id="m-utm-usga-pv">78.4K</div><div class="sub" id="m-utm-usga-pv-pct">&mdash;</div></div>
-      <div class="mc prop-mc red"><div class="value" id="m-utm-usga-uv">68.9K</div><div class="sub" id="m-utm-usga-uv-pct">&mdash;</div></div>
+    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+      <div class="pmc b"><div class="val" id="m-gah-vis">—</div></div><div class="pmc b"><div class="val" id="m-gah-pv">—</div></div><div class="pmc b"><div class="val" id="m-gah-uv">—</div></div>
     </div>
-    <!-- All Pages: getahandicap.usga.org -->
-    <div class="prop-grid" style="padding:0 4px;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-      <div class="mc prop-mc blue"><div class="value" id="m-gah-visits">219.4K</div></div>
-      <div class="mc prop-mc blue"><div class="value" id="m-gah-pv">261.6K</div></div>
-      <div class="mc prop-mc blue"><div class="value" id="m-gah-uv">201.5K</div></div>
-    </div>
-    <!-- UTM Traffic: getahandicap.usga.org -->
-    <div class="prop-grid" style="padding:0 4px;margin-bottom:0;">
-      <div class="prop-row-label"><span class="prop-dot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-      <div class="mc prop-mc green"><div class="value" id="m-utm-visits">159.9K</div><div class="sub" id="m-utm-pct">&mdash;</div></div>
-      <div class="mc prop-mc green"><div class="value" id="m-utm-pv">167.0K</div><div class="sub" id="m-utm-pv-pct">&mdash;</div></div>
-      <div class="mc prop-mc green"><div class="value" id="m-utm-uv">155.4K</div><div class="sub" id="m-utm-uv-pct">&mdash;</div></div>
+    <div class="pgrid" style="margin-bottom:0;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+      <div class="pmc g"><div class="val" id="m-utm-vis">—</div><div class="sub" id="m-utm-pct">&mdash;</div></div>
+      <div class="pmc g"><div class="val" id="m-utm-pv">—</div><div class="sub" id="m-utm-pv-pct">&mdash;</div></div>
+      <div class="pmc g"><div class="val" id="m-utm-uv">—</div><div class="sub" id="m-utm-uv-pct">&mdash;</div></div>
     </div>
   </div>
 
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num" id="m-sec-funnel">Conversion Funnel &mdash; January 2026</div><div class="sec-line"></div></div>
-  <div class="conversion-banner">
-    <div style="width:100%;">
-      <div class="conv-label" id="m-conv-label" style="margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15);">January 2026 &mdash; Conversion Funnel</div>
-      <div style="display:flex;gap:12px;">
-        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
-          <div class="detour-lbl">Conversion Rate</div>
-          <div class="detour-val" id="m-conv" style="font-size:32px;margin-top:4px;">26.4%</div>
-          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;">% of users who started &rarr; payment</div>
-        </div>
-        <div class="detour-badge" style="flex:1;text-align:left;padding:12px 18px;">
-          <div class="detour-lbl">Detour Rate</div>
-          <div class="detour-val" id="m-detour" style="font-size:32px;margin-top:4px;">6.9%</div>
-          <div style="font-size:9px;color:#9AB8CC;margin-top:4px;">Club selection (optional step)</div>
-        </div>
-      </div>
+  <div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Conversion Funnel</div><div class="line"></div></div>
+  <div class="conv-banner">
+    <div class="conv-lbl"><span id="m-conv-label">January 2026 &mdash; Conversion Funnel</span></div>
+    <div class="conv-boxes">
+      <div class="conv-box"><div class="lbl">Conversion Rate</div><div class="val" id="m-conv">—</div><div class="sub">% start &rarr; payment</div></div>
+      <div class="conv-box"><div class="lbl">Detour Rate</div><div class="val" id="m-detour">—</div><div class="sub">Club selection (optional)</div></div>
     </div>
   </div>
-
   <div class="funnel-wrap" id="m-funnel"></div>
 
-  <div class="sec-div"><div class="sec-line"></div><div class="sec-num">2</div><div class="sec-label">Traffic Sources &amp; Geography</div><div class="sec-line"></div></div>
+  <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
   <div class="two">
-    <div class="card" style="margin-bottom:0">
-      <div class="card-title">Referrer type</div>
-      <table class="tbl">
-        <thead><tr><th>Type</th><th>Visits</th><th>% of Total</th></tr></thead>
-        <tbody id="m-ref-type"></tbody>
-      </table>
-      <div style="margin-top:14px;">
-        <div class="card-title" style="margin-bottom:6px;">Top referring domains</div>
-        <table class="tbl">
-          <thead><tr><th>Domain</th><th>Visits</th><th>% of Total</th></tr></thead>
-          <tbody id="m-ref-domain"></tbody>
-        </table>
-      </div>
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-t">Referrer type</div>
+      <table class="tbl"><thead><tr><th>Type</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-ref-type"></tbody></table>
+      <div style="margin-top:12px;"><div class="card-t" style="margin-bottom:6px;">Top referring domains</div>
+      <table class="tbl"><thead><tr><th>Domain</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-ref-domain"></tbody></table></div>
     </div>
-    <div class="card" style="margin-bottom:0">
-      <div class="card-title">Visits by state &mdash; top 10</div>
-      <div class="card-sub" id="statesSub">Week 19</div>
-      <table class="tbl">
-        <thead><tr><th>State</th><th>Visits</th><th>% of Total</th></tr></thead>
-        <tbody id="m-states"></tbody>
-      </table>
+    <div class="card" style="margin-bottom:0;">
+      <div class="card-t">Visits by state &mdash; top 10</div>
+      <table class="tbl"><thead><tr><th>State</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-states"></tbody></table>
     </div>
   </div>
 
-</div><!-- /view-monthly -->
-
-</div><!-- /dashboard -->
-
+</div><!-- /monthly -->
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A';
-const fmtK=n=>n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
-const pct=v=>(v*100).toFixed(1)+'%';
-let charts={};
 
-/* ── WEEKLY DATA ── */
+const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A';
+const ALL_MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt=n=>n==null?'\u2014':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
+const charts={};
+let curWeek=19, convWeekSel='week', fyMetric='visits';
+
 const WEEKS={
   1:{label:'Week 1 — Jan 05–11',visits:123604,pv:184487,uv:108887,utmVisits:50362,utmPv:52416,utmUv:49699,utmPct:'40.7%',gahVisits:65557,gahPv:76698,gahUv:62103,gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699,gahUtmPct:'76.8%',mm:3121,conv:.258,detour:.064,s1:10054,s2:6868,s3:7710,s4a:5276,s5:3565,s6:2592,eff1:.683,eff2:.684,eff3:.727},
   2:{label:'Week 2 — Jan 12–18',visits:125067,pv:185955,uv:109881,utmVisits:38322,utmPv:40052,utmUv:37961,utmPct:'30.6%',gahVisits:51602,gahPv:60918,gahUv:48887,gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961,gahUtmPct:'74.3%',mm:2804,conv:.263,detour:.065,s1:8584,s2:6358,s3:3130,s4a:4519,s5:3036,s6:2261,eff1:.741,eff2:.365,eff3:.744},
@@ -579,133 +320,6 @@ const WEEKS={
   18:{label:'Week 18 — May 04–10',visits:281184,pv:416857,uv:239489,utmVisits:92614,utmPv:101211,utmUv:88645,utmPct:'32.9%',gahVisits:117213,gahPv:138846,gahUv:108638,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645,gahUtmPct:'79.0%',mm:7629,conv:.281,detour:.129,s1:23005,s2:12738,s3:13409,s4a:6857,s5:8594,s6:6467,eff1:.554,eff2:.512,eff3:.753},
   19:{label:'Week 19 — May 11–17',visits:289216,pv:420784,uv:246606,utmVisits:104576,utmPv:121287,utmUv:97298,utmPct:'36.2%',gahVisits:117722,gahPv:139482,gahUv:108672,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266,gahUtmPct:'72.5%',mm:7361,conv:.285,detour:.132,s1:24101,s2:13320,s3:14807,s4a:7452,s5:8995,s6:6879,eff1:.553,eff2:.503,eff3:.765}
 };
-
-
-
-let curWeek=19;
-
-function loadWeek(wk){
-  curWeek=wk;
-  const d=WEEKS[wk];
-  document.getElementById('currentBadge').textContent='Week '+wk;
-  document.getElementById('weeklyLabel').textContent=d.label;
-  document.getElementById('w-visits').textContent=fmtK(d.visits);
-  document.getElementById('w-pv').textContent=fmtK(d.pv);
-  document.getElementById('w-uv').textContent=fmtK(d.uv);
-  document.getElementById('w-gah-visits').textContent=fmtK(d.gahVisits);
-  document.getElementById('w-gah-pv').textContent=fmtK(d.gahPv);
-  document.getElementById('w-utm').textContent=fmtK(d.utmVisits);
-  document.getElementById('w-utm-pct').textContent=d.utmPct+' of total';
-  document.getElementById('w-gah-utm').textContent=fmtK(d.gahUtm);
-  document.getElementById('w-gah-utm-pct').textContent=d.gahUtmPct+' of getahandicap.usga.org';
-  document.getElementById('w-utm-pv').textContent=fmtK(d.utmPv);
-  document.getElementById('w-utm-uv').textContent=fmtK(d.utmUv);
-  document.getElementById('w-gah-uv').textContent=fmtK(d.gahUv);
-  document.getElementById('w-gah-utm-pv').textContent=fmtK(d.gahUtmPv);
-  document.getElementById('w-gah-utm-uv').textContent=fmtK(d.gahUtmUv);
-  // percentage sub-labels
-  const utmPctV=(d.utmVisits/d.visits*100).toFixed(1)+'% of usga.org';
-  const utmPctPv=(d.utmPv/d.pv*100).toFixed(1)+'% of usga.org';
-  const utmPctUv=(d.utmUv/d.uv*100).toFixed(1)+'% of usga.org';
-  document.getElementById('w-utm-pct').textContent=utmPctV;
-  document.getElementById('w-utm-pv-pct').textContent=utmPctPv;
-  document.getElementById('w-utm-uv-pct').textContent=utmPctUv;
-  const gahPctV=(d.gahVisits/d.visits*100).toFixed(1)+'% of usga.org';
-  const gahPctPv=(d.gahPv/d.pv*100).toFixed(1)+'% of usga.org';
-  const gahPctUv=(d.gahUv/d.uv*100).toFixed(1)+'% of usga.org';
-  document.getElementById('w-gah-visits-pct').textContent=gahPctV;
-  document.getElementById('w-gah-pv-pct').textContent=gahPctPv;
-  document.getElementById('w-gah-uv-pct').textContent=gahPctUv;
-  const gutmPctV=(d.gahUtm/d.gahVisits*100).toFixed(1)+'% of getahandicap.usga.org';
-  const gutmPctPv=(d.gahUtmPv/d.gahPv*100).toFixed(1)+'% of getahandicap.usga.org';
-  const gutmPctUv=(d.gahUtmUv/d.gahUv*100).toFixed(1)+'% of getahandicap.usga.org';
-  document.getElementById('w-gah-utm-pct').textContent=gutmPctV;
-  document.getElementById('w-gah-utm-pv-pct').textContent=gutmPctPv;
-  document.getElementById('w-gah-utm-uv-pct').textContent=gutmPctUv;
-  document.getElementById('w-conv').textContent=(d.conv*100).toFixed(1)+'%';
-  document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
-  document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
-  document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
-  document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
-  // funnel steps
-  const steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
-  const labels=['100%',(d.s2/d.s1*100).toFixed(1)+'%',(d.s3/d.s1*100).toFixed(1)+'%',(d.s4a/d.s1*100).toFixed(1)+'%',(d.s5/d.s1*100).toFixed(1)+'%',(d.s6/d.s1*100).toFixed(1)+'%'];
-  const colors=[N,N,N,'#B79157','#B79157',R];
-  const funnel=document.getElementById('w-funnel');
-  funnel.querySelectorAll('.funnel-step').forEach((el,i)=>{
-    el.querySelector('.step-clicks').textContent=steps[i].toLocaleString();
-    const p=el.querySelector('.step-pct');
-    p.textContent=labels[i];
-    p.style.color=colors[i];
-    el.querySelector('.funnel-bar-fill').style.width=labels[i];
-    el.querySelector('.funnel-bar-fill').style.background=colors[i];
-  });
-  rebuildWeeklyTrend();
-  buildFunnel(d);
-  rebuildMetricLine();
-}
-
-function rebuildWeeklyTrend(){ /* merged into rebuildMetricLine */ }
-
-function buildFYTrend(){
-  if(charts.fy)charts.fy.destroy();
-  const labels=ALL_WEEKS_DATA.map(w=>'Wk '+w.wk);
-  const data=ALL_WEEKS_DATA.map(w=>w.visits);
-  charts.fy=new Chart(document.getElementById('fyTrendChart'),{type:'bar',data:{labels,datasets:[{label:'Visits',data,backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N),borderRadius:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>'Visits: '+fmtK(c.parsed.y)}}},scales:{x:{ticks:{font:{size:9},color:GR},grid:{display:false},autoSkip:false},y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
-}
-
-/* week pills replaced by dropdown */
-
-// ── WEEK DROPDOWN ──
-function onWeekSelect(val){
-  const wk=parseInt(val);
-  loadWeek(wk);
-  buildFYTrend();
-  rebuildMetricLine();
-}
-
-// ── DYNAMIC FUNNEL ──
-const FUNNEL_STEPS=[
-  {id:'s1',badge:'1',name:'Get Started',sub:'CTA clicks to begin',color:'#00365F'},
-  {id:'s2',badge:'2',name:'Become a Member',sub:'Proceed to membership',color:'#00365F'},
-  {id:'s3',badge:'3',name:'Profile Lookup',sub:'Continue to lookup',color:'#00365F'},
-  {id:'s4a',badge:'4a',name:'Profile Verify',sub:'Step 4a — verify identity',color:'#B79157'},
-  {id:'s5',badge:'5',name:'Profile Address',sub:'Continue to address',color:'#B79157'},
-  {id:'s6',badge:'6',name:'Submit Payment',sub:'Final conversion step',color:'#DA1A31'}
-];
-
-function buildFunnel(d){
-  const base=d.s1;
-  const steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
-  const el=document.getElementById('w-funnel');
-  el.innerHTML='';
-  FUNNEL_STEPS.forEach((step,i)=>{
-    const clicks=steps[i];
-    const cumPct=i===0?100:(clicks/base*100);
-    const pctStr=cumPct.toFixed(1)+'%';
-    const barW=Math.min(100,cumPct).toFixed(1)+'%';
-    const row=document.createElement('div');
-    row.className='funnel-row';
-    row.innerHTML=`
-      <div class="step-badge" style="background:${step.color};">${step.badge}</div>
-      <div class="step-name">${step.name}<span>${step.sub}</span></div>
-      <div class="step-clicks">${clicks.toLocaleString()}</div>
-      <div class="step-pct-label" style="color:${step.color};">${pctStr}</div>
-      <div class="step-bar-wrap"><div class="step-bar-fill" style="width:${barW};background:${step.color};"></div></div>`;
-    el.appendChild(row);
-  });
-}
-
-// ── METRIC LINE CHART ──
-// Metric line chart: 3 metrics, each shows usga.org + GAH as two lines
-const METRIC_PAIRS={
-  'visits':{keyA:'visits',keyB:'gahVisits',keyC:'gahUtm',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Visits'},
-  'pv':{keyA:'pv',keyB:'gahPv',keyC:'gahUtmPv',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Page Views'},
-  'uv':{keyA:'uv',keyB:'gahUv',keyC:'gahUtmUv',labelA:'usga.org',labelB:'getahandicap.usga.org',labelC:'getahandicap.usga.org UTM',title:'Unique Visitors'}
-};
-let curMetric='visits';
-
-// All 19 weeks data for line chart
 const ALL_WEEKS_DATA=[
   {wk:1, visits:123604,pv:184487,uv:108887, gahVisits:65557, gahPv:76698, gahUv:62103, utmVisits:50362,utmPv:52416,utmUv:49699, gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699},
   {wk:2, visits:125067,pv:185955,uv:109881, gahVisits:51602, gahPv:60918, gahUv:48887, utmVisits:38322,utmPv:40052,utmUv:37961, gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961},
@@ -726,279 +340,237 @@ const ALL_WEEKS_DATA=[
   {wk:17,visits:278610,pv:463116,uv:228810, gahVisits:100374,gahPv:123181,gahUv:91356, utmVisits:66407,utmPv:73050,utmUv:62812, gahUtm:66407,gahUtmPv:73050,gahUtmUv:62812},
   {wk:18,visits:281184,pv:416857,uv:239489, gahVisits:117213,gahPv:138846,gahUv:108638,utmVisits:92614,utmPv:101211,utmUv:88645,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645},
   {wk:19,visits:289216,pv:420784,uv:246606, gahVisits:117722,gahPv:139482,gahUv:108672,utmVisits:104576,utmPv:121287,utmUv:97298,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266}
-];
-
-function rebuildMetricLine(){
-  const m=METRIC_PAIRS[curMetric];
-  if(!m)return;
-  document.getElementById('metricChartTitle').textContent=m.title+' — usga.org vs getahandicap.usga.org';
-  const labels=ALL_WEEKS_DATA.map(w=>'Wk '+w.wk);
-  const dataA=ALL_WEEKS_DATA.map(w=>w[m.keyA]);
-  const dataB=ALL_WEEKS_DATA.map(w=>w[m.keyB]);
-  const dataC=ALL_WEEKS_DATA.map(w=>w[m.keyC]);
-  const pr=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?6:3);
-  const ptA=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N);
-  const ptB=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#e07010':B);
-  const ptC=ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#7a8c00':'#A2B528');
-  const canvas=document.getElementById('metricLineChart');
-  if(charts.ml){charts.ml.destroy();charts.ml=null;}
-  charts.ml=new Chart(canvas,{
-    type:'line',
-    data:{labels,datasets:[
-      {label:m.labelA,data:dataA,borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
-      {label:m.labelB,data:dataB,borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
-      {label:m.labelC,data:dataC,borderColor:'#A2B528',borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
-        tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmtK(c.parsed.y)}}
-      },
-      scales:{
-        x:{ticks:{font:{size:10},color:GR},grid:{display:false},autoSkip:false},
-        y:{ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
-      }}
-  });
-}
-
-document.querySelectorAll('[data-metric]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('[data-metric]').forEach(b=>b.classList.remove('on'));
-    btn.classList.add('on');
-    curMetric=btn.dataset.metric;
-    rebuildMetricLine();
-  });
-});
-
-// ── VIEW TOGGLE: update to hide/show week dropdown ──
-document.querySelectorAll('[data-view]').forEach(btn=>{
-  btn.addEventListener('click',()=>{
-    document.querySelectorAll('[data-view]').forEach(b=>b.classList.remove('on'));
-    btn.classList.add('on');
-    const v=btn.dataset.view;
-    document.querySelectorAll('.view-toggle').forEach(el=>el.classList.remove('active'));
-    document.getElementById('view-'+v).classList.add('active');
-    document.getElementById('week-select-wrap').style.display=v==='weekly'?'':'none';
-    document.getElementById('week-filter-label').style.display=v==='weekly'?'':'none';
-    /* month sep handled in panel */
-    /* month label handled in panel */
-    /* month selector now in panel */
-    if(v==='weekly'){rebuildWeeklyTrend();buildFYTrend();rebuildMetricLine();}else if(v==='monthly'){loadMonth(curMonth);}
-    document.getElementById('currentBadge').textContent=v==='weekly'?'Week '+curWeek:'January 2026';
-  });
-});
-
-/* ── MONTHLY DATA ── */
+];;
 const MONTHS={
   jan26:{label:'January 2026',visits:449200,pv:532100,uv:421300,utmUsga:71200,utmUsgaPv:78400,utmUsgaUv:68900,gahVisits:219407,gahPv:261634,gahUv:201527,utmVisits:159910,utmPv:167012,utmUv:155375,conv:.264,detour:.069,s1:39130,s2:26555,s3:29673,s4a:20781,s5:13965,s6:10333,eff1:.679,eff2:.700,eff3:.740,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
   feb26:{label:'February 2026',visits:527400,pv:621800,uv:493200,utmUsga:85600,utmUsgaPv:94300,utmUsgaUv:81700,gahVisits:219407+78000,gahPv:261634+92000,gahUv:201527+71000,utmVisits:159910+38000,utmPv:167012+41000,utmUv:155375+36000,conv:.262,detour:.071,s1:36800,s2:24200,s3:27500,s4a:19400,s5:12800,s6:9640,eff1:.657,eff2:.706,eff3:.753,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
   mar26:{label:'March 2026',visits:880000,pv:1040000,uv:820000,utmUsga:198000,utmUsgaPv:218000,utmUsgaUv:189000,gahVisits:440000,gahPv:520000,gahUv:395000,utmVisits:198000,utmPv:210000,utmUv:192000,conv:.270,detour:.068,s1:58400,s2:38600,s3:42300,s4a:30100,s5:20900,s6:15760,eff1:.661,eff2:.712,eff3:.754,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
   apr26:{label:'April 2026',visits:1100000,pv:1308000,uv:962000,utmUsga:315000,utmUsgaPv:347000,utmUsgaUv:298000,gahVisits:550000,gahPv:654000,gahUv:481000,utmVisits:315000,utmPv:341000,utmUv:299000,conv:.274,detour:.097,s1:66700,s2:41900,s3:44900,s4a:28400,s5:24100,s6:18100,eff1:.628,eff2:.632,eff3:.751,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
 };
-let curMonth='jan26';
-function loadMonth(val){
-  curMonth=val;
-  const d=MONTHS[val];
-  if(!d)return;
-  document.getElementById('m-label').textContent=d.label+' — Monthly Report';
-  // usga.org rows
-  document.getElementById('m-visits').textContent=fmtK(d.visits);
-  document.getElementById('m-pv').textContent=fmtK(d.pv);
-  document.getElementById('m-uv').textContent=fmtK(d.uv);
-  document.getElementById('m-utm-usga').textContent=fmtK(d.utmUsga);
-  document.getElementById('m-utm-usga-pv').textContent=fmtK(d.utmUsgaPv);
-  document.getElementById('m-utm-usga-uv').textContent=fmtK(d.utmUsgaUv);
-  if(d.visits) document.getElementById('m-utm-usga-pct').textContent=(d.utmUsga/d.visits*100).toFixed(1)+'% of usga.org';
-  if(d.pv) document.getElementById('m-utm-usga-pv-pct').textContent=(d.utmUsgaPv/d.pv*100).toFixed(1)+'% of usga.org';
-  if(d.uv) document.getElementById('m-utm-usga-uv-pct').textContent=(d.utmUsgaUv/d.uv*100).toFixed(1)+'% of usga.org';
-  // getahandicap.usga.org rows
-  document.getElementById('m-gah-visits').textContent=fmtK(d.gahVisits);
-  document.getElementById('m-gah-pv').textContent=fmtK(d.gahPv);
-  document.getElementById('m-gah-uv').textContent=fmtK(d.gahUv);
-  document.getElementById('m-utm-visits').textContent=fmtK(d.utmVisits);
-  document.getElementById('m-utm-pv').textContent=fmtK(d.utmPv);
-  document.getElementById('m-utm-uv').textContent=fmtK(d.utmUv);
-  if(d.gahVisits) document.getElementById('m-utm-pct').textContent=(d.utmVisits/d.gahVisits*100).toFixed(1)+'% of getahandicap.usga.org';
-  if(d.gahPv) document.getElementById('m-utm-pv-pct').textContent=(d.utmPv/d.gahPv*100).toFixed(1)+'% of getahandicap.usga.org';
-  if(d.gahUv) document.getElementById('m-utm-uv-pct').textContent=(d.utmUv/d.gahUv*100).toFixed(1)+'% of getahandicap.usga.org';
-  // sync month panel selector
-  const mps=document.getElementById('monthPanelSelect');
-  if(mps) mps.value=val;
-  document.getElementById('m-conv').textContent=(d.conv*100).toFixed(1)+'%';
-  document.getElementById('m-detour').textContent=(d.detour*100).toFixed(1)+'%';
-  document.getElementById('m-conv-label').textContent=d.label+' — Conversion Funnel';
-  document.getElementById('m-sec-funnel').textContent='Conversion Funnel — '+d.label;
-  buildMonthFunnel(d);
-  // referrer table
-  document.getElementById('m-ref-type').innerHTML=d.refType.map(r=>`<tr><td>${r.t}</td><td class="num">${r.v.toLocaleString()}</td><td>${r.p}</td></tr>`).join('');
-  document.getElementById('m-ref-domain').innerHTML=d.refDomain.map(r=>`<tr><td>${r.d}</td><td class="num">${r.v.toLocaleString()}</td><td>${r.p}</td></tr>`).join('');
-  document.getElementById('m-states').innerHTML=d.states.map(r=>`<tr><td>${r.s}</td><td class="num">${r.v.toLocaleString()}</td><td>${r.p}</td></tr>`).join('');
-}
-function buildMonthFunnel(d){
-  const steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
-  const colors=['#00365F','#00365F','#00365F','#B79157','#B79157','#DA1A31'];
-  const names=['Get Started / Renew','Become a Member','Profile Lookup','Profile Verify','Profile Address','Submit Payment'];
-  const subs=['CTA clicks to begin','Proceed to membership','Continue to lookup','Step 4a — verify','Continue to address','Final conversion step'];
-  const el=document.getElementById('m-funnel');el.innerHTML='';
-  steps.forEach((clicks,i)=>{
-    const pct=i===0?100:(clicks/d.s1*100);
-    const row=document.createElement('div');row.className='funnel-row';
-    row.innerHTML=`<div class="step-badge" style="background:${colors[i]};">${i===3?'4a':i+1}</div><div class="step-name">${names[i]}<span>${subs[i]}</span></div><div class="step-clicks">${clicks.toLocaleString()}</div><div class="step-pct-label" style="color:${colors[i]};">${pct.toFixed(1)}%</div><div class="step-bar-wrap"><div class="step-bar-fill" style="width:${Math.min(100,pct).toFixed(1)}%;background:${colors[i]};"></div></div>`;
+
+const FY_MK={
+  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'},
+  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'},
+  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'}
+};
+const MP={
+  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Visits'},
+  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Page Views'},
+  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Unique Visitors'}
+};
+const FSTEPS=[
+  {b:'1',n:'Get Started',s:'CTA clicks to begin',c:N},
+  {b:'2',n:'Become a Member',s:'Proceed to membership',c:N},
+  {b:'3',n:'Profile Lookup',s:'Continue to lookup',c:N},
+  {b:'4a',n:'Profile Verify',s:'Step 4a \u2014 verify',c:'#B79157'},
+  {b:'5',n:'Profile Address',s:'Continue to address',c:'#B79157'},
+  {b:'6',n:'Submit Payment',s:'Final conversion step',c:R}
+];
+
+function buildFunnel(d,elId){
+  var base=d.s1,steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
+  var el=document.getElementById(elId);el.innerHTML='';
+  FSTEPS.forEach(function(step,i){
+    var pct=i===0?100:(steps[i]/base*100);
+    var row=document.createElement('div');row.className='frow';
+    row.innerHTML='<div class="fbadge" style="background:'+step.c+';">'+step.b+'</div>'
+      +'<div class="fname">'+step.n+'<span>'+step.s+'</span></div>'
+      +'<div class="fclicks">'+steps[i].toLocaleString()+'</div>'
+      +'<div class="fpctlbl" style="color:'+step.c+';">'+pct.toFixed(1)+'%</div>'
+      +'<div class="fbar"><div class="fbar-fill" style="width:'+Math.min(100,pct).toFixed(1)+'%;background:'+step.c+';"></div></div>';
     el.appendChild(row);
   });
 }
 
-/* ── CONVERSION FILTER (dropdown) ── */
-let convWeekSel='week'; // 'week', 'fy', or a week number string
-function setConvWeek(val){
-  convWeekSel=val;
-  updateConvDisplay();
-}
 function updateConvDisplay(){
+  var d;
   if(convWeekSel==='fy'){
-    const fy={s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126};
+    d={s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126,eff1:.615,eff2:.702,eff3:.757};
     document.getElementById('w-conv').textContent='27.1%';
     document.getElementById('w-detour').textContent='N/A';
-    document.getElementById('conv-sub').textContent='FY2026 YTD · % of users who started and completed payment';
-    document.getElementById('detour-sub').textContent='FY2026 YTD · not tracked at annual level';
-    document.getElementById('w-eff1').textContent=(fy.s2/fy.s1*100).toFixed(1)+'%';
-    document.getElementById('w-eff2').textContent=(fy.s4a/fy.s3*100).toFixed(1)+'%';
-    document.getElementById('w-eff3').textContent=(fy.s6/fy.s5*100).toFixed(1)+'%';
-    buildFunnel(fy);
+    document.getElementById('conv-sub').textContent='FY2026 YTD';
+    document.getElementById('detour-sub').textContent='FY2026 \u2014 not tracked annually';
   } else {
-    const wk=convWeekSel==='week'?curWeek:parseInt(convWeekSel);
-    const d=WEEKS[wk]||WEEKS[curWeek];
+    var wk=convWeekSel==='week'?curWeek:parseInt(convWeekSel);
+    d=WEEKS[wk]||WEEKS[curWeek];
     document.getElementById('w-conv').textContent=(d.conv*100).toFixed(1)+'%';
     document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
-    document.getElementById('conv-sub').textContent='Week '+wk+' · % of users who started and completed payment';
-    document.getElementById('detour-sub').textContent='Week '+wk+' · club selection (optional step)';
-    document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
-    document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
-    document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
-    buildFunnel(d);
+    document.getElementById('conv-sub').textContent='Week '+wk+' \u00b7 start \u2192 payment';
+    document.getElementById('detour-sub').textContent='Week '+wk+' \u00b7 club selection';
   }
+  document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
+  document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
+  document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
+  buildFunnel(d,'w-funnel');
 }
+function setConvWeek(val){convWeekSel=val;updateConvDisplay();}
 
-/* ── FY TREND METRIC TOGGLE ── */
-let fyMetric='visits';
+function loadWeek(wk){
+  curWeek=wk;var d=WEEKS[wk];if(!d)return;
+  document.getElementById('currentBadge').textContent='Week '+wk;
+  document.getElementById('weeklyLabel').textContent=d.label;
+  ['weekSelect','toplineWeekSelect'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=String(wk);});
+  var cvs=document.getElementById('convWeekSelect');
+  if(cvs){var opt=[].slice.call(cvs.options).find(function(o){return o.value===String(wk);});if(opt){cvs.value=String(wk);convWeekSel=String(wk);}}
+  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=fmt(v);}
+  function sub(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+  set('w-vis',d.visits);set('w-pv',d.pv);set('w-uv',d.uv);
+  set('w-utm',d.utmVisits);set('w-utm-pv',d.utmPv);set('w-utm-uv',d.utmUv);
+  set('w-gah-vis',d.gahVisits);set('w-gah-pv',d.gahPv);set('w-gah-uv',d.gahUv);
+  set('w-gah-utm',d.gahUtm);set('w-gah-utm-pv',d.gahUtmPv);set('w-gah-utm-uv',d.gahUtmUv);
+  sub('w-utm-pct',(d.utmVisits/d.visits*100).toFixed(1)+'% of usga.org');
+  sub('w-utm-pv-pct',(d.utmPv/d.pv*100).toFixed(1)+'% of usga.org');
+  sub('w-utm-uv-pct',(d.utmUv/d.uv*100).toFixed(1)+'% of usga.org');
+  sub('w-gah-vis-pct',(d.gahVisits/d.visits*100).toFixed(1)+'% of usga.org');
+  sub('w-gah-pv-pct',(d.gahPv/d.pv*100).toFixed(1)+'% of usga.org');
+  sub('w-gah-uv-pct',(d.gahUv/d.uv*100).toFixed(1)+'% of usga.org');
+  sub('w-gah-utm-pct',(d.gahUtm/d.gahVisits*100).toFixed(1)+'% of GAH');
+  sub('w-gah-utm-pv-pct',(d.gahUtmPv/d.gahPv*100).toFixed(1)+'% of GAH');
+  sub('w-gah-utm-uv-pct',(d.gahUtmUv/d.gahUv*100).toFixed(1)+'% of GAH');
+  sub('refSub','Week '+wk+' \u00b7 top 10');
+  sub('statesSub','Week '+wk+' \u00b7 top 10');
+  var ts=document.getElementById('weeklyTrendSub');
+  if(ts)ts.innerHTML='Weeks 1&ndash;19 &middot; FY2026 &middot; <strong style="color:var(--navy)">Week '+wk+' highlighted</strong>';
+  updateConvDisplay();
+  rebuildMetricLine();
+  buildFYTrend();
+}
+function onWeekSelect(val){loadWeek(parseInt(val));}
+
+var curMetric='visits';
+function rebuildMetricLine(){
+  var m=MP[curMetric];if(!m)return;
+  document.getElementById('metricChartTitle').textContent=m.title+' \u2014 usga.org vs getahandicap.usga.org';
+  var labels=ALL_WEEKS_DATA.map(function(w){return 'Wk '+w.wk;});
+  var pr=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?6:3;});
+  var ptA=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?R:N;});
+  var ptB=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#e07010':B;});
+  var ptC=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#7a9e00':G;});
+  var canvas=document.getElementById('metricLineChart');
+  if(charts.ml){charts.ml.destroy();charts.ml=null;}
+  charts.ml=new Chart(canvas,{
+    type:'line',
+    data:{labels:labels,datasets:[
+      {label:m.lA,data:ALL_WEEKS_DATA.map(function(w){return w[m.A];}),borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
+      {label:m.lB,data:ALL_WEEKS_DATA.map(function(w){return w[m.B];}),borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
+      {label:m.lC,data:ALL_WEEKS_DATA.map(function(w){return w[m.C];}),borderColor:G,borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{
+        legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
+        tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);}}}
+      },
+      scales:{
+        x:{ticks:{font:{size:10},color:GR},grid:{display:false}},
+        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
+      }
+    }
+  });
+}
+document.querySelectorAll('[data-metric]').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('[data-metric]').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');curMetric=b.dataset.metric;rebuildMetricLine();
+  });
+});
+
 function setFYMetric(m,btn){
   fyMetric=m;
-  document.querySelectorAll('[data-fym]').forEach(b=>{b.classList.remove('on');});
+  document.querySelectorAll('[data-fym]').forEach(function(b){b.classList.remove('on');});
   btn.classList.add('on');
   buildFYTrend();
 }
-
-/* ── UPDATE WEEKLY TREND SUBTITLE ── */
-function updateWeeklyTrendSub(){
-  const el=document.getElementById('weeklyTrendSub');
-  if(el) el.innerHTML='Weeks 1&ndash;19 &middot; FY2026 &middot; <strong style="color:var(--navy)">Week '+curWeek+' highlighted</strong>';
-}
-
-/* ── PATCH buildFYTrend: visits/pv/uv each show usga.org + GAH grouped ── */
-const FY_METRIC_KEYS={
-  visits:{keyA:'visits',keyB:'gahVisits',keyC:'gahUtm',labA:'usga.org',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'},
-  pv:{keyA:'pv',keyB:'gahPv',keyC:'gahUtmPv',labA:'usga.org PVs',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'},
-  uv:{keyA:'uv',keyB:'gahUv',keyC:'gahUtmUv',labA:'usga.org UVs',labB:'getahandicap.usga.org (organic)',labC:'getahandicap.usga.org (UTM)'}
-};
-const _origBuildFY=buildFYTrend;
-buildFYTrend=function(){
+function buildFYTrend(){
   if(charts.fy){charts.fy.destroy();charts.fy=null;}
-  const labels=ALL_WEEKS_DATA.map(w=>'Wk '+w.wk);
-  const mk=FY_METRIC_KEYS[fyMetric]||FY_METRIC_KEYS.visits;
-  // usga.org: standalone grouped bar
-  // getahandicap.usga.org: stacked (organic base + UTM on top)
-  // Organic = total GAH minus UTM
-  const gahOrganic=ALL_WEEKS_DATA.map(w=>Math.max(0,(w[mk.keyB]||0)-(w[mk.keyC]||0)));
-  const gahUtm=ALL_WEEKS_DATA.map(w=>w[mk.keyC]||0);
-  const datasets=[
-    {
-      label:mk.labA,
-      data:ALL_WEEKS_DATA.map(w=>w[mk.keyA]),
-      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?R:N),
-      borderRadius:3,barPercentage:.7,stack:'usga'
-    },
-    {
-      label:mk.labB,
-      data:gahOrganic,
-      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#006fa8':B),
-      borderRadius:0,barPercentage:.7,stack:'gah'
-    },
-    {
-      label:mk.labC,
-      data:gahUtm,
-      backgroundColor:ALL_WEEKS_DATA.map(w=>w.wk===curWeek?'#7a9e00':'#A2B528'),
-      borderRadius:3,barPercentage:.7,stack:'gah'
-    }
+  var mk=FY_MK[fyMetric]||FY_MK.visits;
+  var labels=ALL_WEEKS_DATA.map(function(w){return 'Wk '+w.wk;});
+  var organic=ALL_WEEKS_DATA.map(function(w){return Math.max(0,(w[mk.B]||0)-(w[mk.C]||0));});
+  var utm=ALL_WEEKS_DATA.map(function(w){return w[mk.C]||0;});
+  var datasets=[
+    {label:mk.lA,data:ALL_WEEKS_DATA.map(function(w){return w[mk.A];}),backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?R:N;}),borderRadius:3,barPercentage:.75,stack:'usga'},
+    {label:mk.lB,data:organic,backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#006fa8':B;}),borderRadius:0,barPercentage:.75,stack:'gah'},
+    {label:mk.lC,data:utm,backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#7a9e00':G;}),borderRadius:3,barPercentage:.75,stack:'gah'}
   ];
+  document.getElementById('fyLeg').innerHTML=
+    '<div class="li"><div class="ld" style="background:'+N+'"></div>'+mk.lA+'</div>'+
+    '<div class="li"><div class="ld" style="background:'+B+'"></div>'+mk.lB+'</div>'+
+    '<div class="li"><div class="ld" style="background:'+G+'"></div>'+mk.lC+'</div>';
   charts.fy=new Chart(document.getElementById('fyTrendChart'),{
-    type:'bar',data:{labels,datasets},
-    options:{responsive:true,maintainAspectRatio:false,
+    type:'bar',
+    data:{labels:labels,datasets:datasets},
+    options:{
+      responsive:true,maintainAspectRatio:false,
       plugins:{
-        legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
-        tooltip:{
-          callbacks:{
-            label:c=>c.dataset.label+': '+fmtK(c.parsed.y),
-            footer:items=>{
-              const gahItems=items.filter(i=>i.datasetIndex>0);
-              if(gahItems.length>1){
-                const tot=gahItems.reduce((s,i)=>s+i.parsed.y,0);
-                return 'getahandicap.usga.org total: '+fmtK(tot);
-              }
-              return '';
-            }
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);},
+          footer:function(it){
+            var g=it.filter(function(i){return i.datasetIndex>0;});
+            if(g.length>1)return 'GAH total: '+fmt(g.reduce(function(s,i){return s+i.parsed.y;},0));
+            return '';
           }
-        }
+        }}
       },
       scales:{
-        x:{ticks:{font:{size:9},color:GR},grid:{display:false},autoSkip:false},
-        y:{stacked:false,ticks:{font:{size:10},color:GR,callback:v=>fmtK(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
-      }}
+        x:{ticks:{font:{size:9},color:GR},grid:{display:false}},
+        y:{stacked:false,ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
+      }
+    }
   });
-};
+}
 
-/* ── PATCH loadWeek to also update conv display and subtitle ── */
-const _origLoadWeek=loadWeek;
-loadWeek=function(wk){
-  _origLoadWeek(wk);
-
-  // ── Sync ALL week-based selectors to the same week ──
-
-  // 1. Topline panel selector
-  const tls=document.getElementById('toplineWeekSelect');
-  if(tls) tls.value=String(wk);
-
-  // 2. Conversion funnel selector — set to this specific week
-  const cvs=document.getElementById('convWeekSelect');
-  if(cvs){
-    // check if option exists; if so select it, else fall back to 'week'
-    const opt=[...cvs.options].find(o=>o.value===String(wk));
-    if(opt) cvs.value=String(wk);
-    else cvs.value='week';
+var curMonth='jan26';
+function loadMonth(val){
+  curMonth=val;var d=MONTHS[val];if(!d)return;
+  document.getElementById('m-label').textContent=d.label+' \u2014 Monthly Report';
+  document.getElementById('m-conv-label').textContent=d.label+' \u2014 Conversion Funnel';
+  document.getElementById('currentBadge').textContent=d.label;
+  var mps=document.getElementById('monthPanelSelect');if(mps)mps.value=val;
+  var moSel=document.getElementById('monthSelect');if(moSel)moSel.value=val;
+  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=fmt(v);}
+  function sub(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
+  set('m-vis',d.visits);set('m-pv',d.pv);set('m-uv',d.uv);
+  set('m-utm-usga',d.utmUsga);set('m-utm-usga-pv',d.utmUsgaPv);set('m-utm-usga-uv',d.utmUsgaUv);
+  set('m-gah-vis',d.gahVisits);set('m-gah-pv',d.gahPv);set('m-gah-uv',d.gahUv);
+  set('m-utm-vis',d.utmVisits);set('m-utm-pv',d.utmPv);set('m-utm-uv',d.utmUv);
+  if(d.visits){
+    sub('m-utm-usga-pct',(d.utmUsga/d.visits*100).toFixed(1)+'% of usga.org');
+    sub('m-utm-usga-pv-pct',(d.utmUsgaPv/d.pv*100).toFixed(1)+'% of usga.org');
+    sub('m-utm-usga-uv-pct',(d.utmUsgaUv/d.uv*100).toFixed(1)+'% of usga.org');
   }
-  convWeekSel=String(wk);
-  updateConvDisplay();
+  if(d.gahVisits){
+    sub('m-utm-pct',(d.utmVisits/d.gahVisits*100).toFixed(1)+'% of GAH');
+    sub('m-utm-pv-pct',(d.utmPv/d.gahPv*100).toFixed(1)+'% of GAH');
+    sub('m-utm-uv-pct',(d.utmUv/d.gahUv*100).toFixed(1)+'% of GAH');
+  }
+  document.getElementById('m-conv').textContent=(d.conv*100).toFixed(1)+'%';
+  document.getElementById('m-detour').textContent=(d.detour*100).toFixed(1)+'%';
+  document.getElementById('m-ref-type').innerHTML=d.refType.map(function(r){return '<tr><td>'+r.t+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
+  document.getElementById('m-ref-domain').innerHTML=d.refDomain.map(function(r){return '<tr><td>'+r.d+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
+  document.getElementById('m-states').innerHTML=d.states.map(function(r){return '<tr><td>'+r.s+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
+  buildFunnel(d,'m-funnel');
+}
 
-  // 3. Old global week select (if visible)
-  const wks=document.getElementById('weekSelect');
-  if(wks) wks.value=String(wk);
+document.querySelectorAll('[data-view]').forEach(function(b){
+  b.addEventListener('click',function(){
+    document.querySelectorAll('[data-view]').forEach(function(x){x.classList.remove('on');});
+    b.classList.add('on');
+    var v=b.dataset.view;
+    document.querySelectorAll('.vt').forEach(function(el){el.classList.remove('on');});
+    document.getElementById('view-'+v).classList.add('on');
+    document.getElementById('week-select-wrap').style.display=v==='weekly'?'flex':'none';
+    document.getElementById('month-select-wrap').style.display=v==='monthly'?'flex':'none';
+    document.getElementById('currentBadge').textContent=v==='weekly'?'Week '+curWeek:(MONTHS[curMonth]?MONTHS[curMonth].label:'');
+    if(v==='weekly'){rebuildMetricLine();buildFYTrend();}
+    else{loadMonth(curMonth);}
+  });
+});
 
-  // 4. Update trend subtitle
-  updateWeeklyTrendSub();
-
-  // 5. Sync Section 3 subtitles
-  const rs=document.getElementById('refSub');
-  if(rs) rs.textContent='Week '+wk+' · top 10';
-  const ss=document.getElementById('statesSub');
-  if(ss) ss.textContent='Week '+wk;
-
-};
-
-// init
 loadWeek(19);
-loadMonth('jan26');
-buildFunnel(WEEKS[19]);
 buildFYTrend();
-rebuildMetricLine();
+loadMonth('jan26');
+
 </script>
 </body>
 </html>
