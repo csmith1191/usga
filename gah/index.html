@@ -44,13 +44,13 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 .conv-box .val{font-size:28px;font-weight:700;color:#fff;margin-top:4px;}
 .conv-box .sub{font-size:9px;color:#9AB8CC;margin-top:3px;}
 .funnel-wrap{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
-.frow{display:grid;grid-template-columns:24px 160px 70px 58px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
+.frow{display:grid;grid-template-columns:24px 160px 70px 48px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
 .fbadge{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .fname{font-size:11px;font-weight:600;color:var(--tp);line-height:1.3;}.fname span{display:block;font-size:9px;font-weight:400;color:var(--tm);}
 .fclicks{font-size:16px;font-weight:700;color:var(--navy);text-align:right;}
-.fpctlbl{font-size:11px;font-weight:700;text-align:right;}
+.fpctlbl{font-size:11px;font-weight:700;text-align:right;min-width:40px;}
 .fbar{background:var(--bg);border-radius:4px;height:8px;overflow:hidden;}
-.fbar-fill{height:100%;border-radius:4px;}
+.fbar-fill{height:100%;border-radius:4px;transition:width .3s ease;}
 .eff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
 .eff-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:4px solid var(--blue);}
 .eff-lbl{font-size:10px;color:var(--tm);margin-bottom:4px;}.eff-val{font-size:24px;font-weight:700;color:var(--navy);}.eff-note{font-size:9px;color:var(--tm);margin-top:4px;}
@@ -72,7 +72,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 
 <div class="hdr">
   <div><div class="hdr-t">Get A Handicap &mdash; Analytics Dashboard</div><div class="hdr-s">getahandicap.usga.org &middot; FY2026 through Week 19</div></div>
-  <div class="hdr-r"><div class="badge" id="currentBadge">Week 19</div><img src="data:image/png;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCAGQAZADASIAAhEBAxEB/8QAHQABAAEEAwEAAAAAAAAAAAAAAAgFBgcJAQIEA//EAFcQAAIBAgMDBgcIDAsGBwAAAAACAwQFAQYSByIyCBETQmKCFBVScpKisiEjMUFRlMLSFhckMzQ3Q1NVVnOBGDVUYXF0g5Oj4/AmdbPT4vI2REVjhMPR/8QAHAEBAAIDAQEBAAAAAAAAAAAAAAQFAgMGBwgB/8QANxEBAQABAwEFBQUHBAMAAAAAAAIDBAUSAQYREyIyFTFCUVIHFCEzYjVBQ2FxgYIXJXKRNFOh/9oADAMBAAIRAxEAPwCZQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwByAAAAAAHAHIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOh5pa6mifFZKiNW8nFj7tjjj+/Ag3t7iePa1fV8qZW/wANTXkrhPJc7HtHtXN1xdK49yb3jCi/lUPpDxhRfyqL0jXQCN97/S7D/T6v/b/8bFoq2lkl6OOpjZ/kVj74Yc+OP8+BBvYFF0212wL5M0jf4bf9JORfiJOK/Enk4/fNn9lZpxcuXf0fUAGxTPniyKmrHh+XE8vjOh5/wqPDvFF2mJjLkO+RYdahmX/DICmvJl8N0uw9neu79K83Hi2LeMaL4fC4vSOVraOTDcqYv3Ma6CoZXi6fMlrj/OVcK6e8aJ1PKvS6DP2DrFirJ4vp/k2HNh7nwc4w5tPu4cxTq2vprVa8aq4VCwxRR6pJHbdUjvtN5Qk8k01Bk2BVjVtPh0y8Xmx/Sb0SVVTPqcbt+0anX5OGGf7pJzVMNMmLTSKir5TFuV20PJlDI0VZmW2QSLxK1QuohFmDM2YcwzdJerzW1+ltSrJJur3er3SjkWtX9Mu103YCqnlmyf8AScLbYNnOpl+yekxZf58T2Um03IdXgvQZotupviadV9ogkDGdXX0pldgNPx8uSmw6gutBXRrJR1tPOrdaORWPajI3urga6qGqrbfULU2+pkpqheGSFujZfRMg5S2058y/LGrXTxnSq29DWLqZv7Ti9o2xq5r3qXW9hdTimrx10rimzjjzY8wKHk65VV5y3QXSsomoqmohWR6dm1dHqK5zkiXC1NTVTTn9w/cWRtD2lZUyJR9Nf7oscrLqjpY/fJpPNXye02le0Rvz5ypcyXBpIMp26Gz0/VmqF6aZvor6xIw6TJm9PRGyavHj9SYrMq8+r4ChXPN+VrfqWvzJaKNl4unrI49PpGvHM+ec45m1JfMyXSthkbU0MlQ3R/3a7pbvdUsI2mvipArc/plsebahs6VtP2cZe1f1+P6x6aXaDkWobTT5xsEmPkrcIfrGtgbps67T+pj7Ur6W0KiuNBWpqoq6mqV8qGRZPZPXqx+Q1b008lNMs9PPJBMrbskbaWX0S+cu7YNpViZWo823GeNfydZJ4QvrfRNFbTk+Gm7Huc16pbEgR/5Nu2TMe0K7VVmvdnptVLT9LJXUrMi+Sq9G3Wbebd08PCSAKzJjrHXGlhjyTknlIADFseGrrqSjVca6rhptXC0kirqPj49suH/q9B85X/8ASGfLHzS1/wBpq2SGfXR2ODo+jX8829J6ule6xg/c/wBKWeHbKyTNVXd3qvJuPGuszLZ54/sn6YoPnCnK32zsyqt2oWZuFcKhfdNYW5/pTtAzRMssbMskbalZd3Sbeu0/qa53T9LaaclnbIMzLm/ZxZb7q1S1FMqz/tF3ZPWVi8CnqeNcVrNcp5OQAGYAAAAAAAAAAPk3wEJ+UcunbBeO10bf4ak2m+AhZynl07W7j2o4/ZI+p/Ldp2Fr/cev/FjMAFa9lZI5Nia9sFn7KzN/hsTYX4iGPJaXVtdo+zTSN6pM35Cx03lxvGO3Nf7j/j0dwASXGqHnVOlyrcY/KpZPZNfJsQzCuqyVi+VE3smu9+JiFq/hemfZ9X5shWsh4LjnOx4t+kYf+IUU9FsqpKGup62H79DJ0i9n/TESa41yei6vFWTFWOffUsocoHaHU5lvMmXKCdktVFJpZVb79IvW7Sq27p4d3V5uJwzMzMzatTNqZgZVlqq5Ui7XtuPQYZxxIASE5PGymz3WwwZszHSrWrMzeC0rfe1Vd3Uy9ZmZW4t3SMc1krjLDeN2w7Vh8bJ/SZR7BsGpctWKmhWOGz0ccarwrCqnlueSMqXFWWuy/bKhW/OUqsSfun6nEz9oU8vNi8qAZdGyfLrZpz/a7TiuqFpOkn3fya7zelp094knmvYJkq6xY+K4pLPVYrutC2pfRbq+bpPnsP2T1eRL7c7ncqumrJJFWGkkhVl5o+Ju8zafK4eITpqm57/Ska7tlo9To68Lvmu78OjMlOiwwKq8Kr8RH3lA7e4cqy1OW8oSxVd6X3uoqmXVHR/Wb1V7Tbp7uVPtVmybaPsbsVTgl7uEXP0ivvU0XDi3nNvL2ebUQtZpMWZmZmZm1MzNq1HQaLReJ5q9LxbW62prun1PVdbjcLzcprldKuetqqhtUk00mpm9L/SniAL+ZmJ4ypLqrrlRjjz4gyZsi2LZt2gaa6GKO22dm3q6qXi/Zr+U9Ve0SQytyadnlop1xui1t8qcPhaeZo4/Rj6vnaiFm1+PF5eXKkvDosmTp+HuQj/eP3mw+HY7sxgg6NckWdl4d6HpPaPHXbCtlVanvmTqKP8AYtJH7LEb2tP0t/szJ9TX4CZuZ+Sxkuu6SWy3S5WmRl3VZumjX0t71jD+aOTTn60XGnituNNeKOWRY2mp26No9W7qaNuqvFu6tJJnccNfE01oMks0cjLK2Fl2bSX2pj01F6m6RP2K7q+k2pu8pnopWW7TSWKxW+y0K6aWhp46eFeyq6folVOez5PEuqXuHH4ePpJ8ZQs736my1lS432qfmiooGmb3eLTwr3m0r3ivEbuW9m5aDKtvyhTSt090k8IqdLcMEf1pNPojBj8TJMsc+Tw8dUiVd7hU3W6Vl0rGaSqqpmmmkZuJmbU3rMeUDe7XCdZMzM8XMVXKuQADNqSn5DWasMVvWTKiXh+7qRWbuyfRbvEqDXBsbzQ2T9o9mv7N9zw1HR1O9xQtut6Ktq85VNjcUiyxrJGytGy6lbA5vccXHJy+bpNBk5Y+PyfUAEBPAAAAAAAAAAB1IZcqX8bNV2qeMmaQ05VP42Zu1SR+0R9T+W7DsP8AtL+zFQAK17SyxyUVVtq8PZopCZJDzkmfjWbs0EntRkwyx035bxbtv+0v8ejkAElx7wXz+Kqr9mxrsfibzjYnfP4qqv2bGu5+JvOIWr+F6Z9nv8X+zqAVDL9va6XqltuHFUN0a+d/3ESeVV5XplZZmaqvTKngMrKzK2rUraWVlB+E3NTykJK8mjaRaUsFPk28VEVFVU7N4LJI2lZ1ZtXpb3D5pGofF8ZniqsdclRvWz4920/g117v39Ov82x1MUbDdbUdm5+b3MPdIQZG2uZxypjHDT1vh9Grfg9Z75p81uJd3u9kzpk7lC5VuuiC8xSWepb4Wb3yHH+0X6WkspzzTyPceymv0dV3Tyn59Ga8cfc5+YpeYrvR2KwV15rm0UtHC00jdlT7Wq50l0o46uhqIZ4pF1K0balxMK8tPMPirZhBZ4ZNM14q1hZV60a7zetpXvEjDHKplyuoqsM1ynzdERc75iuGbs2XDMVybVUV03SadX3teFV81V0qUTEA6zFMxPGXL5Lq65UY+7iZf5NOy9doGapKu6Rt4jtrK1Sv8obqx+b1vN0mIDYNycMuRZW2P2WmxjwWoqofDalvKeXe9VdK90g7hn64p/D39UvRYfFrze7ov2ipaajpo6alhSCCNdMccS6VVf3HtAOd69eToJniAAMgAAAAB0x9zUxr05QWa2zjtWu1yWXVR08ngdIqtu9HH9ZtTd4mRyg82YZO2WXa5xy4LVzL4LSe7+Wk3V9FdTd0169ouNrw+rIp9xze6TD3TMvJQyPT5xzlc5LjGzUNDbpI204flJl6P2WkbzlUw18BN3kaZZ8TbK2u8yr4ReqlqjVp/Jr72vss3eJuvyeHj5fFSJosXiZP5IYX63z2i9V1rqFbwijqGhk1L1lbT9E8JmLld5c8Q7X6ysjj0092gWsVV6rcLesurvGHcPhN+myeJjmvm0558Oqk+In3yY824Zt2S22SaTVWW/7hqPd/N8Pq6SAmPwmfuRhmrC05+qMsVEjLS3qHVErNwzR73rLqXtaVI25YOWPl8Ut+gyccnH5ppAA5x0QAAAAAAAAAAOpDXlU6fttVHZpYyZRC/lS/jerOzTx+yR9T+W7DsP8AtP8AxYvABWvamX+SV+NNv6hJ7UZMDEh7yTW07VdO7vUUi/8ADYmFj8P7iy035bxLtt+06/o7gAkOSeC+fxVVfs2Ndz/fm842H3xtForG+SNsTXc/E3nELV/C9M+z7+L/AGC5tlOn7ZOX8Or4fGrekWyXJsr3dpWXf94w+0Rsfql3m7/+Hk/49WROURszrLBeanNFphaW01TdJULGv4PJ1u6zb2rqsxhc2LyQxVFJ0E6rJG66WVl4jBm0rk/W65tJcMqTJbZ33mpWX3lvR4fWXskvNpuVcpef9n+2E4pnT6v93upFsFw5syXmjKszLfLLUU0erSsyrqjb+0X/ALi3iFU1PqekafWY9TM1FTU/yAAYpPcuDJ+c8xZSrlqbLcpIN7U0LNqjk85fpcXaPXygdosm0GHL0z0jUklDDItQqtutIzLw9llVeLh4d4tQ6zxLKrRNp0tusT9Fq6w5J5eaXH9pey2n3LT1WOeNfNanVwHU/oO9TG0E0kTcStunXqnc48k1M1Ppp84anT1pslYa9U9X0t8XT11PB+ckVTZ/bYVpqGCBfcVI1VVNYFC6wXCnn6scit6Js/t8qz0cMi8LRqysVO7e+U7bOPmesAFOuHAxxUEQeVrm3OeWdp8UFkzNdaCjqKCOZYYahlVW1MrcPlaV9Y2YcNZq4y05s3hzyS+5/wCgc/8AQa4vtq7Sv14vnz1h9tXaV+vF8+esT/ZOT5oPtOfpbHOc5IUcm3PGeswbYbLbbnm28VdD79JNDNUsysqxs3W4t7STGv1zo7PZay7VraKakhaaVvkVd4hZsFYa40l4dROSeSJXLczd4fm2gyhT1DdBbI+mqlXDimk4fRj9ojth8JV83XyrzLmu6X6uZvCK6oaZlZtWnyV81V0r5qlIw+E6PSY/DxzLn9Rk8SutPXaKCe63SjttKrNUVVQsMa9pm0/SNluVbNTWDLdtstJhzQUNPHAndXSQk5JeWfH+2GjqZotVLaY2rJNS9bhj9Zlbuk8cfgKndMnOpnp+5abXPGapHTlwZZSvyPbcyxxN4Ra6ro5GX8zJxesq+kQ8wNku02wRZqyFerCyrj4ZSSRRt5MnVx7rKrd01vzxSQStHJuyRtpZfJJe15O+alG3GeNcvm+WB7rDdauy36hvFCzLUUNQs0bK2neVtX0TwgsrnlPGlfFca5NmmUbxSZhy3b77QyYvT18Czx8+OHuavd0+cvD3Stkd+RPm/wAZ5OrMq1EuqotMnSQ6utDJveq2r0iRJyefH4d1Lp8GTxMc0AA1t4AAAAAAADr8ZC7lP/jduH7GH2SaHykPOVjRtBtPWp0+91FHGys3W06l+r6RH1P5br+xNTO5+b5MRgArXtbJPJqrVpNrlswx4ahJI/V1fRJqY4c+PNj8GJr0yrd5bBmS33uHeko6hZlXVxeUveXdJ+WC7Ud3tFLcqOZZaeojWSORW1atRP0l8p4vIu3umqNXObj5a6KoACW4JbW0arWhyPeK5vc6Gjkb1SARLrlUZnitGQpLNFN91XRuhwVW3uj63d4V7xEUhayvNMvV+wWkrFp6zVPq6/gFybMvxiZd/wB4w+0W2XlsXoZbhtWy/BGvDVrM3ZWPe+iRsfql2O81M6HJVfT1Tthw97XzTseLw2mWdaTGpjWoZdSxs29pPbhjhipbPnm5p5KqkpquFoaiGOaNl0srKYnz9sEypfsJKi2LjZapt7VTr73/AHf1dJl5fh+HA+nufHzGNRNJGk1+o0lcsNdZQI2hZDzDkqt6G7UytTyNpjqo96OT6rdltJaxPXaTZ7de8oXGjuMcbRvC28y8Pa85SBRAz4pmvK9j7J75k3PDXjeqQAEd1nX3KHflXwxe0pTSpZh/CI+yu8U077bOVaeeXyfL3a6ZndM3H3cj4jYlsHzCuZtk2X7lqwaZaRaebmb8pH723s6u8a7cSQHJA2kRZbv0mULvU9Hb7o3SUrSNux1H+YulfOVfKNW44KyY+XT3yp9Bm8Ou7r+9NAAHPugcEOuXXAuGfLDP5VuZW/vP+omKRC5eX/i7Lf8AU5PaJug/OlC1/wCTSNoAOmcyzZyMIFl20Rt+bt00nsr9IzLyzM3eJdnsOXaefTV3qbSyr8VOu83raV7xiLkT/jeqG8m0zf8AEjLb5TWb1zZtWuElPN0lBa/uGmZezxN3pNW91lVSoyYvE1nm+Fbzk6Y9Lx6e/qxeAC3Va5cl53zPkuaomyzd5Lc9WqrOyxLJq08PEvabhLl+3tta/XKp+bw/8sxrzA1Vhx1XKp6N85qmeM0yV9vXa1vf7Y1PzaH/AJZjyrqZq6smq6h1aoqJGkkbTp1M291e0fAc2JljxzPpnixrJVeqgAGaOyJyec3tk3ata62SfoqGqbwOtZm3ejk+q2lu6bCfkxNWXpGwfk8ZvXOWy21XCafpK6nj8FrGZt7pI93V3l0t3ij3TB5umRd7dn/h0ySACoXAAAAAAAAD585gHleZdkqrDQZip4mbwGTo5tK8Mbf9SqveM+4Ye4eK+2ykvNqqbdWxLJTzxtHIrdZTCp5TUp+2a2tDqpzT8LXeC89q+QblkHMElJMsktDI2qkqtO6y/WXye8WYVVTU1xp7/oddj1uGcsVymgyRsn2uXvIq+L2jWvter8HZtLR+a30W9UxuBNVNcpY7htun1+Pw808pSxoeUhk6eFfCqC7U0mneVoVb2WKZmHlJWeGHFLJZq2pm4Vao0xr/AK9EjCDf95pzOPsRt01y/Gv0q1nPNF3zXepLzeJ+kqGXSqrurGvkr2VKKAaKqq81OtwabHp8c44njM+7oajPHJFy3JUZgrMzzI3g9JH4PCzLxSNvN6Kqq94xLkvK92zhfoLPaYGZ2++SMvOsa9Zm7PtNwkuK+mtuyzZFU4UWhMKGkbTi35SZvg7zSNh6RJ02P8eVelxfa3d56x9yx131X4I4bc831dy2r1tfba6SHxe3gtPJC+ll08XD2mYq2T9vucbPpguaw3WnX8573J6X1jEk8skszSszNJI2pmbrHU1+JU1ymlxh7O6O9JOPLPSuMpV2PlI5VqMI1uVuuNFI3E3RdIq+iV99vWzjGLXjdpscfkWkm+qQ1Bs+80qq7CaC+vfNdejPG1vbql+tFVY8s0s8UFQvRzVU26zL2V7XDqb0TA4BorJWSu+nR7XtGn2zHww/5A3m84GZeTtszqcxXanzNd4GS0UsmqFWX8Ik73VVut1uHyhimqrjJu+5Ydu01Xkr/ixhtb2dX7JcdqudyidqO50qydIqbtPJ1o27S8XaMe/EbK835atGacv1FivdItRRVCaWVur2l8ll8og7to2R3/Z5WyTtFLX2GaX7mrlXh7Mnkt6rdU7Lb9VPGYr8Or5n3jpkz5qz18TGgXUuni1K3lAFuoprikTsd5SNdYKSmsmdop7lRx+9x1sP36Nf/c1cSr5W63nEi7BtY2dX+jWehzhao9XUqKlYZF7shrr5gVubbceSuU+VZYdfUzxr8Wyxs8ZMWPU2bbFp8rxjD9Yihyzr9ZL9mmwtZbtQXFaelkWZqWdZlj3uz1jAe6cfuGn22cNcuXJjm19Zp48QAFkrGQNimavsMrsxXuORVqlsc0NJqb8s0kar6PF3WLCxZpWZ21MzNvMzcR0BqnFM1VfU29bqp7gu7ZRkur2gZ1pcuU9T4J0iySS1DR9Isaqurvam0r3i0SU/IVy3u37Ns0bam00NOzf3kn/1mrV5vBx1U+pv02PxMky+H8Eir/XaP5h/mD+CRV/rtH8w/wAwlgCh++5vmufuGH6UT/4JFX+u0fzD/MPDfuSxcrbZbhcKfNsdXNT08kywrb9LSaV1afvnE2nSS95zq66lbD4sTKdfm5ep+1ocPH0tWWAX4S79sWXmyrtOv1k06YYatpIV0/k298X1WVS0Do8Vcpmvqc/knhXWRvhJCcinOPizOlZlKqlbwW7R9JT6urNH9ZdXoqR7x+EqeXbvV2C/2+929lWqoaiOaFmXdZlb2W4fNNWrx+JjqWzT14ddKbO/kxKZfrva7DbZLhdrhBQUcfFNNJpVTz5SvNHmDLtvvdE+qnradZ4+91fOXhLSpqPDMm0G83G488tPYWjo7bG2GpY5mjWSSbS27qXpFXU2rTpY5bj5vxdL4nl6U9P20sorhz1M13pKZsOZayqtVVDT/wBPSSR6dPaYvWjqIaunSopplmhkXUrK2pWMN7Pc55gv1dl+le5w3tqyavjvVLhTR/ccMckixyNp+96tKrpbVq1NpLnyjSrlvP1flOlxxSzVVF40oKfDHdpW6Xo5o18lWZlbT1WZtJlU8WM1Vf0ZJABrbgAAAABQMz2C05jtUluvNFHV08nuaZF5/wDXdI6bQOTzcqN5KzKVVjWU+rUtLUNpZfNb62klPjz8wxwx5viMama9Sz27etXt1d+GvL8mvy+ZSzRZWkW7WKvpFXikaFmX0l3WKGbGnghk++IrFFumUMr3OVZblYLdWSKu601Orc3pEatJP1Oy03b/ACxPHNj5Nf4J4/a1yL+qdl+ZR/VPbbslZUt03TUWXbZSyLwvDTKreqY/dP1JVfaDHw4kFbNl++3rFY7Vaa2txbrRws3/AGmVMjcn3M1zdJ8wTR2ml4miRukmb0d1fW80lgtNBGvvcSL5qn2ww5vgNsaeZ9Sl3DtxrdTPHH04rYyLk6yZOtK26z0qwr+UfrSN5TN5R9s85WtebrDLZbtHI1PJjq5420srfEXFzc+B1x58MPcxJHGePFx1anNWTxKrzfNFXOfJ0vtC0k+XK+O4wrwwze9yL9FvVMXXvI2cbOzLcsuXGHTxSLD0i+kpP74j4yxRvxRoxprTTTrdF2212mnjfmlrlZWVtLKysvVZQbCrhYrTcI9NZbqWoXyZIVYpEmzrIr8WUbK3/wAOM0fdP1L3H9oU8fNi/wCkDCvZfydmjMLL4oslbVqzaekVdKr3m3Sb1ryXlW1S9Pb8vWykkw60VMqt6pXUp4Y197RVw7KmU6SfipG1X2g5bnjhx8UdtmvJ6wgkjr84TpNp3loYeHvN1vNX0iQlFRwUNJHSUsMcMES6Y0VdKqerT/Oc4kmcczPGXE7jueo19cs1d7seOuoqSto5aStpo6inkXTJHMupWw/n1HtOOcy9Ku48kc9pnJhsV3lkr8nVfiWqbealmw6SmbzetH6y9kj1nLY/tCys8rXLLlVJSx/+ao16aNvR4e9pNiJ1xJmHX5Mf4e9CyaDHXu/Bq0ZWVmVlZWXiVl06Tr+82ZX7KuWr9zY3qw2y5MvDjVUqyY+sW9UbHNmM282SLOrdmn0+yTp3afilErbK+Gmu73PlH7zYf9pjZf8AqTaP7o+seyLZnHhu5HsmPnUyt7Rl7WxfLqx9mV9TXWdlVm4VZm7KmyGm2b5Ap8V6PJWXlZeFvFkP1SvUVvt9HH0dHQ09MvVWKJV9kxrdvplsnbK+KmsRaGrf73STt5seo9C2i7Nw22t0/sWNn/Rp5Cjo08hTX7Wr6WXsyfqawPE13/Rdb/csT95P2WfsW2S2S1sjLPJB4VPrXe6SX3z1dSr3TIWlfJOcSLqddWonp069EjT6KcNcu92ABDTgAARH5bmVJ/shsuZqCjnm8KhalqOijxbeXeXh8pWZe6R18T3b9FVvzZjZ9pU50J5K+iWOHcqxzM8fSrs2gnJXLk1geJrv+i635sw8TXf9F1vzZjZ/0aeQo6NPIU2+1q+lq9mT9SOnIrzDXPli4ZQukNVFJb5fCKXpo2X3tuJd7yW3u8ZCuVbJkrOF0ulYjrYb5isrVTLqjoapY1j988mORVXe4VZd7TqMkc2C44aVOHwXHBufSVtZuVda7venzhqZ6TyYKslmteVLPZ76meMv01bb5ajpKpZPea6lmlaRoWVW4laTdZdWnyS98jRVd7zXXZ0r6aeihmpY6O2U9QvRyeDq2ppmXqtIzLutvKqr5RX6XJmUqO6NdqPLFnguLb3hUdFGsmr5dWniLkFVyfs4+IADW3AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP/2Q==" class="hdr-logo" alt="USGA"/></div>
+  <div class="hdr-r"><div class="badge" id="currentBadge">Week 19</div></div>
 </div>
 
 <div class="gf">
@@ -82,7 +82,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <div id="week-select-wrap" style="display:flex;align-items:center;gap:6px;">
     <span class="gfl" style="margin-left:8px;">Week</span>
     <div style="position:relative;">
-      <select id="weekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="min-width:175px;"><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
+      <select id="weekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="min-width:185px;"></select>
       <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
     </div>
   </div>
@@ -105,40 +105,76 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 
   <div class="tpanel">
     <div class="tpanel-hdr">
-      <div class="tpanel-t" id="weeklyLabel">Week 19 &mdash; May 11&ndash;17, 2026</div>
+      <div class="tpanel-t" id="weeklyLabel">Week 19: May 11 - 17, 2026</div>
       <div style="display:flex;align-items:center;gap:8px;">
         <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Week</span>
         <div style="position:relative;">
-          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:175px;"><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
+          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:185px;"></select>
           <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
         </div>
       </div>
     </div>
-    <div class="pgrid" style="margin-bottom:4px;">
-      <div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div>
+
+    <!-- Merged header row -->
+    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:center;">
+      <div></div>
+      <div class="pcol-lbl">Visits</div>
+      <div class="pcol-lbl">Page Views</div>
+      <div class="pcol-lbl">Unique Vis.</div>
+      <div></div>
+      <div class="pcol-lbl" style="color:var(--blue);">Visits YTD</div>
+      <div class="pcol-lbl" style="color:var(--blue);">PVs YTD</div>
+      <div class="pcol-lbl" style="color:var(--blue);">UVs YTD</div>
     </div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
+
+    <!-- Row 1: All Pages usga.org -->
+    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
+      <div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
       <div class="pmc"><div class="val" id="w-vis">—</div></div>
       <div class="pmc"><div class="val" id="w-pv">—</div></div>
       <div class="pmc"><div class="val" id="w-uv">—</div></div>
+      <div style="background:var(--border);border-radius:2px;"></div>
+      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">3.81M</div></div>
+      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">6.27M</div></div>
+      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">3.21M</div></div>
     </div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
+
+    <!-- Row 2: UTM usga.org -->
+    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
+      <div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
       <div class="pmc r"><div class="val" id="w-utm">—</div><div class="sub" id="w-utm-pct">&mdash;</div></div>
       <div class="pmc r"><div class="val" id="w-utm-pv">—</div><div class="sub" id="w-utm-pv-pct">&mdash;</div></div>
       <div class="pmc r"><div class="val" id="w-utm-uv">—</div><div class="sub" id="w-utm-uv-pct">&mdash;</div></div>
+      <div style="background:var(--border);border-radius:2px;"></div>
+      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">913.5K</div><div class="sub">24.0% of usga</div></div>
+      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">980.0K</div><div class="sub">15.6% of usga</div></div>
+      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">889.7K</div><div class="sub">27.8% of usga</div></div>
     </div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
+
+    <!-- Row 3: All Pages GAH -->
+    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
+      <div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap</div>
       <div class="pmc b"><div class="val" id="w-gah-vis">—</div><div class="sub" id="w-gah-vis-pct">&mdash;</div></div>
       <div class="pmc b"><div class="val" id="w-gah-pv">—</div><div class="sub" id="w-gah-pv-pct">&mdash;</div></div>
       <div class="pmc b"><div class="val" id="w-gah-uv">—</div><div class="sub" id="w-gah-uv-pct">&mdash;</div></div>
+      <div style="background:var(--border);border-radius:2px;"></div>
+      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.38M</div><div class="sub">36.2% of usga</div></div>
+      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.70M</div><div class="sub">27.1% of usga</div></div>
+      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.28M</div><div class="sub">39.9% of usga</div></div>
     </div>
-    <div class="pgrid" style="margin-bottom:0;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
+
+    <!-- Row 4: UTM GAH -->
+    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:0;align-items:stretch;">
+      <div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap</div>
       <div class="pmc g"><div class="val" id="w-gah-utm">—</div><div class="sub" id="w-gah-utm-pct">&mdash;</div></div>
       <div class="pmc g"><div class="val" id="w-gah-utm-pv">—</div><div class="sub" id="w-gah-utm-pv-pct">&mdash;</div></div>
       <div class="pmc g"><div class="val" id="w-gah-utm-uv">—</div><div class="sub" id="w-gah-utm-uv-pct">&mdash;</div></div>
+      <div style="background:var(--border);border-radius:2px;"></div>
+      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">894.3K</div><div class="sub">64.8% of GAH</div></div>
+      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">949.5K</div><div class="sub">56.0% of GAH</div></div>
+      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">873.7K</div><div class="sub">68.4% of GAH</div></div>
     </div>
   </div>
-
   <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Web Traffic &mdash; Trends</div><div class="line"></div></div>
   <div class="card">
     <div class="card-t" id="metricChartTitle">Visits &mdash; usga.org vs getahandicap.usga.org</div>
@@ -157,24 +193,43 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     <div class="conv-lbl">
       <span>Conversion Funnel</span>
       <div style="position:relative;">
-        <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:var(--navy);border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:150px;"><option value="week">Current week</option><option value="fy">Full Year (FY2026)</option><option value="19">Week 19 &mdash; May 11&ndash;17</option><option value="18">Week 18 &mdash; May 04&ndash;10</option><option value="17">Week 17 &mdash; Apr 27&ndash;May 03</option><option value="16">Week 16 &mdash; Apr 20&ndash;26</option><option value="15">Week 15 &mdash; Apr 13&ndash;19</option><option value="14">Week 14 &mdash; Apr 06&ndash;12</option><option value="13">Week 13 &mdash; Mar 30&ndash;Apr 05</option><option value="12">Week 12 &mdash; Mar 23&ndash;29</option><option value="11">Week 11 &mdash; Mar 16&ndash;22</option><option value="10">Week 10 &mdash; Mar 09&ndash;15</option><option value="9">Week 9 &mdash; Mar 02&ndash;08</option><option value="8">Week 8 &mdash; Feb 23&ndash;Mar 01</option><option value="7">Week 7 &mdash; Feb 16&ndash;22</option><option value="6">Week 6 &mdash; Feb 09&ndash;15</option><option value="5">Week 5 &mdash; Feb 02&ndash;08</option><option value="4">Week 4 &mdash; Jan 26&ndash;Feb 01</option><option value="3">Week 3 &mdash; Jan 19&ndash;25</option><option value="2">Week 2 &mdash; Jan 12&ndash;18</option><option value="1">Week 1 &mdash; Jan 05&ndash;11</option></select>
+        <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:var(--navy);border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
+          <option value="week">Current week</option>
+          <option value="fy">Full Year (FY2026)</option>
+        </select>
         <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--navy);font-size:8px;pointer-events:none;">&#9660;</span>
       </div>
     </div>
-    <div class="conv-boxes">
-      <div class="conv-box"><div class="lbl">Conversion Rate</div><div class="val" id="w-conv">—</div><div class="sub" id="conv-sub"></div></div>
-      <div class="conv-box"><div class="lbl">Detour Rate</div><div class="val" id="w-detour">—</div><div class="sub" id="detour-sub"></div></div>
+    <div style="display:flex;gap:10px;align-items:stretch;flex:1;min-width:0;">
+      <div style="flex:0 0 auto;min-width:130px;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;">
+        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Conversion Rate</div>
+        <div style="font-size:28px;font-weight:700;color:#fff;margin-top:4px;" id="w-conv">—</div>
+        <div style="font-size:9px;color:#9AB8CC;margin-top:3px;" id="conv-sub"></div>
+      </div>
+      <div style="flex:0 0 auto;min-width:110px;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;">
+        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Detour Rate</div>
+        <div style="font-size:28px;font-weight:700;color:#fff;margin-top:4px;" id="w-detour">—</div>
+        <div style="font-size:9px;color:#9AB8CC;margin-top:3px;" id="detour-sub"></div>
+      </div>
+      <div style="flex:1;min-width:0;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;">
+        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Conversion Rate — Wks 1–19</div>
+        <svg width="100%" height="85" viewBox="0 0 400 70" preserveAspectRatio="xMidYMid meet" style="display:block;overflow:visible;"><polygon points="0,70 6.0,40.0 27.6,37.3 49.1,41.5 70.7,31.1 92.2,36.4 113.8,38.8 135.3,36.6 156.9,34.7 178.4,34.3 200.0,33.6 221.6,34.3 243.1,33.7 264.7,46.5 286.2,32.1 307.8,22.4 329.3,19.5 350.9,26.9 372.4,28.7 394.0,26.6 400,70" fill="rgba(255,255,255,0.1)" stroke="none"/><line x1="6.0" y1="40.2" x2="394.0" y2="26.6" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-dasharray="5,4"/><polyline points="6.0,40.0 27.6,37.3 49.1,41.5 70.7,31.1 92.2,36.4 113.8,38.8 135.3,36.6 156.9,34.7 178.4,34.3 200.0,33.6 221.6,34.3 243.1,33.7 264.7,46.5 286.2,32.1 307.8,22.4 329.3,19.5 350.9,26.9 372.4,28.7 394.0,26.6" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="6.0" cy="40.0" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="6.0" y="29.0" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">25.8%</text><circle cx="27.6" cy="37.3" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="49.1" cy="41.5" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="49.1" y="55.5" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">25.5%</text><circle cx="70.7" cy="31.1" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="92.2" cy="36.4" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="92.2" y="25.4" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">26.5%</text><circle cx="113.8" cy="38.8" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="135.3" cy="36.6" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="135.3" y="50.6" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">26.5%</text><circle cx="156.9" cy="34.7" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="178.4" cy="34.3" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="178.4" y="23.3" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">27.0%</text><circle cx="200.0" cy="33.6" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="221.6" cy="34.3" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="221.6" y="48.3" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">27.0%</text><circle cx="243.1" cy="33.7" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="264.7" cy="46.5" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="264.7" y="35.5" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">24.4%</text><circle cx="286.2" cy="32.1" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="307.8" cy="22.4" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="307.8" y="36.4" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">29.4%</text><circle cx="329.3" cy="19.5" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="350.9" cy="26.9" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="350.9" y="15.9" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">28.5%</text><circle cx="372.4" cy="28.7" r="1.5" fill="rgba(255,255,255,0.3)"/><circle cx="394.0" cy="26.6" r="4" fill="#fff"/><text x="400.0" y="18.0" text-anchor="start" font-size="8" fill="rgba(255,255,255,0.8)" font-family="Helvetica Neue,sans-serif" font-weight="600">Week 19</text><text x="400.0" y="28.0" text-anchor="start" font-size="9" fill="#fff" font-family="Helvetica Neue,sans-serif" font-weight="700">28.5%</text></svg>
+      </div>
     </div>
   </div>
   <div class="funnel-wrap" id="w-funnel"></div>
   <div class="card">
-    <div class="card-t">Decision Efficiency</div>
-    <div class="card-s">Step-by-step conversion once a user reaches that step</div>
-    <div class="eff-grid">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1px;">
+      <div class="card-t">Decision Efficiency</div>
+      <div class="card-s" style="margin-bottom:0;">Step-by-step conversion once a user reaches that step</div>
+    </div>
+    <div class="eff-grid" style="margin-bottom:12px;">
       <div class="eff-card"><div class="eff-lbl">Get Started &rarr; Become Member</div><div class="eff-val" id="w-eff1">—</div><div class="eff-note">Step 1 &rarr; Step 2</div></div>
       <div class="eff-card"><div class="eff-lbl">Profile Lookup &rarr; Verify</div><div class="eff-val" id="w-eff2">—</div><div class="eff-note">Step 3 &rarr; Step 4a</div></div>
       <div class="eff-card"><div class="eff-lbl">Address &rarr; Payment</div><div class="eff-val" id="w-eff3">—</div><div class="eff-note">Step 5 &rarr; Step 6</div></div>
     </div>
+    <!-- Insight callouts inside this card -->
+    <div id="insight-callouts" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
   </div>
 
   <div class="sdiv"><div class="line"></div><div class="num">3</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
@@ -191,44 +246,10 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     </div>
   </div>
 
-  <div class="sdiv"><div class="line"></div><div class="num">4</div><div class="txt">FY2026 Totals &mdash; YTD</div><div class="line"></div></div>
-  <div class="pgrid" style="margin-bottom:4px;"><div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div></div>
-  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-    <div class="pmc"><div class="val">3.81M</div></div><div class="pmc"><div class="val">6.27M</div></div><div class="pmc"><div class="val">3.21M</div></div>
-  </div>
-  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-    <div class="pmc r"><div class="val">694.6K</div><div class="sub">18.2% of usga.org</div></div>
-    <div class="pmc r"><div class="val">742.1K</div><div class="sub">11.8% of usga.org</div></div>
-    <div class="pmc r"><div class="val">668.3K</div><div class="sub">20.8% of usga.org</div></div>
-  </div>
-  <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-    <div class="pmc b"><div class="val">1.38M</div><div class="sub">36.2% of usga.org</div></div>
-    <div class="pmc b"><div class="val">1.70M</div><div class="sub">27.1% of usga.org</div></div>
-    <div class="pmc b"><div class="val">1.26M</div><div class="sub">39.3% of usga.org</div></div>
-  </div>
-  <div class="pgrid" style="margin-bottom:14px;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-    <div class="pmc g"><div class="val">624.3K</div><div class="sub">45.3% of GAH</div></div>
-    <div class="pmc g"><div class="val">668.8K</div><div class="sub">39.3% of GAH</div></div>
-    <div class="pmc g"><div class="val">596.1K</div><div class="sub">47.3% of GAH</div></div>
-  </div>
-  <div class="card">
-    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
-      <div><div class="card-t">FY2026 weekly trend</div><div class="card-s">Weeks 1&ndash;19</div></div>
-      <div style="display:flex;gap:5px;flex-wrap:wrap;">
-        <button class="mp on" data-fym="visits" onclick="setFYMetric('visits',this)">Visits</button>
-        <button class="mp" data-fym="pv" onclick="setFYMetric('pv',this)">Page Views</button>
-        <button class="mp" data-fym="uv" onclick="setFYMetric('uv',this)">Unique Visitors</button>
-      </div>
-    </div>
-    <div class="leg" id="fyLeg"></div>
-    <div style="position:relative;height:220px;"><canvas id="fyTrendChart"></canvas></div>
-  </div>
-
 </div><!-- /weekly -->
 
 <!-- MONTHLY VIEW -->
 <div class="vt" id="view-monthly">
-
   <div class="tpanel">
     <div class="tpanel-hdr">
       <div class="tpanel-t" id="m-label">January 2026 &mdash; Monthly Report</div>
@@ -263,7 +284,6 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <div class="pmc g"><div class="val" id="m-utm-uv">—</div><div class="sub" id="m-utm-uv-pct">&mdash;</div></div>
     </div>
   </div>
-
   <div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Conversion Funnel</div><div class="line"></div></div>
   <div class="conv-banner">
     <div class="conv-lbl"><span id="m-conv-label">January 2026 &mdash; Conversion Funnel</span></div>
@@ -273,7 +293,6 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     </div>
   </div>
   <div class="funnel-wrap" id="m-funnel"></div>
-
   <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
   <div class="two">
     <div class="card" style="margin-bottom:0;">
@@ -287,185 +306,254 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <table class="tbl"><thead><tr><th>State</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-states"></tbody></table>
     </div>
   </div>
-
 </div><!-- /monthly -->
-</div>
+
+</div><!-- /dash -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-
 const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A';
-const ALL_MO=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-const fmt=n=>n==null?'\u2014':n>=1e6?(n/1e6).toFixed(1)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
+const fmt=n=>n==null?'\u2014':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
+const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
+let curWeek=19, convWeekSel='week', fyMetric='visits', curMonth='jan26';
 const charts={};
-let curWeek=19, convWeekSel='week', fyMetric='visits';
 
+// ── SINGLE SOURCE OF TRUTH: real data from Excel ──────────────────────────
 const WEEKS={
-  1:{label:'Week 1 — Jan 05–11',visits:123604,pv:184487,uv:108887,utmVisits:50362,utmPv:52416,utmUv:49699,utmPct:'40.7%',gahVisits:65557,gahPv:76698,gahUv:62103,gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699,gahUtmPct:'76.8%',mm:3121,conv:.258,detour:.064,s1:10054,s2:6868,s3:7710,s4a:5276,s5:3565,s6:2592,eff1:.683,eff2:.684,eff3:.727},
-  2:{label:'Week 2 — Jan 12–18',visits:125067,pv:185955,uv:109881,utmVisits:38322,utmPv:40052,utmUv:37961,utmPct:'30.6%',gahVisits:51602,gahPv:60918,gahUv:48887,gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961,gahUtmPct:'74.3%',mm:2804,conv:.263,detour:.065,s1:8584,s2:6358,s3:3130,s4a:4519,s5:3036,s6:2261,eff1:.741,eff2:.365,eff3:.744},
-  3:{label:'Week 3 — Jan 19–25',visits:120872,pv:215901,uv:106128,utmVisits:37723,utmPv:39467,utmUv:37397,utmPct:'31.2%',gahVisits:49847,gahPv:58421,gahUv:47479,gahUtm:37723,gahUtmPv:39467,gahUtmUv:37397,gahUtmPct:'75.7%',mm:2465,conv:.255,detour:.073,s1:7619,s2:5011,s3:5645,s4a:4135,s5:2617,s6:1941,eff1:.658,eff2:.732,eff3:.741},
-  4:{label:'Week 4 — Jan 26–Feb 01',visits:132767,pv:204686,uv:111756,utmVisits:37935,utmPv:39567,utmUv:37635,utmPct:'28.6%',gahVisits:49776,gahPv:58782,gahUv:47427,gahUtm:37935,gahUtmPv:39567,gahUtmUv:37635,gahUtmPct:'76.2%',mm:2880,conv:.276,detour:.093,s1:7966,s2:5549,s3:6162,s4a:4337,s5:2908,s6:2200,eff1:.697,eff2:.703,eff3:.756},
-  5:{label:'Week 5 — Feb 02–08',visits:130622,pv:196435,uv:113259,utmVisits:34893,utmPv:36324,utmUv:34645,utmPct:'26.7%',gahVisits:48727,gahPv:58412,gahUv:46015,gahUtm:34893,gahUtmPv:36324,gahUtmUv:34645,gahUtmPct:'71.6%',mm:3424,conv:.265,detour:.074,s1:9005,s2:6213,s3:6926,s4a:4824,s5:3215,s6:2388,eff1:.690,eff2:.697,eff3:.743},
-  6:{label:'Week 6 — Feb 09–15',visits:134401,pv:216371,uv:112695,utmVisits:36079,utmPv:37655,utmUv:35756,utmPct:'26.8%',gahVisits:51147,gahPv:62075,gahUv:48114,gahUtm:36079,gahUtmPv:37655,gahUtmUv:35756,gahUtmPct:'70.5%',mm:3413,conv:.260,detour:.060,s1:10207,s2:7044,s3:7660,s4a:6553,s5:3577,s6:2658,eff1:.690,eff2:.856,eff3:.743},
-  7:{label:'Week 7 — Feb 16–22',visits:194400,pv:361903,uv:154698,utmVisits:45495,utmPv:47705,utmUv:45237,utmPct:'23.4%',gahVisits:61358,gahPv:73893,gahUv:57924,gahUtm:45495,gahUtmPv:47705,gahUtmUv:45237,gahUtmPct:'74.1%',mm:3530,conv:.265,detour:.051,s1:10798,s2:7461,s3:7788,s4a:8438,s5:3818,s6:2859,eff1:.691,eff2:.781,eff3:.749},
-  8:{label:'Week 8 — Feb 23–Mar 01',visits:197035,pv:316707,uv:168695,utmVisits:55115,utmPv:57945,utmUv:54885,utmPct:'28.0%',gahVisits:72260,gahPv:86221,gahUv:68803,gahUtm:55115,gahUtmPv:57945,gahUtmUv:54885,gahUtmPct:'76.3%',mm:3811,conv:.269,detour:.055,s1:11827,s2:8041,s3:8446,s4a:8740,s5:4142,s6:3178,eff1:.680,eff2:.740,eff3:.767},
-  9:{label:'Week 9 — Mar 02–08',visits:201766,pv:337756,uv:170288,utmVisits:46827,utmPv:49593,utmUv:46564,utmPct:'23.2%',gahVisits:67906,gahPv:84508,gahUv:63643,gahUtm:46827,gahUtmPv:49593,gahUtmUv:46564,gahUtmPct:'68.9%',mm:5053,conv:.270,detour:.061,s1:14242,s2:9871,s3:10445,s4a:10166,s5:5019,s6:3840,eff1:.693,eff2:.714,eff3:.765},
-  10:{label:'Week 10 — Mar 09–15',visits:216634,pv:382451,uv:177990,utmVisits:45489,utmPv:48369,utmUv:45196,utmPct:'21.0%',gahVisits:66862,gahPv:83952,gahUv:62420,gahUtm:45489,gahUtmPv:48369,gahUtmUv:45196,gahUtmPct:'68.0%',mm:4612,conv:.271,detour:.068,s1:15222,s2:10702,s3:11379,s4a:9469,s5:5280,s6:4125,eff1:.703,eff2:.832,eff3:.781},
-  11:{label:'Week 11 — Mar 16–22',visits:204776,pv:373014,uv:166592,utmVisits:37380,utmPv:39965,utmUv:37080,utmPct:'18.3%',gahVisits:60235,gahPv:78464,gahUv:55499,gahUtm:37380,gahUtmPv:39965,gahUtmUv:37080,gahUtmPct:'62.1%',mm:4853,conv:.269,detour:.072,s1:16691,s2:11808,s3:12659,s4a:9947,s5:5870,s6:4498,eff1:.708,eff2:.786,eff3:.766},
-  12:{label:'Week 12 — Mar 23–29',visits:159053,pv:293049,uv:127879,utmVisits:4146,utmPv:4828,utmUv:3896,utmPct:'2.6%',gahVisits:27191,gahPv:43603,gahUv:22371,gahUtm:4146,gahUtmPv:4828,gahUtmUv:3896,gahUtmPct:'15.3%',mm:4924,conv:.271,detour:.070,s1:16880,s2:11918,s3:12911,s4a:10139,s5:5760,s6:4573,eff1:.706,eff2:.785,eff3:.794},
-  13:{label:'Week 13 — Mar 30–Apr 05',visits:206512,pv:354619,uv:171288,utmVisits:18772,utmPv:20006,utmUv:18200,utmPct:'9.1%',gahVisits:60066,gahPv:86340,gahUv:52651,gahUtm:18772,gahUtmPv:20006,gahUtmUv:18200,gahUtmPct:'31.3%',mm:7140,conv:.244,detour:.132,s1:26945,s2:14484,s3:15762,s4a:9638,s5:9262,s6:6587,eff1:.538,eff2:.611,eff3:.712},
-  14:{label:'Week 14 — Apr 06–12',visits:276398,pv:427803,uv:239700,utmVisits:52619,utmPv:54696,utmUv:51446,utmPct:'19.0%',gahVisits:116574,gahPv:141352,gahUv:108092,gahUtm:52619,gahUtmPv:54696,gahUtmUv:51446,gahUtmPct:'45.1%',mm:6607,conv:.274,detour:.115,s1:26791,s2:14426,s3:14731,s4a:8174,s5:9806,s6:7343,eff1:.539,eff2:.555,eff3:.749},
-  15:{label:'Week 15 — Apr 13–19',visits:273184,pv:465391,uv:232506,utmVisits:50917,utmPv:52653,utmUv:49951,utmPct:'18.6%',gahVisits:101479,gahPv:125828,gahUv:92807,gahUtm:50917,gahUtmPv:52653,gahUtmUv:49951,gahUtmPct:'50.2%',mm:6650,conv:.294,detour:.117,s1:26649,s2:15079,s3:15760,s4a:8608,s5:10282,s6:7836,eff1:.566,eff2:.546,eff3:.762},
-  16:{label:'Week 16 — Apr 20–26',visits:264883,pv:449168,uv:218442,utmVisits:57830,utmPv:63171,utmUv:55406,utmPct:'21.8%',gahVisits:93320,gahPv:114463,gahUv:85081,gahUtm:57830,gahUtmPv:63171,gahUtmUv:55406,gahUtmPct:'62.0%',mm:6776,conv:.300,detour:.097,s1:23111,s2:13282,s3:14160,s4a:7607,s5:9015,s6:6933,eff1:.575,eff2:.537,eff3:.769},
-  17:{label:'Week 17 — Apr 27–May 03',visits:278610,pv:463116,uv:228810,utmVisits:66407,utmPv:73050,utmUv:62812,utmPct:'23.8%',gahVisits:100374,gahPv:123181,gahUv:91356,gahUtm:66407,gahUtmPv:73050,gahUtmUv:62812,gahUtmPct:'66.2%',mm:9699,conv:.285,detour:.095,s1:24466,s2:13116,s3:13600,s4a:7709,s5:8950,s6:6968,eff1:.536,eff2:.567,eff3:.778},
-  18:{label:'Week 18 — May 04–10',visits:281184,pv:416857,uv:239489,utmVisits:92614,utmPv:101211,utmUv:88645,utmPct:'32.9%',gahVisits:117213,gahPv:138846,gahUv:108638,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645,gahUtmPct:'79.0%',mm:7629,conv:.281,detour:.129,s1:23005,s2:12738,s3:13409,s4a:6857,s5:8594,s6:6467,eff1:.554,eff2:.512,eff3:.753},
-  19:{label:'Week 19 — May 11–17',visits:289216,pv:420784,uv:246606,utmVisits:104576,utmPv:121287,utmUv:97298,utmPct:'36.2%',gahVisits:117722,gahPv:139482,gahUv:108672,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266,gahUtmPct:'72.5%',mm:7361,conv:.285,detour:.132,s1:24101,s2:13320,s3:14807,s4a:7452,s5:8995,s6:6879,eff1:.553,eff2:.503,eff3:.765}
-};
-const ALL_WEEKS_DATA=[
-  {wk:1, visits:123604,pv:184487,uv:108887, gahVisits:65557, gahPv:76698, gahUv:62103, utmVisits:50362,utmPv:52416,utmUv:49699, gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699},
-  {wk:2, visits:125067,pv:185955,uv:109881, gahVisits:51602, gahPv:60918, gahUv:48887, utmVisits:38322,utmPv:40052,utmUv:37961, gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961},
-  {wk:3, visits:120872,pv:215901,uv:106128, gahVisits:49847, gahPv:58421, gahUv:47479, utmVisits:37723,utmPv:39467,utmUv:37397, gahUtm:37723,gahUtmPv:39467,gahUtmUv:37397},
-  {wk:4, visits:132767,pv:204686,uv:111756, gahVisits:49776, gahPv:58782, gahUv:47427, utmVisits:37935,utmPv:39567,utmUv:37635, gahUtm:37935,gahUtmPv:39567,gahUtmUv:37635},
-  {wk:5, visits:130622,pv:196435,uv:113259, gahVisits:48727, gahPv:58412, gahUv:46015, utmVisits:34893,utmPv:36324,utmUv:34645, gahUtm:34893,gahUtmPv:36324,gahUtmUv:34645},
-  {wk:6, visits:134401,pv:216371,uv:112695, gahVisits:51147, gahPv:62075, gahUv:48114, utmVisits:36079,utmPv:37655,utmUv:35756, gahUtm:36079,gahUtmPv:37655,gahUtmUv:35756},
-  {wk:7, visits:194400,pv:361903,uv:154698, gahVisits:61358, gahPv:73893, gahUv:57924, utmVisits:45495,utmPv:47705,utmUv:45237, gahUtm:45495,gahUtmPv:47705,gahUtmUv:45237},
-  {wk:8, visits:197035,pv:316707,uv:168695, gahVisits:72260, gahPv:86221, gahUv:68803, utmVisits:55115,utmPv:57945,utmUv:54885, gahUtm:55115,gahUtmPv:57945,gahUtmUv:54885},
-  {wk:9, visits:201766,pv:337756,uv:170288, gahVisits:67906, gahPv:84508, gahUv:63643, utmVisits:46827,utmPv:49593,utmUv:46564, gahUtm:46827,gahUtmPv:49593,gahUtmUv:46564},
-  {wk:10,visits:216634,pv:382451,uv:177990, gahVisits:66862, gahPv:83952, gahUv:62420, utmVisits:45489,utmPv:48369,utmUv:45196, gahUtm:45489,gahUtmPv:48369,gahUtmUv:45196},
-  {wk:11,visits:204776,pv:373014,uv:166592, gahVisits:60235, gahPv:78464, gahUv:55499, utmVisits:37380,utmPv:39965,utmUv:37080, gahUtm:37380,gahUtmPv:39965,gahUtmUv:37080},
-  {wk:12,visits:159053,pv:293049,uv:127879, gahVisits:27191, gahPv:43603, gahUv:22371, utmVisits:4146, utmPv:4828, utmUv:3896,  gahUtm:4146, gahUtmPv:4828, gahUtmUv:3896},
-  {wk:13,visits:206512,pv:354619,uv:171288, gahVisits:60066, gahPv:86340, gahUv:52651, utmVisits:18772,utmPv:20006,utmUv:18200, gahUtm:18772,gahUtmPv:20006,gahUtmUv:18200},
-  {wk:14,visits:276398,pv:427803,uv:239700, gahVisits:116574,gahPv:141352,gahUv:108092,utmVisits:52619,utmPv:54696,utmUv:51446, gahUtm:52619,gahUtmPv:54696,gahUtmUv:51446},
-  {wk:15,visits:273184,pv:465391,uv:232506, gahVisits:101479,gahPv:125828,gahUv:92807, utmVisits:50917,utmPv:52653,utmUv:49951, gahUtm:50917,gahUtmPv:52653,gahUtmUv:49951},
-  {wk:16,visits:264883,pv:449168,uv:218442, gahVisits:93320, gahPv:114463,gahUv:85081, utmVisits:57830,utmPv:63171,utmUv:55406, gahUtm:57830,gahUtmPv:63171,gahUtmUv:55406},
-  {wk:17,visits:278610,pv:463116,uv:228810, gahVisits:100374,gahPv:123181,gahUv:91356, utmVisits:66407,utmPv:73050,utmUv:62812, gahUtm:66407,gahUtmPv:73050,gahUtmUv:62812},
-  {wk:18,visits:281184,pv:416857,uv:239489, gahVisits:117213,gahPv:138846,gahUv:108638,utmVisits:92614,utmPv:101211,utmUv:88645,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645},
-  {wk:19,visits:289216,pv:420784,uv:246606, gahVisits:117722,gahPv:139482,gahUv:108672,utmVisits:104576,utmPv:121287,utmUv:97298,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266}
-];;
-const MONTHS={
-  jan26:{label:'January 2026',visits:449200,pv:532100,uv:421300,utmUsga:71200,utmUsgaPv:78400,utmUsgaUv:68900,gahVisits:219407,gahPv:261634,gahUv:201527,utmVisits:159910,utmPv:167012,utmUv:155375,conv:.264,detour:.069,s1:39130,s2:26555,s3:29673,s4a:20781,s5:13965,s6:10333,eff1:.679,eff2:.700,eff3:.740,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
-  feb26:{label:'February 2026',visits:527400,pv:621800,uv:493200,utmUsga:85600,utmUsgaPv:94300,utmUsgaUv:81700,gahVisits:219407+78000,gahPv:261634+92000,gahUv:201527+71000,utmVisits:159910+38000,utmPv:167012+41000,utmUv:155375+36000,conv:.262,detour:.071,s1:36800,s2:24200,s3:27500,s4a:19400,s5:12800,s6:9640,eff1:.657,eff2:.706,eff3:.753,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
-  mar26:{label:'March 2026',visits:880000,pv:1040000,uv:820000,utmUsga:198000,utmUsgaPv:218000,utmUsgaUv:189000,gahVisits:440000,gahPv:520000,gahUv:395000,utmVisits:198000,utmPv:210000,utmUv:192000,conv:.270,detour:.068,s1:58400,s2:38600,s3:42300,s4a:30100,s5:20900,s6:15760,eff1:.661,eff2:.712,eff3:.754,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
-  apr26:{label:'April 2026',visits:1100000,pv:1308000,uv:962000,utmUsga:315000,utmUsgaPv:347000,utmUsgaUv:298000,gahVisits:550000,gahPv:654000,gahUv:481000,utmVisits:315000,utmPv:341000,utmUv:299000,conv:.274,detour:.097,s1:66700,s2:41900,s3:44900,s4a:28400,s5:24100,s6:18100,eff1:.628,eff2:.632,eff3:.751,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
+  1:{label:"Week 1: Jan 05 - 11",visits:123604,pv:184487,uv:108887,utmVisits:50362,utmPv:52416,utmUv:49699,gahVisits:65557,gahPv:76698,gahUv:62103,gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699,mm:3888,conv:0.2578,detour:0.033,s1:10054,s2:6868,s3:7710,s4a:5276,s5:3565,s6:2592,eff1:0.683,eff2:0.684,eff3:0.727},
+  2:{label:"Week 2: Jan 12 - 18",visits:125067,pv:185955,uv:109881,utmVisits:38322,utmPv:40052,utmUv:37961,gahVisits:51602,gahPv:60918,gahUv:48887,gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961,mm:3512,conv:0.2634,detour:0.034,s1:8584,s2:6358,s3:3130,s4a:4519,s5:3036,s6:2261,eff1:0.741,eff2:1.444,eff3:0.745},
+  3:{label:"Week 3: Jan 19 - 25",visits:120872,pv:215901,uv:106128,utmVisits:37723,utmPv:39467,utmUv:37397,gahVisits:49847,gahPv:58421,gahUv:47479,gahUtm:37723,gahUtmPv:39467,gahUtmUv:37397,mm:3119,conv:0.2548,detour:0.04,s1:7619,s2:5011,s3:5645,s4a:4135,s5:2617,s6:1941,eff1:0.658,eff2:0.733,eff3:0.742},
+  4:{label:"Week 4: Jan 26 - Feb 01",visits:132767,pv:204686,uv:111756,utmVisits:37935,utmPv:39567,utmUv:37635,gahVisits:49776,gahPv:58782,gahUv:47427,gahUtm:37935,gahUtmPv:39567,gahUtmUv:37635,mm:3623,conv:0.2762,detour:0.051,s1:7966,s2:5549,s3:6162,s4a:4337,s5:2908,s6:2200,eff1:0.697,eff2:0.704,eff3:0.757},
+  5:{label:"Week 5: Feb 02 - 08",visits:130622,pv:196435,uv:113259,utmVisits:34893,utmPv:36324,utmUv:34645,gahVisits:48727,gahPv:58412,gahUv:46015,gahUtm:34893,gahUtmPv:36324,gahUtmUv:34645,mm:4263,conv:0.2652,detour:0.039,s1:9005,s2:6213,s3:6926,s4a:4824,s5:3215,s6:2388,eff1:0.69,eff2:0.697,eff3:0.743},
+  6:{label:"Week 6: Feb 09 - 15",visits:134401,pv:216371,uv:112695,utmVisits:36079,utmPv:37655,utmUv:35756,gahVisits:51147,gahPv:62075,gahUv:48114,gahUtm:36079,gahUtmPv:35357,gahUtmUv:35756,mm:4268,conv:0.2604,detour:0.039,s1:10207,s2:7044,s3:7660,s4a:6553,s5:3577,s6:2658,eff1:0.69,eff2:0.855,eff3:0.743},
+  7:{label:"Week 7: Feb 16 - 22",visits:194400,pv:361903,uv:154698,utmVisits:45495,utmPv:47705,utmUv:45237,gahVisits:61358,gahPv:73893,gahUv:57924,gahUtm:45495,gahUtmPv:47705,gahUtmUv:45237,mm:4485,conv:0.2648,detour:0.04,s1:10798,s2:7461,s3:7788,s4a:8438,s5:3818,s6:2859,eff1:0.691,eff2:1.083,eff3:0.749},
+  8:{label:"Week 8: Feb 23 - Mar 01",visits:197035,pv:316707,uv:168695,utmVisits:55115,utmPv:57945,utmUv:54885,gahVisits:72260,gahPv:86221,gahUv:68803,gahUtm:55115,gahUtmPv:57945,gahUtmUv:54885,mm:4817,conv:0.2687,detour:0.04,s1:11827,s2:8041,s3:8446,s4a:8740,s5:4142,s6:3178,eff1:0.68,eff2:1.035,eff3:0.767},
+  9:{label:"Week 9: Mar 02 - 08",visits:201766,pv:337756,uv:170288,utmVisits:46827,utmPv:49593,utmUv:46564,gahVisits:67906,gahPv:84508,gahUv:63643,gahUtm:46827,gahUtmPv:49593,gahUtmUv:46564,mm:6377,conv:0.2696,detour:0.044,s1:14242,s2:9871,s3:10445,s4a:10166,s5:5019,s6:3840,eff1:0.693,eff2:0.973,eff3:0.765},
+  10:{label:"Week 10: Mar 09 - 15",visits:216634,pv:382451,uv:177990,utmVisits:45489,utmPv:48369,utmUv:45196,gahVisits:66862,gahPv:83952,gahUv:62420,gahUtm:45489,gahUtmPv:48369,gahUtmUv:45196,mm:5899,conv:0.271,detour:0.042,s1:15222,s2:10702,s3:11379,s4a:9469,s5:5280,s6:4125,eff1:0.703,eff2:0.832,eff3:0.781},
+  11:{label:"Week 11: Mar 16 - 22",visits:204776,pv:373014,uv:166592,utmVisits:37380,utmPv:39965,utmUv:37080,gahVisits:60235,gahPv:78464,gahUv:55499,gahUtm:37380,gahUtmPv:39965,gahUtmUv:37080,mm:6260,conv:0.2695,detour:0.043,s1:16691,s2:11808,s3:12659,s4a:9947,s5:5870,s6:4498,eff1:0.707,eff2:0.786,eff3:0.766},
+  12:{label:"Week 12: Mar 23 - 29",visits:159053,pv:293049,uv:127879,utmVisits:4146,utmPv:4828,utmUv:3896,gahVisits:27191,gahPv:43603,gahUv:22371,gahUtm:4146,gahUtmPv:4828,gahUtmUv:3896,mm:6369,conv:0.2709,detour:0.042,s1:16880,s2:11918,s3:12911,s4a:10139,s5:5760,s6:4573,eff1:0.706,eff2:0.785,eff3:0.794},
+  13:{label:"Week 13: Mar 30 - Apr 05",visits:206512,pv:354619,uv:171288,utmVisits:18772,utmPv:20006,utmUv:18200,gahVisits:60066,gahPv:86340,gahUv:52651,gahUtm:18772,gahUtmPv:20006,gahUtmUv:18200,mm:6448,conv:0.2445,detour:0.036,s1:26945,s2:14484,s3:15762,s4a:9638,s5:9262,s6:6587,eff1:0.538,eff2:0.611,eff3:0.711},
+  14:{label:"Week 14: Apr 06 - 12",visits:276398,pv:427803,uv:239700,utmVisits:52619,utmPv:54696,utmUv:51446,gahVisits:116574,gahPv:141352,gahUv:108092,gahUtm:52619,gahUtmPv:54696,gahUtmUv:51446,mm:8431,conv:0.2741,detour:0.035,s1:26791,s2:14426,s3:14731,s4a:8174,s5:9806,s6:7343,eff1:0.538,eff2:0.555,eff3:0.749},
+  15:{label:"Week 15: Apr 13 - 19",visits:273184,pv:465391,uv:232506,utmVisits:50917,utmPv:52653,utmUv:49951,gahVisits:101479,gahPv:125828,gahUv:92807,gahUtm:50917,gahUtmPv:52653,gahUtmUv:49951,mm:8436,conv:0.294,detour:0.033,s1:26649,s2:15079,s3:15760,s4a:8608,s5:10282,s6:7836,eff1:0.566,eff2:0.546,eff3:0.762},
+  16:{label:"Week 16: Apr 20 - 26",visits:264883,pv:449168,uv:218442,utmVisits:57830,utmPv:63171,utmUv:55406,gahVisits:93320,gahPv:114463,gahUv:85081,gahUtm:57830,gahUtmPv:63171,gahUtmUv:55406,mm:8318,conv:0.3,detour:0.032,s1:23111,s2:13282,s3:14160,s4a:7607,s5:9015,s6:6933,eff1:0.575,eff2:0.537,eff3:0.769},
+  17:{label:"Week 17: Apr 27 - May 03",visits:278610,pv:463116,uv:228810,utmVisits:66407,utmPv:73050,utmUv:62812,gahVisits:100374,gahPv:123181,gahUv:91356,gahUtm:66407,gahUtmPv:73050,gahUtmUv:62812,mm:11995,conv:0.2848,detour:0.03,s1:24466,s2:13116,s3:13600,s4a:7709,s5:8950,s6:6968,eff1:0.536,eff2:0.567,eff3:0.779},
+  18:{label:"Week 18: May 04 - 10",visits:281184,pv:416857,uv:239489,utmVisits:92614,utmPv:101211,utmUv:88645,gahVisits:117213,gahPv:138846,gahUv:108638,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645,mm:9400,conv:0.2811,detour:0.039,s1:23005,s2:12738,s3:13409,s4a:6857,s5:8594,s6:6467,eff1:0.554,eff2:0.511,eff3:0.753},
+  19:{label:"Week 19: May 11 - 17",visits:289216,pv:420784,uv:246606,utmVisits:104576,utmPv:121287,utmUv:97298,gahVisits:117722,gahPv:139482,gahUv:108672,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266,mm:9073,conv:0.2854,detour:0.041,s1:24101,s2:13320,s3:14807,s4a:7452,s5:8995,s6:6879,eff1:0.553,eff2:0.503,eff3:0.765}
 };
 
-const FY_MK={
-  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'},
-  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'},
-  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'getahandicap.usga.org (organic)',lC:'getahandicap.usga.org (UTM)'}
+// FY YTD totals (direct from Excel)
+const FY={s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126,eff1:.615,eff2:.702,eff3:.757,conv:.2714,detour:null};
+
+const MONTHS={
+  jan26:{label:'January 2026',visits:502310,pv:790029,uv:438652,utmUsga:164342,utmUsgaPv:171502,utmUsgaUv:162628,gahVisits:216782,gahPv:254819,gahUv:205896,utmVisits:164342,utmPv:171502,utmUv:162628,conv:.264,detour:.039,s1:34223,s2:23786,s3:23647,s4a:18267,s5:12126,s6:8994,eff1:.695,eff2:.772,eff3:.742,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
+  feb26:{label:'February 2026',visits:656258,pv:1112916,uv:541216,utmUsga:208098,utmUsgaPv:220300,utmUsgaUv:205159,gahVisits:253093,gahPv:308482,gahUv:232864,utmVisits:208098,utmPv:220300,utmUv:205159,conv:.265,detour:.040,s1:40808,s2:28177,s3:30820,s4a:28169,s5:15355,s6:11295,eff1:.690,eff2:.914,eff3:.736,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
+  mar26:{label:'March 2026',visits:1151599,pv:2062833,uv:938456,utmUsga:229209,utmUsgaPv:246501,utmUsgaUv:222128,gahVisits:370621,gahPv:474890,gahUv:342303,utmVisits:229209,utmPv:246501,utmUv:222128,conv:.270,detour:.042,s1:95935,s2:66709,s3:71065,s4a:57860,s5:33887,s6:27554,eff1:.696,eff2:.814,eff3:.813,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
+  apr26:{label:'April 2026',visits:1101387,pv:1802951,uv:940636,utmUsga:295569,utmUsgaPv:321089,utmUsgaUv:280469,gahVisits:480753,gahPv:580273,gahUv:438933,utmVisits:295569,utmPv:321089,utmUv:280469,conv:.276,detour:.034,s1:103496,s2:56271,s3:58813,s4a:33928,s5:38055,s6:28659,eff1:.544,eff2:.577,eff3:.753,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
 };
-const MP={
-  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Visits'},
-  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Page Views'},
-  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Unique Visitors'}
-};
+
+// Funnel step config
 const FSTEPS=[
   {b:'1',n:'Get Started',s:'CTA clicks to begin',c:N},
   {b:'2',n:'Become a Member',s:'Proceed to membership',c:N},
   {b:'3',n:'Profile Lookup',s:'Continue to lookup',c:N},
-  {b:'4a',n:'Profile Verify',s:'Step 4a \u2014 verify',c:'#B79157'},
+  {b:'4a',n:'Profile Verify',s:'Step 4a — verify',c:'#B79157'},
   {b:'5',n:'Profile Address',s:'Continue to address',c:'#B79157'},
   {b:'6',n:'Submit Payment',s:'Final conversion step',c:R}
 ];
 
+// ── Populate week dropdowns ───────────────────────────────────────────────
+const wkOptions=Object.keys(WEEKS).sort((a,b)=>b-a).map(k=>`<option value="${k}">${WEEKS[k].label}</option>`).join('');
+['weekSelect','toplineWeekSelect'].forEach(id=>{
+  var el=document.getElementById(id);
+  if(el){el.innerHTML=wkOptions;el.value='19';}
+});
+
+// ── Build funnel (100% hidden for step 0) ────────────────────────────────
 function buildFunnel(d,elId){
-  var base=d.s1,steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
-  var el=document.getElementById(elId);el.innerHTML='';
+  var base=d.s1;
+  var steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
+  var el=document.getElementById(elId);
+  if(!el)return;
+  el.innerHTML='';
   FSTEPS.forEach(function(step,i){
-    var pct=i===0?100:(steps[i]/base*100);
-    var row=document.createElement('div');row.className='frow';
-    row.innerHTML='<div class="fbadge" style="background:'+step.c+';">'+step.b+'</div>'
-      +'<div class="fname">'+step.n+'<span>'+step.s+'</span></div>'
-      +'<div class="fclicks">'+steps[i].toLocaleString()+'</div>'
-      +'<div class="fpctlbl" style="color:'+step.c+';">'+pct.toFixed(1)+'%</div>'
-      +'<div class="fbar"><div class="fbar-fill" style="width:'+Math.min(100,pct).toFixed(1)+'%;background:'+step.c+';"></div></div>';
+    var pct=steps[i]/base*100;
+    var row=document.createElement('div');
+    row.className='frow';
+    row.innerHTML=
+      '<div class="fbadge" style="background:'+step.c+'">'+step.b+'</div>'+
+      '<div class="fname">'+step.n+'<span>'+step.s+'</span></div>'+
+      '<div class="fclicks">'+steps[i].toLocaleString()+'</div>'+
+      '<div class="fpctlbl" style="color:'+step.c+';">'+(i===0?'':pct.toFixed(1)+'%')+'</div>'+
+      '<div class="fbar"><div class="fbar-fill" style="width:'+Math.min(100,pct).toFixed(1)+'%;background:'+step.c+';"></div></div>';
     el.appendChild(row);
   });
 }
 
+// ── Update conversion panel ───────────────────────────────────────────────
 function updateConvDisplay(){
   var d;
+  var elConv=document.getElementById('w-conv');
+  if(!elConv)return;
   if(convWeekSel==='fy'){
-    d={s1:314163,s2:193289,s3:203090,s4a:142588,s5:113711,s6:86126,eff1:.615,eff2:.702,eff3:.757};
-    document.getElementById('w-conv').textContent='27.1%';
+    d=FY;
+    elConv.textContent=(FY.conv*100).toFixed(1)+'%';
     document.getElementById('w-detour').textContent='N/A';
     document.getElementById('conv-sub').textContent='FY2026 YTD';
-    document.getElementById('detour-sub').textContent='FY2026 \u2014 not tracked annually';
+    document.getElementById('detour-sub').textContent='Not tracked annually';
   } else {
     var wk=convWeekSel==='week'?curWeek:parseInt(convWeekSel);
     d=WEEKS[wk]||WEEKS[curWeek];
-    document.getElementById('w-conv').textContent=(d.conv*100).toFixed(1)+'%';
+    elConv.textContent=(d.conv*100).toFixed(1)+'%';
     document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
-    document.getElementById('conv-sub').textContent='Week '+wk+' \u00b7 start \u2192 payment';
-    document.getElementById('detour-sub').textContent='Week '+wk+' \u00b7 club selection';
+    document.getElementById('conv-sub').textContent='Week '+wk+' · start → payment';
+    document.getElementById('detour-sub').textContent='Week '+wk+' · club selection';
   }
   document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
   document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
   document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
   buildFunnel(d,'w-funnel');
+  var insightWk=convWeekSel==='fy'?curWeek:(convWeekSel==='week'?curWeek:parseInt(convWeekSel));
+  buildInsightCallouts(d,insightWk);
 }
 function setConvWeek(val){convWeekSel=val;updateConvDisplay();}
 
+// ── Insight callouts ──────────────────────────────────────────────────────
+const FY_AVG={conv:0.271,eff1:0.642,eff2:0.760,eff3:0.756,detour:0.038};
+const MONTH_WKS=[16,17,18,19];
+function getMonthAvg(k){var v=MONTH_WKS.map(function(w){return WEEKS[w]?WEEKS[w][k]:null;}).filter(function(x){return x!=null;});return v.length?v.reduce(function(a,b){return a+b;})/v.length:0;}
+function p(v){return (v*100).toFixed(1)+'%';}
+function pp(v){return (v>0?'+':'')+v.toFixed(1)+'pp';}
+function icol(t){return t==='pos'?{bg:'#E8F5E9',b:'#2E7D32',l:'#1B5E20',i:'▲'}:t==='neg'?{bg:'#EEF2F7',b:'#00365F',l:'#00365F',i:'▼'}:{bg:'#F0F4F8',b:'#4A5A64',l:'#2C3A44',i:'●'};}
+
+function buildInsightCallouts(d,wk){
+  var el=document.getElementById('insight-callouts');
+  if(!el||!d)return;
+  var prev=wk>1?WEEKS[wk-1]:null;
+  var mEff1=getMonthAvg('eff1'), mConv=getMonthAvg('conv'), mS6=getMonthAvg('s6');
+  var out=[];
+
+  // 1 — This week vs last week
+  if(prev){
+    var dE1=(d.eff1-prev.eff1)*100, dCv=(d.conv-prev.conv)*100, dS6=d.s6-prev.s6;
+    var t1=Math.abs(dE1)>=2?(dE1<0?'neg':'pos'):(Math.abs(dCv)>=0.5?(dCv<0?'neg':'pos'):'warn');
+    var h1='Step 1→2: '+p(prev.eff1)+' → '+p(d.eff1)+' ('+pp(dE1)+') &nbsp;|&nbsp; Payments: '+(dS6>=0?'+':'')+dS6.toLocaleString()+' vs Wk'+(wk-1);
+    var b1=dE1<=-2?d.s1.toLocaleString()+' starters this week but only '+p(d.eff1)+' proceeded — more volume, lower intent. Audit UTM sources for this week.':
+           dE1>=2?p(d.eff1)+' of starters proceeded to Become a Member — stronger intent. Identify the channel driving this and scale it.':
+           'Conversion held at '+p(d.conv)+' ('+pp(dCv)+' WoW). No material change across funnel steps.';
+    out.push({scope:'THIS WEEK vs Wk'+(wk-1),t:t1,h:h1,b:b1});
+  } else {
+    out.push({scope:'THIS WEEK',t:'warn',h:'Week 1 — no prior week to compare',b:d.s1.toLocaleString()+' starters · '+d.s6.toLocaleString()+' payments · '+p(d.conv)+' conversion rate.'});
+  }
+
+  // 2 — vs past 4-week avg
+  var dE1m=(d.eff1-mEff1)*100, dCvm=(d.conv-mConv)*100;
+  var t2=dE1m<=-3?'neg':dE1m>=3?'pos':'warn';
+  var h2='Eff1 '+p(d.eff1)+' vs '+p(mEff1)+' 4-wk avg ('+pp(dE1m)+') &nbsp;|&nbsp; Payments '+d.s6.toLocaleString()+' vs '+Math.round(mS6).toLocaleString()+' avg';
+  var b2=dE1m<=-3?'Step 1→2 is below the recent baseline. Check if the Become a Member CTA or onboarding copy changed. Marketing: review targeting on current campaigns.':
+         dE1m>=3?'Intent is stronger than the past 4-week avg. Identify what\'s working this week — channel mix, creative, or messaging — and replicate.':
+         'Tracking the recent baseline. Watch Eff1 — the 4-week range has been '+p(Math.min.apply(null,MONTH_WKS.map(function(k){return WEEKS[k].eff1;})))+' to '+p(Math.max.apply(null,MONTH_WKS.map(function(k){return WEEKS[k].eff1;})))+'.';
+  out.push({scope:'PAST MONTH: Wks 16–19 Avg',t:t2,h:h2,b:b2});
+
+  // 3 — FY2026 pace
+  var dE1y=(d.eff1-FY_AVG.eff1)*100, dCvy=(d.conv-FY_AVG.conv)*100;
+  var t3=d.eff1<0.58?'neg':d.conv>FY_AVG.conv+0.01?'pos':'warn';
+  var h3='Conv '+p(d.conv)+' vs FY avg '+p(FY_AVG.conv)+' ('+pp(dCvy)+') &nbsp;|&nbsp; Eff1 '+p(d.eff1)+' vs FY avg '+p(FY_AVG.eff1)+' ('+pp(dE1y)+')';
+  var b3=d.eff1<0.58?'Eff1 below FY avg since Wk 13 (high-volume weeks). Funnel bottom healthy (Eff3 '+p(d.eff3)+'). +5pp Eff1 = ~'+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more payments/wk.':
+         d.conv>FY_AVG.conv+0.01?'Top-tier week YTD (range 24.4%–30.0%). Eff3 '+p(d.eff3)+' above FY avg. Document what drove this.':
+         'Funnel consistent YTD. Eff3 holding 71–79% all season. +5pp Eff1 = ~'+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more payments/wk.';
+  out.push({scope:'FY2026 YTD PACE',t:t3,h:h3,b:b3});
+
+  el.innerHTML=out.map(function(c){
+    var col=icol(c.t);
+    return '<div style="background:'+col.bg+';border-radius:8px;border-left:4px solid '+col.b+';padding:12px 14px;display:flex;flex-direction:column;gap:5px;">'+
+      '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:'+col.l+';">'+col.i+' '+c.scope+'</div>'+
+      '<div style="font-size:11px;font-weight:700;color:var(--tp);line-height:1.35;">'+c.h+'</div>'+
+      '<div style="font-size:10px;color:var(--ts);line-height:1.55;border-top:1px solid '+col.b+'33;padding-top:5px;">'+c.b+'</div>'+
+      '</div>';
+  }).join('');
+}
+
+// ── Load weekly data ──────────────────────────────────────────────────────
 function loadWeek(wk){
-  curWeek=wk;var d=WEEKS[wk];if(!d)return;
+  curWeek=wk;
+  var d=WEEKS[wk];
+  if(!d)return;
   document.getElementById('currentBadge').textContent='Week '+wk;
   document.getElementById('weeklyLabel').textContent=d.label;
   ['weekSelect','toplineWeekSelect'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=String(wk);});
-  var cvs=document.getElementById('convWeekSelect');
-  if(cvs){var opt=[].slice.call(cvs.options).find(function(o){return o.value===String(wk);});if(opt){cvs.value=String(wk);convWeekSel=String(wk);}}
+  // Update conv select to add week options dynamically
+  var cs=document.getElementById('convWeekSelect');
+  if(cs&&cs.options.length===2){
+    Object.keys(WEEKS).sort((a,b)=>b-a).forEach(function(k){
+      var o=document.createElement('option');o.value=k;o.textContent=WEEKS[k].label;cs.appendChild(o);
+    });
+  }
   function set(id,v){var el=document.getElementById(id);if(el)el.textContent=fmt(v);}
   function sub(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
   set('w-vis',d.visits);set('w-pv',d.pv);set('w-uv',d.uv);
   set('w-utm',d.utmVisits);set('w-utm-pv',d.utmPv);set('w-utm-uv',d.utmUv);
   set('w-gah-vis',d.gahVisits);set('w-gah-pv',d.gahPv);set('w-gah-uv',d.gahUv);
   set('w-gah-utm',d.gahUtm);set('w-gah-utm-pv',d.gahUtmPv);set('w-gah-utm-uv',d.gahUtmUv);
-  sub('w-utm-pct',(d.utmVisits/d.visits*100).toFixed(1)+'% of usga.org');
-  sub('w-utm-pv-pct',(d.utmPv/d.pv*100).toFixed(1)+'% of usga.org');
-  sub('w-utm-uv-pct',(d.utmUv/d.uv*100).toFixed(1)+'% of usga.org');
-  sub('w-gah-vis-pct',(d.gahVisits/d.visits*100).toFixed(1)+'% of usga.org');
-  sub('w-gah-pv-pct',(d.gahPv/d.pv*100).toFixed(1)+'% of usga.org');
-  sub('w-gah-uv-pct',(d.gahUv/d.uv*100).toFixed(1)+'% of usga.org');
-  sub('w-gah-utm-pct',(d.gahUtm/d.gahVisits*100).toFixed(1)+'% of GAH');
-  sub('w-gah-utm-pv-pct',(d.gahUtmPv/d.gahPv*100).toFixed(1)+'% of GAH');
-  sub('w-gah-utm-uv-pct',(d.gahUtmUv/d.gahUv*100).toFixed(1)+'% of GAH');
-  sub('refSub','Week '+wk+' \u00b7 top 10');
-  sub('statesSub','Week '+wk+' \u00b7 top 10');
+  sub('w-utm-pct',pct(d.utmVisits,d.visits)+' of usga.org');
+  sub('w-utm-pv-pct',pct(d.utmPv,d.pv)+' of usga.org');
+  sub('w-utm-uv-pct',pct(d.utmUv,d.uv)+' of usga.org');
+  sub('w-gah-vis-pct',pct(d.gahVisits,d.visits)+' of usga.org');
+  sub('w-gah-pv-pct',pct(d.gahPv,d.pv)+' of usga.org');
+  sub('w-gah-uv-pct',pct(d.gahUv,d.uv)+' of usga.org');
+  sub('w-gah-utm-pct',pct(d.gahUtm,d.gahVisits)+' of GAH');
+  sub('w-gah-utm-pv-pct',pct(d.gahUtmPv,d.gahPv)+' of GAH');
+  sub('w-gah-utm-uv-pct',pct(d.gahUtmUv,d.gahUv)+' of GAH');
+  sub('refSub','Week '+wk+' · top 10');
+  sub('statesSub','Week '+wk+' · top 10');
   var ts=document.getElementById('weeklyTrendSub');
-  if(ts)ts.innerHTML='Weeks 1&ndash;19 &middot; FY2026 &middot; <strong style="color:var(--navy)">Week '+wk+' highlighted</strong>';
+  if(ts)ts.innerHTML='Weeks 1–19 · FY2026 · <strong style="color:var(--navy)">Week '+wk+' highlighted</strong>';
   updateConvDisplay();
   rebuildMetricLine();
   buildFYTrend();
+  // sparkline is static SVG — no update needed
 }
 function onWeekSelect(val){loadWeek(parseInt(val));}
 
+// ── Metric line chart (update data in place when possible) ────────────────
 var curMetric='visits';
+const MP={
+  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Visits'},
+  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'GAH PVs',lC:'GAH UTM PVs',title:'Page Views'},
+  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'GAH UVs',lC:'GAH UTM UVs',title:'Unique Visitors'}
+};
+const WK_KEYS=Object.keys(WEEKS).map(Number).sort((a,b)=>a-b);
+
 function rebuildMetricLine(){
-  var m=MP[curMetric];if(!m)return;
-  document.getElementById('metricChartTitle').textContent=m.title+' \u2014 usga.org vs getahandicap.usga.org';
-  var labels=ALL_WEEKS_DATA.map(function(w){return 'Wk '+w.wk;});
-  var pr=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?6:3;});
-  var ptA=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?R:N;});
-  var ptB=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#e07010':B;});
-  var ptC=ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#7a9e00':G;});
-  var canvas=document.getElementById('metricLineChart');
-  if(charts.ml){charts.ml.destroy();charts.ml=null;}
-  charts.ml=new Chart(canvas,{
+  var m=MP[curMetric];
+  document.getElementById('metricChartTitle').textContent=m.title+' — usga.org vs getahandicap.usga.org';
+  var labels=WK_KEYS.map(function(k){return 'Wk '+k;});
+  var pr=WK_KEYS.map(function(k){return k===curWeek?6:3;});
+  var dA=WK_KEYS.map(function(k){return WEEKS[k][m.A];});
+  var dB=WK_KEYS.map(function(k){return WEEKS[k][m.B];});
+  var dC=WK_KEYS.map(function(k){return WEEKS[k][m.C];});
+  var ptA=WK_KEYS.map(function(k){return k===curWeek?R:N;});
+  var ptB=WK_KEYS.map(function(k){return k===curWeek?'#e07010':B;});
+  var ptC=WK_KEYS.map(function(k){return k===curWeek?'#7a9e00':G;});
+  if(charts.ml){
+    // Update in place — no flicker
+    charts.ml.data.labels=labels;
+    charts.ml.data.datasets[0].data=dA;charts.ml.data.datasets[0].pointRadius=pr;charts.ml.data.datasets[0].pointBackgroundColor=ptA;charts.ml.data.datasets[0].label=m.lA;
+    charts.ml.data.datasets[1].data=dB;charts.ml.data.datasets[1].pointRadius=pr;charts.ml.data.datasets[1].pointBackgroundColor=ptB;charts.ml.data.datasets[1].label=m.lB;
+    charts.ml.data.datasets[2].data=dC;charts.ml.data.datasets[2].pointRadius=pr;charts.ml.data.datasets[2].pointBackgroundColor=ptC;charts.ml.data.datasets[2].label=m.lC;
+    charts.ml.update('none');
+    return;
+  }
+  charts.ml=new Chart(document.getElementById('metricLineChart'),{
     type:'line',
     data:{labels:labels,datasets:[
-      {label:m.lA,data:ALL_WEEKS_DATA.map(function(w){return w[m.A];}),borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
-      {label:m.lB,data:ALL_WEEKS_DATA.map(function(w){return w[m.B];}),borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
-      {label:m.lC,data:ALL_WEEKS_DATA.map(function(w){return w[m.C];}),borderColor:G,borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
+      {label:m.lA,data:dA,borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
+      {label:m.lB,data:dB,borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
+      {label:m.lC,data:dC,borderColor:G,borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
     ]},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
-        tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);}}}
-      },
-      scales:{
-        x:{ticks:{font:{size:10},color:GR},grid:{display:false}},
-        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
-      }
-    }
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
+        tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);}}}},
+      scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},
+        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
   });
 }
 document.querySelectorAll('[data-metric]').forEach(function(b){
@@ -475,6 +563,12 @@ document.querySelectorAll('[data-metric]').forEach(function(b){
   });
 });
 
+// ── FY trend bar chart ────────────────────────────────────────────────────
+const FY_MK={
+  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'GAH (organic)',lC:'GAH (UTM)'},
+  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'GAH PVs (organic)',lC:'GAH PVs (UTM)'},
+  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'GAH UVs (organic)',lC:'GAH UVs (UTM)'}
+};
 function setFYMetric(m,btn){
   fyMetric=m;
   document.querySelectorAll('[data-fym]').forEach(function(b){b.classList.remove('on');});
@@ -482,49 +576,51 @@ function setFYMetric(m,btn){
   buildFYTrend();
 }
 function buildFYTrend(){
-  if(charts.fy){charts.fy.destroy();charts.fy=null;}
   var mk=FY_MK[fyMetric]||FY_MK.visits;
-  var labels=ALL_WEEKS_DATA.map(function(w){return 'Wk '+w.wk;});
-  var organic=ALL_WEEKS_DATA.map(function(w){return Math.max(0,(w[mk.B]||0)-(w[mk.C]||0));});
-  var utm=ALL_WEEKS_DATA.map(function(w){return w[mk.C]||0;});
-  var datasets=[
-    {label:mk.lA,data:ALL_WEEKS_DATA.map(function(w){return w[mk.A];}),backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?R:N;}),borderRadius:3,barPercentage:.75,stack:'usga'},
-    {label:mk.lB,data:organic,backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#006fa8':B;}),borderRadius:0,barPercentage:.75,stack:'gah'},
-    {label:mk.lC,data:utm,backgroundColor:ALL_WEEKS_DATA.map(function(w){return w.wk===curWeek?'#7a9e00':G;}),borderRadius:3,barPercentage:.75,stack:'gah'}
-  ];
+  var labels=WK_KEYS.map(function(k){return 'Wk '+k;});
+  var organic=WK_KEYS.map(function(k){return Math.max(0,(WEEKS[k][mk.B]||0)-(WEEKS[k][mk.C]||0));});
+  var utm=WK_KEYS.map(function(k){return WEEKS[k][mk.C]||0;});
+  var bgA=WK_KEYS.map(function(k){return k===curWeek?R:N;});
+  var bgB=WK_KEYS.map(function(k){return k===curWeek?'#006fa8':B;});
+  var bgC=WK_KEYS.map(function(k){return k===curWeek?'#7a9e00':G;});
   document.getElementById('fyLeg').innerHTML=
     '<div class="li"><div class="ld" style="background:'+N+'"></div>'+mk.lA+'</div>'+
     '<div class="li"><div class="ld" style="background:'+B+'"></div>'+mk.lB+'</div>'+
     '<div class="li"><div class="ld" style="background:'+G+'"></div>'+mk.lC+'</div>';
+  if(charts.fy){
+    charts.fy.data.labels=labels;
+    charts.fy.data.datasets[0].data=WK_KEYS.map(function(k){return WEEKS[k][mk.A];});
+    charts.fy.data.datasets[0].backgroundColor=bgA;charts.fy.data.datasets[0].label=mk.lA;
+    charts.fy.data.datasets[1].data=organic;charts.fy.data.datasets[1].backgroundColor=bgB;charts.fy.data.datasets[1].label=mk.lB;
+    charts.fy.data.datasets[2].data=utm;charts.fy.data.datasets[2].backgroundColor=bgC;charts.fy.data.datasets[2].label=mk.lC;
+    charts.fy.update('none');
+    return;
+  }
   charts.fy=new Chart(document.getElementById('fyTrendChart'),{
     type:'bar',
-    data:{labels:labels,datasets:datasets},
-    options:{
-      responsive:true,maintainAspectRatio:false,
-      plugins:{
-        legend:{display:false},
-        tooltip:{callbacks:{
-          label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);},
-          footer:function(it){
-            var g=it.filter(function(i){return i.datasetIndex>0;});
-            if(g.length>1)return 'GAH total: '+fmt(g.reduce(function(s,i){return s+i.parsed.y;},0));
-            return '';
-          }
-        }}
-      },
-      scales:{
-        x:{ticks:{font:{size:9},color:GR},grid:{display:false}},
-        y:{stacked:false,ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}
-      }
-    }
+    data:{labels:labels,datasets:[
+      {label:mk.lA,data:WK_KEYS.map(function(k){return WEEKS[k][mk.A];}),backgroundColor:bgA,borderRadius:3,barPercentage:.75,stack:'usga'},
+      {label:mk.lB,data:organic,backgroundColor:bgB,borderRadius:0,barPercentage:.75,stack:'gah'},
+      {label:mk.lC,data:utm,backgroundColor:bgC,borderRadius:3,barPercentage:.75,stack:'gah'}
+    ]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{
+        label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);},
+        footer:function(it){var g=it.filter(function(i){return i.datasetIndex>0;});
+          if(g.length>1)return 'GAH total: '+fmt(g.reduce(function(s,i){return s+i.parsed.y;},0));return '';}
+      }}},
+      scales:{x:{ticks:{font:{size:9},color:GR},grid:{display:false}},
+        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
   });
 }
 
-var curMonth='jan26';
+// ── Monthly view ──────────────────────────────────────────────────────────
 function loadMonth(val){
-  curMonth=val;var d=MONTHS[val];if(!d)return;
-  document.getElementById('m-label').textContent=d.label+' \u2014 Monthly Report';
-  document.getElementById('m-conv-label').textContent=d.label+' \u2014 Conversion Funnel';
+  curMonth=val;
+  var d=MONTHS[val];
+  if(!d)return;
+  document.getElementById('m-label').textContent=d.label+' — Monthly Report';
+  document.getElementById('m-conv-label').textContent=d.label+' — Conversion Funnel';
   document.getElementById('currentBadge').textContent=d.label;
   var mps=document.getElementById('monthPanelSelect');if(mps)mps.value=val;
   var moSel=document.getElementById('monthSelect');if(moSel)moSel.value=val;
@@ -534,16 +630,12 @@ function loadMonth(val){
   set('m-utm-usga',d.utmUsga);set('m-utm-usga-pv',d.utmUsgaPv);set('m-utm-usga-uv',d.utmUsgaUv);
   set('m-gah-vis',d.gahVisits);set('m-gah-pv',d.gahPv);set('m-gah-uv',d.gahUv);
   set('m-utm-vis',d.utmVisits);set('m-utm-pv',d.utmPv);set('m-utm-uv',d.utmUv);
-  if(d.visits){
-    sub('m-utm-usga-pct',(d.utmUsga/d.visits*100).toFixed(1)+'% of usga.org');
-    sub('m-utm-usga-pv-pct',(d.utmUsgaPv/d.pv*100).toFixed(1)+'% of usga.org');
-    sub('m-utm-usga-uv-pct',(d.utmUsgaUv/d.uv*100).toFixed(1)+'% of usga.org');
-  }
-  if(d.gahVisits){
-    sub('m-utm-pct',(d.utmVisits/d.gahVisits*100).toFixed(1)+'% of GAH');
-    sub('m-utm-pv-pct',(d.utmPv/d.gahPv*100).toFixed(1)+'% of GAH');
-    sub('m-utm-uv-pct',(d.utmUv/d.gahUv*100).toFixed(1)+'% of GAH');
-  }
+  sub('m-utm-usga-pct',pct(d.utmUsga,d.visits)+' of usga.org');
+  sub('m-utm-usga-pv-pct',pct(d.utmUsgaPv,d.pv)+' of usga.org');
+  sub('m-utm-usga-uv-pct',pct(d.utmUsgaUv,d.uv)+' of usga.org');
+  sub('m-utm-pct',pct(d.utmVisits,d.gahVisits)+' of GAH');
+  sub('m-utm-pv-pct',pct(d.utmPv,d.gahPv)+' of GAH');
+  sub('m-utm-uv-pct',pct(d.utmUv,d.gahUv)+' of GAH');
   document.getElementById('m-conv').textContent=(d.conv*100).toFixed(1)+'%';
   document.getElementById('m-detour').textContent=(d.detour*100).toFixed(1)+'%';
   document.getElementById('m-ref-type').innerHTML=d.refType.map(function(r){return '<tr><td>'+r.t+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
@@ -552,6 +644,7 @@ function loadMonth(val){
   buildFunnel(d,'m-funnel');
 }
 
+// ── View toggle ───────────────────────────────────────────────────────────
 document.querySelectorAll('[data-view]').forEach(function(b){
   b.addEventListener('click',function(){
     document.querySelectorAll('[data-view]').forEach(function(x){x.classList.remove('on');});
@@ -561,16 +654,19 @@ document.querySelectorAll('[data-view]').forEach(function(b){
     document.getElementById('view-'+v).classList.add('on');
     document.getElementById('week-select-wrap').style.display=v==='weekly'?'flex':'none';
     document.getElementById('month-select-wrap').style.display=v==='monthly'?'flex':'none';
-    document.getElementById('currentBadge').textContent=v==='weekly'?'Week '+curWeek:(MONTHS[curMonth]?MONTHS[curMonth].label:'');
-    if(v==='weekly'){rebuildMetricLine();buildFYTrend();}
-    else{loadMonth(curMonth);}
+    if(v==='weekly'){
+      document.getElementById('currentBadge').textContent='Week '+curWeek;
+      rebuildMetricLine();buildFYTrend();
+    } else {
+      loadMonth(curMonth);
+    }
   });
 });
 
+// ── Init ──────────────────────────────────────────────────────────────────
 loadWeek(19);
 buildFYTrend();
 loadMonth('jan26');
-
 </script>
 </body>
 </html>
