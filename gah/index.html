@@ -435,32 +435,38 @@ function buildInsightCallouts(d,wk){
   if(prev){
     var dE1=(d.eff1-prev.eff1)*100, dCv=(d.conv-prev.conv)*100, dS6=d.s6-prev.s6;
     var t1=Math.abs(dE1)>=2?(dE1<0?'neg':'pos'):(Math.abs(dCv)>=0.5?(dCv<0?'neg':'pos'):'warn');
-    var h1='Step 1→2: '+p(prev.eff1)+' → '+p(d.eff1)+' ('+pp(dE1)+') &nbsp;|&nbsp; Payments: '+(dS6>=0?'+':'')+dS6.toLocaleString()+' vs Wk'+(wk-1);
-    var b1=dE1<=-2?d.s1.toLocaleString()+' starters this week but only '+p(d.eff1)+' proceeded — more volume, lower intent. Audit UTM sources for this week.':
-           dE1>=2?p(d.eff1)+' of starters proceeded to Become a Member — stronger intent. Identify the channel driving this and scale it.':
-           'Conversion held at '+p(d.conv)+' ('+pp(dCv)+' WoW). No material change across funnel steps.';
-    out.push({scope:'THIS WEEK vs Wk'+(wk-1),t:t1,h:h1,b:b1});
+    var h1=dE1<=-2?'Fewer people are completing sign-up after clicking Get Started':
+           dE1>=2?'More people are completing sign-up after clicking Get Started':
+           'Sign-up rate held steady compared to last week';
+    var b1=dE1<=-2?'This week '+d.s1.toLocaleString()+' people clicked Get Started, but only '+p(d.eff1)+' went on to become a member — that\'s down '+Math.abs(dE1).toFixed(1)+' points from last week. More traffic, but less interest in completing. Check where this week\'s visitors came from.':
+           dE1>=2?'This week '+p(d.eff1)+' of people who clicked Get Started went on to become a member — up '+dE1.toFixed(1)+' points from last week. People are more interested in completing the sign-up. Find out what channel or message drove that and do more of it.':
+           'Overall, '+p(d.conv)+' of people who started the sign-up process clicked Submit Payment — '+(dCv>=0?'up':'down')+' '+Math.abs(dCv).toFixed(1)+' points from last week. No major change at any step. This week saw '+d.s6.toLocaleString()+' clicked Submit Payment vs '+prev.s6.toLocaleString()+' last week.';
+    out.push({scope:'THIS WEEK vs Week '+(wk-1),t:t1,h:h1,b:b1});
   } else {
-    out.push({scope:'THIS WEEK',t:'warn',h:'Week 1 — no prior week to compare',b:d.s1.toLocaleString()+' starters · '+d.s6.toLocaleString()+' payments · '+p(d.conv)+' conversion rate.'});
+    out.push({scope:'THIS WEEK',t:'warn',h:'First week of the season — nothing to compare yet',b:'This week '+d.s1.toLocaleString()+' people started the sign-up process and '+d.s6.toLocaleString()+' clicked Submit Payment — a '+p(d.conv)+' completion rate.'});
   }
 
   // 2 — vs past 4-week avg
-  var dE1m=(d.eff1-mEff1)*100, dCvm=(d.conv-mConv)*100;
+  var dE1m=(d.eff1-mEff1)*100;
   var t2=dE1m<=-3?'neg':dE1m>=3?'pos':'warn';
-  var h2='Eff1 '+p(d.eff1)+' vs '+p(mEff1)+' 4-wk avg ('+pp(dE1m)+') &nbsp;|&nbsp; Payments '+d.s6.toLocaleString()+' vs '+Math.round(mS6).toLocaleString()+' avg';
-  var b2=dE1m<=-3?'Step 1→2 is below the recent baseline. Check if the Become a Member CTA or onboarding copy changed. Marketing: review targeting on current campaigns.':
-         dE1m>=3?'Intent is stronger than the past 4-week avg. Identify what\'s working this week — channel mix, creative, or messaging — and replicate.':
-         'Tracking the recent baseline. Watch Eff1 — the 4-week range has been '+p(Math.min.apply(null,MONTH_WKS.map(function(k){return WEEKS[k].eff1;})))+' to '+p(Math.max.apply(null,MONTH_WKS.map(function(k){return WEEKS[k].eff1;})))+'.';
-  out.push({scope:'PAST MONTH: Wks 16–19 Avg',t:t2,h:h2,b:b2});
+  var h2=dE1m<=-3?'Fewer people are finishing sign-up than in recent weeks':
+         dE1m>=3?'More people are finishing sign-up than in recent weeks':
+         'Sign-up completion is in line with the past four weeks';
+  var b2=dE1m<=-3?'Over the past four weeks, about '+p(mEff1)+' of people who clicked Get Started went on to become a member. This week it\'s '+p(d.eff1)+' — that\'s '+Math.abs(dE1m).toFixed(1)+' points lower. Worth checking if anything changed in how the sign-up page looks or what ads are running.':
+         dE1m>=3?'Over the past four weeks, about '+p(mEff1)+' of people who clicked Get Started went on to become a member. This week it\'s '+p(d.eff1)+' — that\'s '+dE1m.toFixed(1)+' points higher. Something is working better than usual. Figure out what and keep doing it.':
+         'About '+p(d.eff1)+' of people clicked Get Started and went on to become a member this week, right in line with the recent four-week average of '+p(mEff1)+'. Payments this week: '+d.s6.toLocaleString()+' vs a recent average of '+Math.round(mS6).toLocaleString()+'.';
+  out.push({scope:'PAST MONTH: Weeks 16–19 Average',t:t2,h:h2,b:b2});
 
   // 3 — FY2026 pace
   var dE1y=(d.eff1-FY_AVG.eff1)*100, dCvy=(d.conv-FY_AVG.conv)*100;
   var t3=d.eff1<0.58?'neg':d.conv>FY_AVG.conv+0.01?'pos':'warn';
-  var h3='Conv '+p(d.conv)+' vs FY avg '+p(FY_AVG.conv)+' ('+pp(dCvy)+') &nbsp;|&nbsp; Eff1 '+p(d.eff1)+' vs FY avg '+p(FY_AVG.eff1)+' ('+pp(dE1y)+')';
-  var b3=d.eff1<0.58?'Eff1 below FY avg since Wk 13 (high-volume weeks). Funnel bottom healthy (Eff3 '+p(d.eff3)+'). +5pp Eff1 = ~'+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more payments/wk.':
-         d.conv>FY_AVG.conv+0.01?'Top-tier week YTD (range 24.4%–30.0%). Eff3 '+p(d.eff3)+' above FY avg. Document what drove this.':
-         'Funnel consistent YTD. Eff3 holding 71–79% all season. +5pp Eff1 = ~'+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more payments/wk.';
-  out.push({scope:'FY2026 YTD PACE',t:t3,h:h3,b:b3});
+  var h3=d.eff1<0.58?'The drop-off at the first step is running below the full-year average':
+         d.conv>FY_AVG.conv+0.01?'This is one of the best conversion weeks of the year so far':
+         'Overall performance is on track with the rest of the year';
+  var b3=d.eff1<0.58?'Since Week 13, busier weeks have brought in more clicks but fewer people have been finishing the sign-up. The full-year average is '+p(FY_AVG.eff1)+' — this week is '+p(d.eff1)+'. The good news: once people reach the payment step, '+p(d.eff3)+' of them complete it. The opportunity is getting more people past that first step. If that rate improved by 5 points, it would mean roughly '+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more completed sign-ups each week.':
+         d.conv>FY_AVG.conv+0.01?'The full-year average completion rate is '+p(FY_AVG.conv)+'. This week hit '+p(d.conv)+' — putting it among the top weeks of the season. Once people reach the payment step, '+p(d.eff3)+' are completing it. Worth understanding what made this week work.':
+         'The full-year average completion rate is '+p(FY_AVG.conv)+' and this week came in at '+p(d.conv)+'. Once people reach the payment page, '+p(d.eff3)+' complete it — that has been rock-solid all season. The biggest opportunity is still getting more people past the first sign-up step.';
+  out.push({scope:'FY2026 YEAR-TO-DATE',t:t3,h:h3,b:b3});
 
   el.innerHTML=out.map(function(c){
     var col=icol(c.t);
