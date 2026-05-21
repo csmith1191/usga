@@ -131,7 +131,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 <div class="sdiv"><div class="line"></div><div class="txt">Monthly KPI Trends</div><div class="line"></div></div>
 <div class="card">
   <div class="card-t" id="mainTitle">Page Views — Fiscal Year, Jan–Apr</div>
-  <div class="fb">
+  <div class="fb" style="margin-bottom:6px;">
     <div class="fg"><span class="fl">Metric</span>
       <button class="fp on" data-m="pv">Page Views</button>
       <button class="fp" data-m="vis">Visits</button>
@@ -152,11 +152,11 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
       <button class="fp on" data-fy="2026">2026</button>
     </div>
   </div>
-  <div style="position:relative;height:240px;"><canvas id="mainChart"></canvas></div>
+  <div style="position:relative;height:240px;margin-top:-8px;"><canvas id="mainChart"></canvas></div>
 </div>
 
 <!-- SECTION 1: VISITS BY PLATFORM -->
-<div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Visits by Platform</div><div class="line"></div></div>
+<div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Visits by Domain</div><div class="line"></div></div>
 <div class="card">
   <div class="fb">
     <div class="fg"><span class="fl">Time Period</span>
@@ -172,6 +172,13 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
   <div class="pie-wrap">
     <div style="position:relative;height:280px;flex:1;min-width:0;"><canvas id="platPieChart"></canvas></div>
     <div class="pie-leg" id="platLeg"></div>
+  </div>
+  <!-- YoY comparison table -->
+  <div id="platTable" style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);"></div>
+  <!-- Domain trend chart -->
+  <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+    <div style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;" id="platTrendTitle">Monthly trend by domain</div>
+    <div style="position:relative;height:220px;"><canvas id="platTrendChart"></canvas></div>
   </div>
 </div>
 
@@ -214,9 +221,9 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     <div class="li"><div class="ld" style="background:var(--bronze)"></div>iPad</div>
   </div>
   <div class="app-wrap"><div class="app-row" id="appVisual"></div></div>
-  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);">
+  <div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border);text-align:center;">
     <div style="font-size:10px;font-weight:700;color:var(--tm);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;">FY Totals</div>
-    <div id="appFYTotals" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+    <div id="appFYTotals" style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;"></div>
   </div>
 </div>
 
@@ -571,30 +578,40 @@ function rebuildMain(){
   const f1=v=>v==null?null:v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':String(v);
   let labels,datasets;
   if(tp==='fy'){
-    // Full Year: single year, all months
-    const yr=activeYrs[0]||'2026';
-    const pairs=ALL_MO.map((mo,i)=>({mo,v:d[yr][i]})).filter(p=>p.v!=null);
-    labels=pairs.map(p=>p.mo);
-    datasets=[{label:yr,data:pairs.map(p=>p.v),backgroundColor:COLS[yr]||N,borderRadius:4,barPercentage:.8}];
+    // Full Year: multi-select, all available months per year, grouped side by side
+    const yrs=activeYrs.length?activeYrs:['2026'];
+    // Build combined label set (union of all months with data across selected years)
+    // Use ALL_MO as base, filter to months where at least one year has data
+    labels=ALL_MO.filter((_,i)=>yrs.some(yr=>d[yr][i]!=null));
+    const labelIdxs=ALL_MO.map((_,i)=>i).filter(i=>yrs.some(yr=>d[yr][i]!=null));
+    datasets=yrs.map(yr=>({
+      label:yr,
+      data:labelIdxs.map(i=>d[yr][i]||null),
+      backgroundColor:COLS[yr]||N,
+      borderRadius:4,
+      barPercentage:.8
+    }));
+    const title=yrs.length===1?d.lbl+' — Full year '+yrs[0]:d.lbl+' — Full year comparison ('+yrs.join(', ')+')';
+    document.getElementById('mainTitle').textContent=title;
     document.getElementById('mainYrGroup').style.display='flex';
   } else {
     // Fiscal Year: Jan-Apr, multi-year
     labels=MO;
     datasets=['2022','2023','2024','2025','2026'].filter(yr=>activeYrs.includes(yr))
       .map(yr=>({label:yr,data:d[yr].slice(0,4),backgroundColor:COLS[yr],borderRadius:4,barPercentage:.8}));
+    document.getElementById('mainTitle').textContent=d.lbl+' — Fiscal Year, Jan–Apr';
     document.getElementById('mainYrGroup').style.display='flex';
   }
-  document.getElementById('mainTitle').textContent=d.lbl+(tp==='fy'?' — Full year '+(activeYrs[0]||'2026'):' — Fiscal Year, Jan–Apr');
   const dlp={id:'dl',afterDatasetsDraw(c){const ctx=c.ctx;c.data.datasets.forEach((ds,di)=>{c.getDatasetMeta(di).data.forEach((bar,i)=>{const v=ds.data[i];if(!v)return;ctx.save();ctx.fillStyle='#1C2F3D';ctx.font='600 9px sans-serif';ctx.textAlign='center';ctx.textBaseline='bottom';ctx.fillText(f1(v),bar.x,bar.y-3);ctx.restore();});});}};
   if(charts.main)charts.main.destroy();
-  charts.main=new Chart(document.getElementById('mainChart'),{type:'bar',plugins:[dlp],data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:24}},plugins:{legend:{display:datasets.length>1,position:'top',labels:{font:{size:10},boxWidth:10}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},y:{ticks:{font:{size:10},color:GR,callback:v=>f1(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
+  charts.main=new Chart(document.getElementById('mainChart'),{type:'bar',plugins:[dlp],data:{labels,datasets},options:{responsive:true,maintainAspectRatio:false,layout:{padding:{top:16}},plugins:{legend:{display:datasets.length>1,position:'top',labels:{font:{size:10},boxWidth:12,boxHeight:12,useBorderRadius:true,borderRadius:2,padding:8}}},scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},y:{ticks:{font:{size:10},color:GR,callback:v=>f1(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
 }
 pill('[data-m]',false,rebuildMain);
 pill('[data-view]',false,rebuildMain);
+// Full Year: multi-select; Fiscal Year: multi-select — both allow multiple years
 document.querySelectorAll('[data-fy]').forEach(b=>b.addEventListener('click',()=>{
-  const tp=on('[data-view]')[0]||'month';
-  if(tp==='fy'){document.querySelectorAll('[data-fy]').forEach(x=>x.classList.remove('on'));b.classList.add('on');}
-  else{b.classList.toggle('on');if(!on('[data-fy]').length)b.classList.add('on');}
+  b.classList.toggle('on');
+  if(!on('[data-fy]').length)b.classList.add('on');
   rebuildMain();
 }));
 
@@ -605,18 +622,77 @@ function buildPlatPie(){
   const tp=on('[data-pltp]')[0]||'month';
   const yr=on('[data-plyr]')[0]||'2026';
   const yrData=PLAT_DATA[yr];if(!yrData)return;
+  const prevYr=String(parseInt(yr)-1);
+  const prevData=PLAT_DATA[prevYr];
   const data=PIE_LABELS.map(lbl=>{
     const s=yrData.series.find(x=>x.label===lbl);if(!s)return 0;
     return tp==='fy'?s.data.reduce((a,b)=>a+(b||0),0):s.data[3]||0;
   });
   const total=data.reduce((a,b)=>a+b,0);
+
+  // Legend
   document.getElementById('platLeg').innerHTML=PIE_LABELS.map((l,i)=>{
     const pct=(data[i]/total*100).toFixed(1);
     return '<div class="pie-leg-row"><div style="width:13px;height:13px;border-radius:3px;background:'+PIE_COLORS[i]+';flex-shrink:0;margin-top:2px;"></div><div><div style="font-size:11px;font-weight:600;color:var(--tp);">'+l+'</div>'+'<div style="font-size:11px;color:var(--navy);font-weight:700;margin-top:3px;">'+fmt(data[i])+'</div><div style="font-size:10px;color:var(--tm);margin-top:1px;">'+pct+'% of total</div></div></div>';
   }).join('');
+
+  // Pie chart
   const piePlugin={id:'pl',afterDraw(c){const ctx=c.ctx,ds=c.data.datasets[0],meta=c.getDatasetMeta(0);meta.data.forEach((arc,i)=>{const pct=ds.data[i]/total*100;if(pct<4)return;const angle=(arc.startAngle+arc.endAngle)/2,r=arc.outerRadius*.65,x=arc.x+Math.cos(angle)*r,y=arc.y+Math.sin(angle)*r;ctx.save();ctx.fillStyle='#fff';ctx.font='bold 11px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.shadowColor='rgba(0,0,0,.35)';ctx.shadowBlur=3;ctx.fillText(pct.toFixed(1)+'%',x,y);ctx.restore();});}};
   if(charts.pie)charts.pie.destroy();
   charts.pie=new Chart(document.getElementById('platPieChart'),{type:'pie',plugins:[piePlugin],data:{labels:PIE_LABELS,datasets:[{data,backgroundColor:PIE_COLORS,borderWidth:2,borderColor:'#fff'}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>c.label+': '+fmt(c.parsed)+' ('+(c.parsed/total*100).toFixed(1)+'%)'}}}}});
+
+  // YoY comparison table
+  const tEl=document.getElementById('platTable');
+  if(tEl){
+    let rows=PIE_LABELS.map((l,i)=>{
+      const cur=data[i];
+      const pct=(cur/total*100).toFixed(1);
+      let yoyHtml='<td style="color:var(--tm);font-size:10px;text-align:right;">N/A</td>';
+      if(prevData){
+        const ps=prevData.series.find(x=>x.label===l);
+        if(ps){
+          const prev=tp==='fy'?ps.data.reduce((a,b)=>a+(b||0),0):ps.data[3]||0;
+          if(prev>0){
+            const chg=((cur-prev)/prev*100).toFixed(1);
+            const up=parseFloat(chg)>=0;
+            yoyHtml='<td style="color:'+(up?'#3A6614':'#DA1A31')+';font-weight:600;font-size:11px;text-align:right;white-space:nowrap;">'+(up?'▲':'▼')+Math.abs(chg)+'% vs '+prevYr+'</td>';
+          }
+        }
+      }
+      const dot='<span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:'+PIE_COLORS[i]+';margin-right:7px;vertical-align:middle;"></span>';
+      return '<tr>'
+        +'<td style="padding:6px 10px 6px 0;font-size:11px;font-weight:600;color:var(--tp);white-space:nowrap;">'+dot+l+'</td>'
+        +'<td style="padding:6px 12px;font-size:13px;font-weight:700;color:var(--navy);text-align:right;">'+fmt(cur)+'</td>'
+        +'<td style="padding:6px 12px;font-size:11px;color:var(--tm);text-align:right;">'+pct+'%</td>'
+        +yoyHtml
+        +'</tr>';
+    }).join('');
+    tEl.innerHTML='<table style="width:100%;border-collapse:collapse;">'
+      +'<thead><tr>'
+      +'<th style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tm);padding:0 0 8px;border-bottom:1.5px solid var(--border);text-align:left;">Domain</th>'
+      +'<th style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tm);padding:0 12px 8px;border-bottom:1.5px solid var(--border);text-align:right;">Visits</th>'
+      +'<th style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tm);padding:0 12px 8px;border-bottom:1.5px solid var(--border);text-align:right;">Share</th>'
+      +'<th style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--tm);padding:0 0 8px;border-bottom:1.5px solid var(--border);text-align:right;">YoY</th>'
+      +'</tr></thead><tbody>'+rows+'</tbody></table>';
+  }
+
+  // Domain trend line chart
+  const trendLabels=tp==='fy'?['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']:['Jan','Feb','Mar','Apr'];
+  const trendDatasets=PIE_LABELS.map((lbl,i)=>{
+    const s=yrData.series.find(x=>x.label===lbl);
+    const d2=s?(tp==='fy'?s.data:s.data.slice(0,4)):[];
+    return{label:lbl,data:d2,borderColor:PIE_COLORS[i],backgroundColor:PIE_COLORS[i]+'22',tension:.4,pointRadius:3,pointBackgroundColor:PIE_COLORS[i],fill:false,borderWidth:2};
+  });
+  const ttEl=document.getElementById('platTrendTitle');
+  if(ttEl)ttEl.textContent=(tp==='fy'?'Monthly':'Fiscal year')+' trend by domain — '+yr;
+  if(charts.platTrend)charts.platTrend.destroy();
+  charts.platTrend=new Chart(document.getElementById('platTrendChart'),{
+    type:'line',data:{labels:trendLabels,datasets:trendDatasets},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:10}},
+               tooltip:{callbacks:{label:c=>c.dataset.label+': '+fmt(c.parsed.y)}}},
+      scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},
+              y:{ticks:{font:{size:10},color:GR,callback:v=>fmt(v)},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}});
 }
 pill('[data-pltp]',false,buildPlatPie);
 pillSingle('[data-plyr]',buildPlatPie);
@@ -724,21 +800,14 @@ function buildFol(){
   document.getElementById('folGrid').innerHTML=entries.map(function(entry){
     var plt=entry[0], d=entry[1];
     var tot=d.cur.reduce(function(a,b){return a+b;},0);
-    var pTot=d.prev.reduce(function(a,b){return a+b;},0);
-    var yoy=pTot?((tot-pTot)/pTot*100).toFixed(1):'—';
     var rows=d.profiles.map(function(p,i){
       var pct=tot?(d.cur[i]/tot*100).toFixed(1):'—';
-      var yp=d.prev[i]?((d.cur[i]-d.prev[i])/d.prev[i]*100).toFixed(1):'—';
-      var c=yp!=='—'&&parseFloat(yp)>=0?'#3A6614':'#DA1A31';
-      var dir=yp!=='—'?(parseFloat(yp)>=0?'▲':'▼')+Math.abs(yp)+'%':'—';
-      return '<tr><td>'+p+'</td><td style="font-weight:600;color:var(--navy);">'+fmt(d.cur[i])+'</td><td>'+pct+'%</td><td style="color:'+c+'">'+dir+'</td></tr>';
+      return '<tr><td>'+p+'</td><td style="font-weight:600;color:var(--navy);">'+fmt(d.cur[i])+'</td><td>'+pct+'%</td></tr>';
     }).join('');
-    var yc=yoy!=='—'&&parseFloat(yoy)>=0?'#3A6614':'#DA1A31';
-    var ytxt=yoy!=='—'?(parseFloat(yoy)>=0?'▲':'▼')+Math.abs(yoy)+'% YoY':'—';
     return '<div class="fc"><div class="fp2">'+plt+'</div>'
-      +'<table class="ftbl"><thead><tr><th>Profile</th><th>Count</th><th>Share</th><th>YoY</th></tr></thead>'
+      +'<table class="ftbl"><thead><tr><th>Profile</th><th>Count</th><th>Share</th></tr></thead>'
       +'<tbody>'+rows+'</tbody>'
-      +'<tfoot><tr><td>Total</td><td>'+fmt(tot)+'</td><td></td><td style="color:'+yc+'">'+ytxt+'</td></tr></tfoot>'
+      +'<tfoot><tr><td>Total</td><td>'+fmt(tot)+'</td><td></td></tr></tfoot>'
       +'</table></div>';
   }).join('');
 }
