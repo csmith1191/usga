@@ -90,10 +90,11 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
     <span class="gfl" style="margin-left:8px;">Month</span>
     <div style="position:relative;">
       <select id="monthSelect" onchange="loadMonth(this.value)" class="fsel" style="min-width:150px;">
+        <option value="may26" selected>May 2026</option>
         <option value="apr26">April 2026</option>
         <option value="mar26">March 2026</option>
         <option value="feb26">February 2026</option>
-        <option value="jan26" selected>January 2026</option>
+        <option value="jan26">January 2026</option>
       </select>
       <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
     </div>
@@ -257,10 +258,11 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
         <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Month</span>
         <div style="position:relative;">
           <select id="monthPanelSelect" onchange="loadMonth(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:175px;">
+            <option value="may26" selected>May 2026</option>
             <option value="apr26">April 2026</option>
             <option value="mar26">March 2026</option>
             <option value="feb26">February 2026</option>
-            <option value="jan26" selected>January 2026</option>
+            <option value="jan26">January 2026</option>
           </select>
           <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
         </div>
@@ -314,7 +316,7 @@ html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px
 const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A';
 const fmt=n=>n==null?'\u2014':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
 const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
-let curWeek=24, convWeekSel='week', fyMetric='visits', curMonth='jan26';
+let curWeek=24, convWeekSel='week', fyMetric='visits', curMonth='may26';
 const charts={};
 
 // ── SINGLE SOURCE OF TRUTH: real data from Excel ──────────────────────────
@@ -352,7 +354,8 @@ const MONTHS={
   jan26:{label:'January 2026',visits:502310,pv:790029,uv:438652,utmUsga:164342,utmUsgaPv:171502,utmUsgaUv:162628,gahVisits:216782,gahPv:254819,gahUv:205896,utmVisits:164342,utmPv:171502,utmUv:162628,conv:.264,detour:.039,s1:34223,s2:23786,s3:23647,s4a:18267,s5:12126,s6:8994,eff1:.695,eff2:.772,eff3:.742,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
   feb26:{label:'February 2026',visits:656258,pv:1112916,uv:541216,utmUsga:208098,utmUsgaPv:220300,utmUsgaUv:205159,gahVisits:253093,gahPv:308482,gahUv:232864,utmVisits:208098,utmPv:220300,utmUv:205159,conv:.265,detour:.040,s1:40808,s2:28177,s3:30820,s4a:28169,s5:15355,s6:11295,eff1:.690,eff2:.914,eff3:.736,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
   mar26:{label:'March 2026',visits:1151599,pv:2062833,uv:938456,utmUsga:229209,utmUsgaPv:246501,utmUsgaUv:222128,gahVisits:370621,gahPv:474890,gahUv:342303,utmVisits:229209,utmPv:246501,utmUv:222128,conv:.270,detour:.042,s1:95935,s2:66709,s3:71065,s4a:57860,s5:33887,s6:27554,eff1:.696,eff2:.814,eff3:.813,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
-  apr26:{label:'April 2026',visits:1101387,pv:1802951,uv:940636,utmUsga:295569,utmUsgaPv:321089,utmUsgaUv:280469,gahVisits:480753,gahPv:580273,gahUv:438933,utmVisits:295569,utmPv:321089,utmUv:280469,conv:.276,detour:.034,s1:103496,s2:56271,s3:58813,s4a:33928,s5:38055,s6:28659,eff1:.544,eff2:.577,eff3:.753,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]}
+  apr26:{label:'April 2026',visits:1101387,pv:1802951,uv:940636,utmUsga:295569,utmUsgaPv:321089,utmUsgaUv:280469,gahVisits:480753,gahPv:580273,gahUv:438933,utmVisits:295569,utmPv:321089,utmUv:280469,conv:.276,detour:.034,s1:103496,s2:56271,s3:58813,s4a:33928,s5:38055,s6:28659,eff1:.544,eff2:.577,eff3:.753,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]},
+  may26:{label:'May 2026',visits:1297460,pv:2102784,uv:1109561,utmUsga:465322,utmUsgaPv:512354,utmUsgaUv:444422,gahVisits:525572,gahPv:623362,gahUv:486618,utmVisits:364739,utmPv:393750,utmUv:351632,conv:.288,detour:.083,s1:104298,s2:57774,s3:61456,s4a:32889,s5:39262,s6:29997,eff1:.554,eff2:.535,eff3:.764,refType:[{t:'Social Networks',v:274193,p:'52.1%'},{t:'Search Engines',v:33123,p:'6.3%'},{t:'Other Web Sites',v:16674,p:'3.2%'}],refDomain:[{d:'instagram.com',v:161948,p:'30.8%'},{d:'facebook.com',v:37863,p:'7.2%'},{d:'tiktok.com',v:46275,p:'8.8%'},{d:'google.com',v:32148,p:'6.1%'},{d:'youtube.com',v:28127,p:'5.4%'},{d:'ghin.com',v:7272,p:'1.4%'},{d:'txga.org',v:1408,p:'0.3%'},{d:'gapgolf.org',v:1186,p:'0.2%'}],states:[{s:'California',v:45858,p:'8.7%'},{s:'Texas',v:38433,p:'7.3%'},{s:'New York',v:34822,p:'6.6%'},{s:'Florida',v:27033,p:'5.1%'},{s:'Illinois',v:25817,p:'4.9%'},{s:'Pennsylvania',v:21605,p:'4.1%'},{s:'Georgia',v:19853,p:'3.8%'},{s:'Virginia',v:19819,p:'3.8%'},{s:'Massachusetts',v:19417,p:'3.7%'},{s:'Ohio',v:16724,p:'3.2%'}]}
 };
 
 // Funnel step config
@@ -675,9 +678,9 @@ document.querySelectorAll('[data-view]').forEach(function(b){
 });
 
 // ── Init ──────────────────────────────────────────────────────────────────
-loadWeek(19);
+loadWeek(24);
 buildFYTrend();
-loadMonth('jan26');
+loadMonth('may26');
 </script>
 </body>
 </html>
