@@ -1,686 +1,351 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Get A Handicap &mdash; Analytics Dashboard</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Get A Handicap — Digital Performance</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-:root{--navy:#00365F;--blue:#0088CE;--red:#DA1A31;--green:#A2B528;--gray:#63666A;--bronze:#B79157;--border:#D8DEE3;--bg:#F5F7F9;--white:#fff;--tp:#1A2733;--ts:#4A5A64;--tm:#7A8B94;}
+:root{--navy:#00285C;--red:#BF0D3E;--bg:#F8F9FB;--card:#fff;--text:#111827;--text2:#6B7280;--text3:#9CA3AF;--border:#E5E7EB;--pos:#059669;--neg:#DC2626;}
 *{box-sizing:border-box;margin:0;padding:0;}
-html,body{font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:13px;color:var(--tp);background:var(--bg);}
-.dash{max-width:980px;margin:0 auto;padding:20px 16px 48px;}
-.hdr{background:var(--navy);border-radius:10px;padding:14px 20px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;}
-.hdr-t{font-size:17px;font-weight:700;color:#fff;}.hdr-s{font-size:11px;color:#9AB8CC;margin-top:3px;}
-.hdr-r{display:flex;align-items:center;gap:12px;}
-.badge{background:var(--red);color:#fff;font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 13px;border-radius:999px;}
-.hdr-logo{height:42px;width:42px;border-radius:5px;object-fit:contain;background:#fff;padding:3px;display:block;}
-.gf{background:#2C3A47;border-radius:8px;padding:7px 12px;display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
-.gfl{font-size:9px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#7A97AA;white-space:nowrap;}
-.gfp{font-size:10px;font-weight:500;padding:3px 10px;border-radius:4px;border:1px solid transparent;background:transparent;color:#94AABB;cursor:pointer;white-space:nowrap;line-height:1.4;transition:all .12s;}
-.gfp:hover{background:#3A5060;color:#C8D8E4;}.gfp.on{background:var(--navy);color:#fff;font-weight:600;}
-.fsel{background:#2C3A47;color:#e0e4ef;border:1px solid #3E5060;border-radius:5px;padding:4px 22px 4px 9px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;}
-.sdiv{display:flex;align-items:center;gap:8px;margin:20px 0 12px;}
-.sdiv .line{flex:1;height:1px;background:var(--border);}
-.sdiv .num{width:20px;height:20px;border-radius:50%;background:var(--red);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sdiv .txt{font-size:10px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--navy);white-space:nowrap;}
-.card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:16px 18px;margin-bottom:14px;}
-.card-t{font-size:13px;font-weight:700;color:var(--navy);margin-bottom:1px;}
-.card-s{font-size:10px;color:var(--tm);margin-bottom:10px;}
-.pgrid{display:grid;grid-template-columns:240px repeat(3,1fr);gap:6px;margin-bottom:6px;align-items:center;}
-.pcol-lbl{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--tm);text-align:center;padding-bottom:4px;}
-.prow-lbl{font-size:11px;font-weight:600;color:var(--tp);display:flex;align-items:center;gap:7px;padding-right:8px;line-height:1.3;}
-.pdot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.pmc{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;text-align:center;min-height:58px;display:flex;flex-direction:column;justify-content:center;align-items:center;}
-.pmc .val{font-size:18px;font-weight:700;color:var(--navy);}.pmc .sub{font-size:9px;color:var(--tm);margin-top:3px;}
-.pmc.r{border-top:3px solid var(--red);}.pmc.b{border-top:3px solid var(--blue);}.pmc.g{border-top:3px solid var(--green);}
-.tpanel{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;}
-.tpanel-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);}
-.tpanel-t{font-size:13px;font-weight:700;color:var(--navy);}
-.conv-banner{background:var(--navy);border-radius:8px;padding:14px 20px;margin-bottom:14px;}
-.conv-lbl{font-size:11px;color:#9AB8CC;margin-bottom:10px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.15);display:flex;align-items:center;justify-content:space-between;}
-.conv-boxes{display:flex;gap:12px;}
-.conv-box{flex:1;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;}
-.conv-box .lbl{font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;}
-.conv-box .val{font-size:28px;font-weight:700;color:#fff;margin-top:4px;}
-.conv-box .sub{font-size:9px;color:#9AB8CC;margin-top:3px;}
-.funnel-wrap{display:flex;flex-direction:column;gap:7px;margin-bottom:14px;}
-.frow{display:grid;grid-template-columns:24px 160px 70px 48px 1fr;gap:10px;align-items:center;background:var(--white);border:1px solid var(--border);border-radius:8px;padding:10px 14px;}
-.fbadge{width:22px;height:22px;border-radius:50%;background:var(--navy);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.fname{font-size:11px;font-weight:600;color:var(--tp);line-height:1.3;}.fname span{display:block;font-size:9px;font-weight:400;color:var(--tm);}
-.fclicks{font-size:16px;font-weight:700;color:var(--navy);text-align:right;}
-.fpctlbl{font-size:11px;font-weight:700;text-align:right;min-width:40px;}
-.fbar{background:var(--bg);border-radius:4px;height:8px;overflow:hidden;}
-.fbar-fill{height:100%;border-radius:4px;transition:width .3s ease;}
-.eff-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
-.eff-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:12px 14px;border-left:4px solid var(--blue);}
-.eff-lbl{font-size:10px;color:var(--tm);margin-bottom:4px;}.eff-val{font-size:24px;font-weight:700;color:var(--navy);}.eff-note{font-size:9px;color:var(--tm);margin-top:4px;}
-.tbl{width:100%;border-collapse:collapse;}
-.tbl th{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--tm);padding:0 0 6px;border-bottom:1.5px solid var(--border);text-align:right;}
-.tbl th:first-child{text-align:left;}.tbl td{font-size:11px;padding:5px 0;border-bottom:.5px solid #EEF1F3;text-align:right;color:var(--ts);}
-.tbl td:first-child{text-align:left;color:var(--tp);font-weight:500;}.tbl tr:last-child td{border-bottom:none;}.num{font-weight:600;color:var(--navy);}
-.two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;}
-.leg{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px;}
-.li{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ts);font-weight:500;}
-.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-.vt{display:none;}.vt.on{display:block;}
-.mp{font-size:10px;font-weight:500;padding:2px 9px;border-radius:4px;border:1px solid transparent;background:#EEF2F5;color:#4A5A64;cursor:pointer;white-space:nowrap;transition:all .1s;}
-.mp:hover{background:#D5DDE3;color:var(--navy);}.mp.on{background:var(--navy);color:#fff;font-weight:600;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--text);}
+nav{background:var(--navy);position:sticky;top:0;z-index:100;}
+.ni{max-width:1280px;margin:0 auto;padding:11px 24px;display:flex;align-items:center;justify-content:space-between;}
+.n-t{font-size:14px;font-weight:500;color:#fff;}
+.n-b{background:var(--red);color:#fff;font-size:11px;font-weight:500;padding:4px 13px;border-radius:20px;}
+.hero{background:var(--card);border-bottom:1px solid var(--border);}
+.hero-i{max-width:1280px;margin:0 auto;padding:20px 24px;display:flex;align-items:center;}
+.kpi{padding:0 26px;border-right:1px solid var(--border);flex-shrink:0;}
+.kpi.f{padding-left:0;}.kpi.l{border-right:none;}
+.kv{font-size:40px;font-weight:500;line-height:1;}
+.kv.r{color:var(--red);}
+.kl{font-size:10px;color:var(--text3);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:.4px;}
+.kd{font-size:11px;font-weight:500;margin-top:5px;}
+.kd.up{color:var(--pos);}.kd.dn{color:var(--neg);}.kd.nt{color:var(--text2);}
+.h-ins{flex:1;padding-left:26px;}
+.h-box{background:#F9FAFB;border:1px solid var(--border);border-radius:10px;padding:14px 18px;}
+.h-ht{font-size:11px;font-weight:500;color:var(--text);margin-bottom:5px;}
+.h-hb{font-size:11px;color:var(--text2);line-height:1.75;}
+.bkdn{border-bottom:1px solid var(--border);}
+.bk-i{max-width:1280px;margin:0 auto;padding:14px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+.bc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.bc-hd{font-size:9px;font-weight:500;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;}
+.bc-v{font-size:24px;font-weight:500;color:var(--text);line-height:1;}
+.bc-s{font-size:10px;color:var(--text3);margin-top:3px;}
+.bc-d{font-size:11px;font-weight:500;margin-top:5px;margin-bottom:12px;}
+.bc-d.up{color:var(--pos);}.bc-d.dn{color:var(--neg);}
+.rrow{display:flex;align-items:center;gap:7px;margin-top:6px;}
+.rn{font-size:10px;color:var(--text2);width:84px;flex-shrink:0;}
+.rbg{flex:1;background:#F3F4F6;height:6px;border-radius:20px;overflow:hidden;}
+.rb{height:100%;border-radius:20px;background:var(--navy);}
+.rv{font-size:9px;color:var(--text3);width:36px;text-align:right;flex-shrink:0;}
+.rn-note{font-size:8px;color:#D1D5DB;margin-top:8px;}
+.fr{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--border);}
+.fr:last-of-type{border-bottom:none;}
+.fl{font-size:10px;color:var(--text2);}.fv{font-size:15px;font-weight:500;color:var(--text);}
+.fa{font-size:9px;color:var(--text3);text-align:center;padding:3px 0;}
+.det{display:flex;align-items:center;justify-content:space-between;background:#FFF5F7;border:1px solid #FECDD3;border-radius:7px;padding:8px 12px;margin-top:10px;}
+.det-l{font-size:9px;color:var(--text3);}.det-v{font-size:14px;font-weight:500;color:var(--red);}
+.yrow{display:flex;flex-direction:column;padding:7px 0;border-bottom:.5px solid var(--border);}
+.yrow:last-child{border-bottom:none;}
+.yl{font-size:9px;color:var(--text3);font-weight:500;margin-bottom:3px;}
+.yv{font-size:17px;font-weight:500;color:var(--text);}
+.ys{font-size:9px;color:#D1D5DB;margin-top:1px;}
+.tc-sec{background:var(--card);border-bottom:1px solid var(--border);padding:18px 0 0;}
+.tc-i{max-width:1280px;margin:0 auto;padding:0 24px;}
+.tc-hd{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.tc-t{font-size:14px;font-weight:500;color:var(--text);}
+.tc-s{font-size:10px;color:var(--text3);margin-top:3px;}
+.tc-s b{font-weight:500;color:var(--navy);}
+.tog-row{display:flex;background:var(--bg);border:1px solid var(--border);border-radius:8px;overflow:hidden;}
+.tog-lbl{font-size:9px;font-weight:500;color:var(--text3);padding:0 10px;display:flex;align-items:center;text-transform:uppercase;letter-spacing:.4px;}
+.tog{background:transparent;border:none;border-left:1px solid var(--border);padding:7px 14px;font-size:11px;cursor:pointer;color:var(--text2);font-family:inherit;}
+.tog:hover{background:#F3F4F6;}.tog.on{background:var(--navy);color:#fff;}
+.tc-leg{display:flex;gap:16px;margin:10px 0 12px;}
+.tc-li{display:flex;align-items:center;gap:6px;font-size:10px;color:var(--text2);}
+.tc-ld{width:14px;height:2px;border-radius:1px;}
+.chart-wrap{position:relative;height:220px;}
+.de-sec{border-bottom:1px solid var(--border);padding:18px 0;}
+.de-i{max-width:1280px;margin:0 auto;padding:0 24px;}
+.de-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.de-t{font-size:14px;font-weight:500;color:var(--text);}
+.de-s{font-size:10px;color:var(--text3);}
+.eff-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px;}
+.effc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;border-left:4px solid var(--navy);}
+.effc.good{border-left-color:#1a6b2e;}
+.eff-step{font-size:10px;color:var(--text2);margin-bottom:7px;}
+.eff-v{font-size:32px;font-weight:500;color:var(--text);line-height:1;}
+.eff-v.g{color:#1a6b2e;}.eff-sub{font-size:10px;color:var(--text3);margin-top:4px;}
+.ins-g{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.ins{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;border-left:4px solid var(--navy);}
+.ins-tag{font-size:8px;font-weight:500;color:var(--navy);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:4px;}
+.ins-arr{color:var(--red);}
+.ins-h{font-size:13px;font-weight:500;color:var(--text);margin-bottom:8px;line-height:1.4;}
+.ins-sep{height:.5px;background:var(--border);margin-bottom:8px;}
+.ins-b{font-size:10px;color:var(--text2);line-height:1.75;}
+.ch-sec{background:#071c38;}
+.ch-i{max-width:1280px;margin:0 auto;padding:18px 24px;}
+.ch-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.ch-t{font-size:10px;font-weight:500;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;}
+.ch-wk{background:rgba(255,255,255,.1);border:.5px solid rgba(255,255,255,.2);color:#fff;font-size:10px;padding:3px 10px;border-radius:4px;}
+.ch-body{display:flex;gap:14px;align-items:flex-start;}
+.ch-stat{background:rgba(255,255,255,.07);border-radius:8px;padding:12px 16px;flex-shrink:0;}
+.ch-sl{font-size:8px;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px;}
+.ch-sv{font-size:28px;font-weight:500;color:#fff;line-height:1;}
+.ch-ss{font-size:9px;color:rgba(255,255,255,.35);margin-top:4px;}
+.ch-chart{background:rgba(255,255,255,.05);border-radius:8px;padding:12px 16px;flex:1;min-width:0;}
+.ch-cl{font-size:8px;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;}
+footer{background:#051428;padding:12px 24px;}
+.ft-i{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
+.ft-t{font-size:10px;color:rgba(255,255,255,.3);}
 </style>
 </head>
 <body>
-<div class="dash">
 
-<div class="hdr">
-  <div><div class="hdr-t">Get A Handicap &mdash; Analytics Dashboard</div><div class="hdr-s">getahandicap.usga.org &middot; FY2026 through Week 24</div></div>
-  <div class="hdr-r"><div class="badge" id="currentBadge">Week 24</div></div>
-</div>
+<nav><div class="ni"><span class="n-t">Get A Handicap &#8212; Digital Performance</span><span class="n-b" id="wk-badge">Week 30 &middot; Jul 27&#8211;Aug 02, 2026</span></div></nav>
 
-<div class="gf">
-  <span class="gfl">View</span>
-  <button class="gfp on" data-view="weekly">Weekly</button>
-  <button class="gfp" data-view="monthly">Monthly</button>
-  <div id="week-select-wrap" style="display:flex;align-items:center;gap:6px;">
-    <span class="gfl" style="margin-left:8px;">Week</span>
-    <div style="position:relative;">
-      <select id="weekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="min-width:185px;"></select>
-      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+<section class="ch-sec"><div class="ch-i">
+  <div class="ch-top"><div class="ch-t">30-Week Conversion History</div><div class="ch-wk" id="ch-wk-lbl">FY2026 &middot; Wks 1&#8211;30</div></div>
+  <div class="ch-body">
+    <div class="ch-stat"><div class="ch-sl">This week</div><div class="ch-sv" id="ch-conv">27.8%</div><div class="ch-ss">start &#8594; payment</div></div>
+    <div class="ch-stat"><div class="ch-sl">Detour rate</div><div class="ch-sv" id="ch-det">12.3%</div><div class="ch-ss">club selection step</div></div>
+    <div class="ch-stat"><div class="ch-sl">Season peak</div><div class="ch-sv" id="ch-peak">30.2%</div><div class="ch-ss" id="ch-peak-wk">Week 27</div></div>
+    <div class="ch-stat"><div class="ch-sl">27% baseline</div><div class="ch-sv">27.0%</div><div class="ch-ss">normal range</div></div>
+    <div class="ch-chart">
+      <div class="ch-cl">Conversion rate &#8212; dashed line = 27% baseline</div>
+      <svg id="cv-spark" width="100%" height="64" viewBox="0 0 700 64" preserveAspectRatio="none" style="display:block;overflow:visible" role="img" aria-label="30-week conversion sparkline"></svg>
     </div>
   </div>
-  <div id="month-select-wrap" style="display:none;align-items:center;gap:6px;">
-    <span class="gfl" style="margin-left:8px;">Month</span>
-    <div style="position:relative;">
-      <select id="monthSelect" onchange="loadMonth(this.value)" class="fsel" style="min-width:150px;">
-        <option value="may26" selected>May 2026</option>
-        <option value="apr26">April 2026</option>
-        <option value="mar26">March 2026</option>
-        <option value="feb26">February 2026</option>
-        <option value="jan26">January 2026</option>
-      </select>
-      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);color:#8892aa;font-size:9px;pointer-events:none;">&#9660;</span>
+</div></section>
+
+<section class="hero"><div class="hero-i">
+  <div class="kpi f"><div class="kv" id="h-usga">229k</div><div class="kl">usga.org visits</div><div class="kd dn" id="h-usga-d">&#9660; -19% vs prior week</div></div>
+  <div class="kpi"><div class="kv" id="h-gah">91.7k</div><div class="kl">GAH site visits</div><div class="kd up" id="h-gah-d">&#9650; +11%</div></div>
+  <div class="kpi l"><div class="kv r" id="h-conv">27.8%</div><div class="kl">sign-up conversion</div><div class="kd nt" id="h-conv-d">&#8596; on 27% baseline</div></div>
+  <div class="h-ins"><div class="h-box"><div class="h-ht">This week</div><div class="h-hb" id="h-insight">Loading&hellip;</div></div></div>
+</div></section>
+
+<section class="bkdn"><div class="bk-i">
+  <div class="bc">
+    <div class="bc-hd">UTM-driven traffic</div>
+    <div class="bc-v" id="b-utm">65.3k</div>
+    <div class="bc-s" id="b-utm-pct">71.2% of GAH visits this week</div>
+    <div class="bc-d up" id="b-utm-d">&#9650; +28% vs prior week</div>
+    <div class="rrow"><span class="rn">instagram.com</span><div class="rbg"><div class="rb" style="width:100%"></div></div><span class="rv">42.3k</span></div>
+    <div class="rrow"><span class="rn">tiktok.com</span><div class="rbg"><div class="rb" style="width:28.5%"></div></div><span class="rv">12.1k</span></div>
+    <div class="rrow"><span class="rn">facebook.com</span><div class="rbg"><div class="rb" style="width:23.4%"></div></div><span class="rv">9.9k</span></div>
+    <div class="rrow"><span class="rn">google.com</span><div class="rbg"><div class="rb" style="width:19.8%"></div></div><span class="rv">8.4k</span></div>
+    <div class="rrow"><span class="rn">youtube.com</span><div class="rbg"><div class="rb" style="width:17.4%"></div></div><span class="rv">7.4k</span></div>
+    <div class="rn-note">Source mix: Wk 21 most recent breakdown</div>
+  </div>
+  <div class="bc">
+    <div class="bc-hd">Sign-up journey</div>
+    <div class="fr"><span class="fl">1. Clicked Get Started</span><span class="fv" id="b-s1">20,244</span></div>
+    <div class="fa" id="b-e1">&#8595; 51.7% continued</div>
+    <div class="fr"><span class="fl">2. Became a member</span><span class="fv" id="b-s2">10,476</span></div>
+    <div class="fa">&#8595; through profile steps</div>
+    <div class="fr"><span class="fl">3. Completed payment</span><span class="fv" style="color:var(--pos)" id="b-s6">5,631</span></div>
+    <div class="det"><span class="det-l">Optional club selection (detour)</span><span class="det-v" id="b-det">12.3%</span></div>
+  </div>
+  <div class="bc">
+    <div class="bc-hd" id="fy-label">FY 2026 &middot; Wks 1&#8211;30</div>
+    <div class="yrow"><span class="yl">usga.org visits</span><span class="yv" id="fy-usga">7.14M</span></div>
+    <div class="yrow"><span class="yl">GAH visits</span><span class="yv" id="fy-gah">2.59M</span><span class="ys" id="fy-gah-pct">36.2% of usga.org</span></div>
+    <div class="yrow"><span class="yl">UTM-driven visits</span><span class="yv" id="fy-utm">1.64M</span><span class="ys" id="fy-utm-pct">63.3% of GAH (FY avg)</span></div>
+    <div class="yrow"><span class="yl">Sign-ups completed</span><span class="yv" id="fy-s6">157,278</span><span class="ys" id="fy-of">of 566,173 who started</span></div>
+  </div>
+</div></section>
+
+<section class="tc-sec"><div class="tc-i">
+  <div class="tc-hd">
+    <div><div class="tc-t">Visits &#8212; usga.org vs getahandicap.usga.org</div><div class="tc-s">Weeks 1&#8211;<span id="tc-wk">30</span> &middot; FY2026 &middot; <b>Current week highlighted</b></div></div>
+    <div class="tog-row">
+      <span class="tog-lbl">Metric</span>
+      <button class="tog on" onclick="sM('v',this)">Visits</button>
+      <button class="tog" onclick="sM('pv',this)">Page Views</button>
+      <button class="tog" onclick="sM('uv',this)">Unique Visitors</button>
     </div>
   </div>
-</div>
-
-<!-- WEEKLY VIEW -->
-<div class="vt on" id="view-weekly">
-
-  <div class="tpanel">
-    <div class="tpanel-hdr">
-      <div class="tpanel-t" id="weeklyLabel">Week 24: Jun 15 - 21, 2026</div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Week</span>
-        <div style="position:relative;">
-          <select id="toplineWeekSelect" onchange="onWeekSelect(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:185px;"></select>
-          <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
-        </div>
-      </div>
-    </div>
-
-    <!-- Merged header row -->
-    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:center;">
-      <div></div>
-      <div class="pcol-lbl">Visits</div>
-      <div class="pcol-lbl">Page Views</div>
-      <div class="pcol-lbl">Unique Vis.</div>
-      <div></div>
-      <div class="pcol-lbl" style="color:var(--blue);">Visits YTD</div>
-      <div class="pcol-lbl" style="color:var(--blue);">PVs YTD</div>
-      <div class="pcol-lbl" style="color:var(--blue);">UVs YTD</div>
-    </div>
-
-    <!-- Row 1: All Pages usga.org -->
-    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
-      <div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-      <div class="pmc"><div class="val" id="w-vis">—</div></div>
-      <div class="pmc"><div class="val" id="w-pv">—</div></div>
-      <div class="pmc"><div class="val" id="w-uv">—</div></div>
-      <div style="background:var(--border);border-radius:2px;"></div>
-      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">5.66M</div></div>
-      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">9.96M</div></div>
-      <div class="pmc" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">4.75M</div></div>
-    </div>
-
-    <!-- Row 2: UTM usga.org -->
-    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
-      <div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-      <div class="pmc r"><div class="val" id="w-utm">—</div><div class="sub" id="w-utm-pct">&mdash;</div></div>
-      <div class="pmc r"><div class="val" id="w-utm-pv">—</div><div class="sub" id="w-utm-pv-pct">&mdash;</div></div>
-      <div class="pmc r"><div class="val" id="w-utm-uv">—</div><div class="sub" id="w-utm-uv-pct">&mdash;</div></div>
-      <div style="background:var(--border);border-radius:2px;"></div>
-      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.52M</div><div class="sub">26.9% of usga</div></div>
-      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.64M</div><div class="sub">16.4% of usga</div></div>
-      <div class="pmc r" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.48M</div><div class="sub">31.1% of usga</div></div>
-    </div>
-
-    <!-- Row 3: All Pages GAH -->
-    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:4px;align-items:stretch;">
-      <div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap</div>
-      <div class="pmc b"><div class="val" id="w-gah-vis">—</div><div class="sub" id="w-gah-vis-pct">&mdash;</div></div>
-      <div class="pmc b"><div class="val" id="w-gah-pv">—</div><div class="sub" id="w-gah-pv-pct">&mdash;</div></div>
-      <div class="pmc b"><div class="val" id="w-gah-uv">—</div><div class="sub" id="w-gah-uv-pct">&mdash;</div></div>
-      <div style="background:var(--border);border-radius:2px;"></div>
-      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">2.05M</div><div class="sub">36.3% of usga</div></div>
-      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">2.49M</div><div class="sub">25.0% of usga</div></div>
-      <div class="pmc b" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.90M</div><div class="sub">40.1% of usga</div></div>
-    </div>
-
-    <!-- Row 4: UTM GAH -->
-    <div style="display:grid;grid-template-columns:200px 1fr 1fr 1fr 6px 1fr 1fr 1fr;gap:4px;margin-bottom:0;align-items:stretch;">
-      <div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap</div>
-      <div class="pmc g"><div class="val" id="w-gah-utm">—</div><div class="sub" id="w-gah-utm-pct">&mdash;</div></div>
-      <div class="pmc g"><div class="val" id="w-gah-utm-pv">—</div><div class="sub" id="w-gah-utm-pv-pct">&mdash;</div></div>
-      <div class="pmc g"><div class="val" id="w-gah-utm-uv">—</div><div class="sub" id="w-gah-utm-uv-pct">&mdash;</div></div>
-      <div style="background:var(--border);border-radius:2px;"></div>
-      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.31M</div><div class="sub">63.8% of GAH</div></div>
-      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.39M</div><div class="sub">55.9% of GAH</div></div>
-      <div class="pmc g" style="background:#EEF2F5;"><div class="val" style="font-size:15px;">1.28M</div><div class="sub">67.2% of GAH</div></div>
-    </div>
+  <div class="tc-leg">
+    <span class="tc-li"><span class="tc-ld" style="background:var(--navy)"></span>usga.org</span>
+    <span class="tc-li"><span class="tc-ld" style="background:#1a7abf"></span>getahandicap.usga.org</span>
+    <span class="tc-li"><span class="tc-ld" style="background:transparent;border-top:2px dashed #6b8e23;width:16px"></span>GAH UTM</span>
   </div>
-  <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Web Traffic &mdash; Trends</div><div class="line"></div></div>
-  <div class="card">
-    <div class="card-t" id="metricChartTitle">Visits &mdash; usga.org vs getahandicap.usga.org</div>
-    <div class="card-s" id="weeklyTrendSub">Weeks 1&ndash;24 &middot; FY2026</div>
-    <div style="display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
-      <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);margin-right:2px;">Metric</span>
-      <button class="mp on" data-metric="visits">Visits</button>
-      <button class="mp" data-metric="pv">Page Views</button>
-      <button class="mp" data-metric="uv">Unique Visitors</button>
-    </div>
-    <div style="position:relative;height:230px;"><canvas id="metricLineChart"></canvas></div>
-  </div>
+  <div class="chart-wrap"><canvas id="tc-chart" role="img" aria-label="Multi-line traffic chart over 30 weeks"></canvas></div>
+</div></section>
 
-  <div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Conversion Funnel</div><div class="line"></div></div>
-  <div class="conv-banner">
-    <div class="conv-lbl">
-      <span>Conversion Funnel</span>
-      <div style="position:relative;">
-        <select id="convWeekSelect" onchange="setConvWeek(this.value)" style="background:#fff;color:var(--navy);border:1px solid rgba(255,255,255,.6);border-radius:5px;padding:4px 26px 4px 10px;font-size:10px;font-weight:600;cursor:pointer;appearance:none;-webkit-appearance:none;min-width:160px;">
-          <option value="week">Current week</option>
-          <option value="fy">Full Year (FY2026)</option>
-        </select>
-        <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--navy);font-size:8px;pointer-events:none;">&#9660;</span>
-      </div>
-    </div>
-    <div style="display:flex;gap:10px;align-items:stretch;flex:1;min-width:0;">
-      <div style="flex:0 0 auto;min-width:130px;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Conversion Rate</div>
-        <div style="font-size:28px;font-weight:700;color:#fff;margin-top:4px;" id="w-conv">—</div>
-        <div style="font-size:9px;color:#9AB8CC;margin-top:3px;" id="conv-sub"></div>
-      </div>
-      <div style="flex:0 0 auto;min-width:110px;background:rgba(255,255,255,.1);border-radius:8px;padding:12px 16px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;">
-        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;">Detour Rate</div>
-        <div style="font-size:28px;font-weight:700;color:#fff;margin-top:4px;" id="w-detour">—</div>
-        <div style="font-size:9px;color:#9AB8CC;margin-top:3px;" id="detour-sub"></div>
-      </div>
-      <div style="flex:1;min-width:0;background:rgba(255,255,255,.1);border-radius:8px;padding:10px 14px;">
-        <div style="font-size:9px;color:#9AB8CC;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;">Conversion Rate — Wks 1–24</div>
-        <svg width="100%" height="85" viewBox="0 0 400 70" preserveAspectRatio="xMidYMid meet" style="display:block;overflow:visible;"><polygon points="0,70 6.0,43.1 22.9,38.7 39.7,45.4 56.6,28.7 73.5,37.3 90.3,41.0 107.2,37.6 124.1,34.5 141.0,33.8 157.8,32.7 174.7,33.9 191.6,32.8 208.4,53.5 225.3,30.3 242.2,14.7 259.0,10.0 275.9,21.9 292.8,24.8 309.7,21.4 326.5,16.7 343.4,15.0 360.3,14.0 377.1,16.7 394.0,60.0 400,70" fill="rgba(255,255,255,0.1)" stroke="none"/><line x1="6.0" y1="43.1" x2="394.0" y2="60.0" stroke="rgba(255,255,255,0.35)" stroke-width="1.5" stroke-dasharray="5,4"/><polyline points="6.0,43.1 22.9,38.7 39.7,45.4 56.6,28.7 73.5,37.3 90.3,41.0 107.2,37.6 124.1,34.5 141.0,33.8 157.8,32.7 174.7,33.9 191.6,32.8 208.4,53.5 225.3,30.3 242.2,14.7 259.0,10.0 275.9,21.9 292.8,24.8 309.7,21.4 326.5,16.7 343.4,15.0 360.3,14.0 377.1,16.7 394.0,60.0" fill="none" stroke="rgba(255,255,255,0.85)" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><circle cx="6.0" cy="43.1" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="6.0" y="34.1" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">25.8%</text><circle cx="73.5" cy="37.3" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="73.5" y="28.3" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">26.5%</text><circle cx="141.0" cy="33.8" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="141.0" y="47.8" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">27.0%</text><circle cx="208.4" cy="53.5" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="208.4" y="44.5" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">24.4%</text><circle cx="259.0" cy="10.0" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="259.0" y="24.0" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">30.0%</text><circle cx="275.9" cy="21.9" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="275.9" y="35.9" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">28.5%</text><circle cx="343.4" cy="15.0" r="2.5" fill="rgba(255,255,255,0.7)"/><text x="343.4" y="29.0" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.75)" font-family="Helvetica Neue,sans-serif">29.4%</text><circle cx="394.0" cy="60.0" r="4" fill="#fff"/><text x="398.0" y="50.0" text-anchor="start" font-size="8" fill="rgba(255,255,255,0.8)" font-family="Helvetica Neue,sans-serif" font-weight="600">Week 24</text><text x="398.0" y="60.0" text-anchor="start" font-size="9" fill="#fff" font-family="Helvetica Neue,sans-serif" font-weight="700">23.6%</text></svg>
-      </div>
-    </div>
+<section class="de-sec"><div class="de-i">
+  <div class="de-hd"><div class="de-t">Decision Efficiency</div><div class="de-s">Step-by-step conversion once a user reaches that step</div></div>
+  <div class="eff-g">
+    <div class="effc"><div class="eff-step">Get Started &#8594; Become Member</div><div class="eff-v" id="de-e1">51.7%</div><div class="eff-sub" id="de-e1-ctx"></div></div>
+    <div class="effc"><div class="eff-step">Profile Lookup &#8594; Verify</div><div class="eff-v" id="de-e2">59.2%</div><div class="eff-sub" id="de-e2-ctx"></div></div>
+    <div class="effc good"><div class="eff-step">Address &#8594; Payment</div><div class="eff-v g" id="de-e3">76.3%</div><div class="eff-sub" id="de-e3-ctx"></div></div>
   </div>
-  <div class="funnel-wrap" id="w-funnel"></div>
-  <div class="card">
-    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1px;">
-      <div class="card-t">Decision Efficiency</div>
-      <div class="card-s" style="margin-bottom:0;">Step-by-step conversion once a user reaches that step</div>
-    </div>
-    <div class="eff-grid" style="margin-bottom:12px;">
-      <div class="eff-card"><div class="eff-lbl">Get Started &rarr; Become Member</div><div class="eff-val" id="w-eff1">—</div><div class="eff-note">Step 1 &rarr; Step 2</div></div>
-      <div class="eff-card"><div class="eff-lbl">Profile Lookup &rarr; Verify</div><div class="eff-val" id="w-eff2">—</div><div class="eff-note">Step 3 &rarr; Step 4a</div></div>
-      <div class="eff-card"><div class="eff-lbl">Address &rarr; Payment</div><div class="eff-val" id="w-eff3">—</div><div class="eff-note">Step 5 &rarr; Step 6</div></div>
-    </div>
-    <!-- Insight callouts inside this card -->
-    <div id="insight-callouts" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+  <div class="ins-g">
+    <div class="ins"><div class="ins-tag"><span class="ins-arr">&#9660;</span> WoW &#8212; vs prior week</div><div class="ins-h" id="wow-h"></div><div class="ins-sep"></div><div class="ins-b" id="wow-b"></div></div>
+    <div class="ins"><div class="ins-tag"><span class="ins-arr">&#8596;</span> MoM &#8212; July vs June</div><div class="ins-h" id="mom-h"></div><div class="ins-sep"></div><div class="ins-b" id="mom-b"></div></div>
+    <div class="ins"><div class="ins-tag"><span class="ins-arr">&#9660;</span> FY2026 Year-to-Date</div><div class="ins-h" id="fy-h"></div><div class="ins-sep"></div><div class="ins-b" id="fy-b"></div></div>
   </div>
+</div></section>
 
-  <div class="sdiv"><div class="line"></div><div class="num">3</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
-  <div class="two">
-    <div class="card" style="margin-bottom:0;">
-      <div class="card-t">Referring domains</div><div class="card-s" id="refSub">Week 21 &middot; top 10</div>
-      <table class="tbl"><thead><tr><th>Domain</th><th>Visits (Wk)</th><th>Visits (YTD)</th></tr></thead>
-      <tbody><tr><td>instagram.com</td><td class="num">42.3K</td><td class="num">296.0K</td></tr><tr><td>facebook.com</td><td class="num">9.9K</td><td class="num">324.3K</td></tr><tr><td>google.com</td><td class="num">8.4K</td><td class="num">130.5K</td></tr><tr><td>tiktok.com</td><td class="num">12.1K</td><td class="num">66.3K</td></tr><tr><td>youtube.com</td><td class="num">7.4K</td><td class="num">60.9K</td></tr><tr><td>ghin.com</td><td class="num">1.9K</td><td class="num">30.2K</td></tr><tr><td>txga.org</td><td class="num">368</td><td class="num">6.5K</td></tr><tr><td>gapgolf.org</td><td class="num">310</td><td class="num">6.8K</td></tr><tr><td>gsga.org</td><td class="num">254</td><td class="num">5.8K</td></tr><tr><td>com.twitter</td><td class="num">4</td><td class="num">6.1K</td></tr></tbody></table>
-    </div>
-    <div class="card" style="margin-bottom:0;">
-      <div class="card-t">Visits by state</div><div class="card-s" id="statesSub">Week 21 &middot; top 10</div>
-      <table class="tbl"><thead><tr><th>State</th><th>Visits (Wk)</th><th>% of Total</th></tr></thead>
-      <tbody><tr><td>California</td><td class="num">12.0K</td><td>8.7%</td></tr><tr><td>Texas</td><td class="num">10.0K</td><td>7.3%</td></tr><tr><td>New York</td><td class="num">9.1K</td><td>6.6%</td></tr><tr><td>Florida</td><td class="num">7.1K</td><td>5.1%</td></tr><tr><td>Illinois</td><td class="num">6.7K</td><td>4.9%</td></tr><tr><td>Pennsylvania</td><td class="num">5.6K</td><td>4.1%</td></tr><tr><td>Georgia</td><td class="num">5.2K</td><td>3.8%</td></tr><tr><td>Virginia</td><td class="num">5.2K</td><td>3.8%</td></tr><tr><td>Massachusetts</td><td class="num">5.1K</td><td>3.7%</td></tr><tr><td>Ohio</td><td class="num">4.4K</td><td>3.2%</td></tr></tbody></table>
-    </div>
-  </div>
+<footer><div class="ft-i"><span class="ft-t">Get A Handicap &#8212; USGA Digital Analytics &middot; Data through <span id="ft-wk">Week 30, Jul 27&#8211;Aug 02, 2026</span></span><span class="ft-t">Updated weekly</span></div></footer>
 
-</div><!-- /weekly -->
-
-<!-- MONTHLY VIEW -->
-<div class="vt" id="view-monthly">
-  <div class="tpanel">
-    <div class="tpanel-hdr">
-      <div class="tpanel-t" id="m-label">January 2026 &mdash; Monthly Report</div>
-      <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--tm);">Month</span>
-        <div style="position:relative;">
-          <select id="monthPanelSelect" onchange="loadMonth(this.value)" class="fsel" style="background:#EEF2F5;color:var(--navy);border:1px solid var(--border);min-width:175px;">
-            <option value="may26" selected>May 2026</option>
-            <option value="apr26">April 2026</option>
-            <option value="mar26">March 2026</option>
-            <option value="feb26">February 2026</option>
-            <option value="jan26">January 2026</option>
-          </select>
-          <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);color:var(--gray);font-size:8px;pointer-events:none;">&#9660;</span>
-        </div>
-      </div>
-    </div>
-    <div class="pgrid" style="margin-bottom:4px;"><div></div><div class="pcol-lbl">Visits</div><div class="pcol-lbl">Page Views</div><div class="pcol-lbl">Unique Visitors</div></div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--navy)"></span>All Pages &mdash; usga.org</div>
-      <div class="pmc"><div class="val" id="m-vis">—</div></div><div class="pmc"><div class="val" id="m-pv">—</div></div><div class="pmc"><div class="val" id="m-uv">—</div></div>
-    </div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--red)"></span>UTM Traffic &mdash; usga.org</div>
-      <div class="pmc r"><div class="val" id="m-utm-usga">—</div><div class="sub" id="m-utm-usga-pct">&mdash;</div></div>
-      <div class="pmc r"><div class="val" id="m-utm-usga-pv">—</div><div class="sub" id="m-utm-usga-pv-pct">&mdash;</div></div>
-      <div class="pmc r"><div class="val" id="m-utm-usga-uv">—</div><div class="sub" id="m-utm-usga-uv-pct">&mdash;</div></div>
-    </div>
-    <div class="pgrid"><div class="prow-lbl"><span class="pdot" style="background:var(--blue)"></span>All Pages &mdash; getahandicap.usga.org</div>
-      <div class="pmc b"><div class="val" id="m-gah-vis">—</div></div><div class="pmc b"><div class="val" id="m-gah-pv">—</div></div><div class="pmc b"><div class="val" id="m-gah-uv">—</div></div>
-    </div>
-    <div class="pgrid" style="margin-bottom:0;"><div class="prow-lbl"><span class="pdot" style="background:var(--green)"></span>UTM Traffic &mdash; getahandicap.usga.org</div>
-      <div class="pmc g"><div class="val" id="m-utm-vis">—</div><div class="sub" id="m-utm-pct">&mdash;</div></div>
-      <div class="pmc g"><div class="val" id="m-utm-pv">—</div><div class="sub" id="m-utm-pv-pct">&mdash;</div></div>
-      <div class="pmc g"><div class="val" id="m-utm-uv">—</div><div class="sub" id="m-utm-uv-pct">&mdash;</div></div>
-    </div>
-  </div>
-  <div class="sdiv"><div class="line"></div><div class="num">1</div><div class="txt">Conversion Funnel</div><div class="line"></div></div>
-  <div class="conv-banner">
-    <div class="conv-lbl"><span id="m-conv-label">January 2026 &mdash; Conversion Funnel</span></div>
-    <div class="conv-boxes">
-      <div class="conv-box"><div class="lbl">Conversion Rate</div><div class="val" id="m-conv">—</div><div class="sub">% start &rarr; payment</div></div>
-      <div class="conv-box"><div class="lbl">Detour Rate</div><div class="val" id="m-detour">—</div><div class="sub">Club selection (optional)</div></div>
-    </div>
-  </div>
-  <div class="funnel-wrap" id="m-funnel"></div>
-  <div class="sdiv"><div class="line"></div><div class="num">2</div><div class="txt">Traffic Sources &amp; Geography</div><div class="line"></div></div>
-  <div class="two">
-    <div class="card" style="margin-bottom:0;">
-      <div class="card-t">Referrer type</div>
-      <table class="tbl"><thead><tr><th>Type</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-ref-type"></tbody></table>
-      <div style="margin-top:12px;"><div class="card-t" style="margin-bottom:6px;">Top referring domains</div>
-      <table class="tbl"><thead><tr><th>Domain</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-ref-domain"></tbody></table></div>
-    </div>
-    <div class="card" style="margin-bottom:0;">
-      <div class="card-t">Visits by state &mdash; top 10</div>
-      <table class="tbl"><thead><tr><th>State</th><th>Visits</th><th>%</th></tr></thead><tbody id="m-states"></tbody></table>
-    </div>
-  </div>
-</div><!-- /monthly -->
-
-</div><!-- /dash -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const N='#00365F',B='#0088CE',R='#DA1A31',G='#A2B528',GR='#63666A';
-const fmt=n=>n==null?'\u2014':n>=1e6?(n/1e6).toFixed(2)+'M':n>=1e3?(n/1e3).toFixed(1)+'K':String(n);
-const pct=(a,b)=>b?((a/b)*100).toFixed(1)+'%':'—';
-let curWeek=24, convWeekSel='week', fyMetric='visits', curMonth='may26';
-const charts={};
-
-// ── SINGLE SOURCE OF TRUTH: real data from Excel ──────────────────────────
-const WEEKS={
-  1:{label:"Week 1: Jan 05 - 11",visits:123604,pv:184487,uv:108887,utmVisits:50362,utmPv:52416,utmUv:49699,gahVisits:65557,gahPv:76698,gahUv:62103,gahUtm:50362,gahUtmPv:52416,gahUtmUv:49699,mm:3888,conv:0.2578,detour:0.033,s1:10054,s2:6868,s3:7710,s4a:5276,s5:3565,s6:2592,eff1:0.683,eff2:0.684,eff3:0.727},
-  2:{label:"Week 2: Jan 12 - 18",visits:125067,pv:185955,uv:109881,utmVisits:38322,utmPv:40052,utmUv:37961,gahVisits:51602,gahPv:60918,gahUv:48887,gahUtm:38322,gahUtmPv:40052,gahUtmUv:37961,mm:3512,conv:0.2634,detour:0.034,s1:8584,s2:6358,s3:3130,s4a:4519,s5:3036,s6:2261,eff1:0.741,eff2:1.444,eff3:0.745},
-  3:{label:"Week 3: Jan 19 - 25",visits:120872,pv:215901,uv:106128,utmVisits:37723,utmPv:39467,utmUv:37397,gahVisits:49847,gahPv:58421,gahUv:47479,gahUtm:37723,gahUtmPv:39467,gahUtmUv:37397,mm:3119,conv:0.2548,detour:0.04,s1:7619,s2:5011,s3:5645,s4a:4135,s5:2617,s6:1941,eff1:0.658,eff2:0.733,eff3:0.742},
-  4:{label:"Week 4: Jan 26 - Feb 01",visits:132767,pv:204686,uv:111756,utmVisits:37935,utmPv:39567,utmUv:37635,gahVisits:49776,gahPv:58782,gahUv:47427,gahUtm:37935,gahUtmPv:39567,gahUtmUv:37635,mm:3623,conv:0.2762,detour:0.051,s1:7966,s2:5549,s3:6162,s4a:4337,s5:2908,s6:2200,eff1:0.697,eff2:0.704,eff3:0.757},
-  5:{label:"Week 5: Feb 02 - 08",visits:130622,pv:196435,uv:113259,utmVisits:34893,utmPv:36324,utmUv:34645,gahVisits:48727,gahPv:58412,gahUv:46015,gahUtm:34893,gahUtmPv:36324,gahUtmUv:34645,mm:4263,conv:0.2652,detour:0.039,s1:9005,s2:6213,s3:6926,s4a:4824,s5:3215,s6:2388,eff1:0.69,eff2:0.697,eff3:0.743},
-  6:{label:"Week 6: Feb 09 - 15",visits:134401,pv:216371,uv:112695,utmVisits:36079,utmPv:37655,utmUv:35756,gahVisits:51147,gahPv:62075,gahUv:48114,gahUtm:36079,gahUtmPv:35357,gahUtmUv:35756,mm:4268,conv:0.2604,detour:0.039,s1:10207,s2:7044,s3:7660,s4a:6553,s5:3577,s6:2658,eff1:0.69,eff2:0.855,eff3:0.743},
-  7:{label:"Week 7: Feb 16 - 22",visits:194400,pv:361903,uv:154698,utmVisits:45495,utmPv:47705,utmUv:45237,gahVisits:61358,gahPv:73893,gahUv:57924,gahUtm:45495,gahUtmPv:47705,gahUtmUv:45237,mm:4485,conv:0.2648,detour:0.04,s1:10798,s2:7461,s3:7788,s4a:8438,s5:3818,s6:2859,eff1:0.691,eff2:1.083,eff3:0.749},
-  8:{label:"Week 8: Feb 23 - Mar 01",visits:197035,pv:316707,uv:168695,utmVisits:55115,utmPv:57945,utmUv:54885,gahVisits:72260,gahPv:86221,gahUv:68803,gahUtm:55115,gahUtmPv:57945,gahUtmUv:54885,mm:4817,conv:0.2687,detour:0.04,s1:11827,s2:8041,s3:8446,s4a:8740,s5:4142,s6:3178,eff1:0.68,eff2:1.035,eff3:0.767},
-  9:{label:"Week 9: Mar 02 - 08",visits:201766,pv:337756,uv:170288,utmVisits:46827,utmPv:49593,utmUv:46564,gahVisits:67906,gahPv:84508,gahUv:63643,gahUtm:46827,gahUtmPv:49593,gahUtmUv:46564,mm:6377,conv:0.2696,detour:0.044,s1:14242,s2:9871,s3:10445,s4a:10166,s5:5019,s6:3840,eff1:0.693,eff2:0.973,eff3:0.765},
-  10:{label:"Week 10: Mar 09 - 15",visits:216634,pv:382451,uv:177990,utmVisits:45489,utmPv:48369,utmUv:45196,gahVisits:66862,gahPv:83952,gahUv:62420,gahUtm:45489,gahUtmPv:48369,gahUtmUv:45196,mm:5899,conv:0.271,detour:0.042,s1:15222,s2:10702,s3:11379,s4a:9469,s5:5280,s6:4125,eff1:0.703,eff2:0.832,eff3:0.781},
-  11:{label:"Week 11: Mar 16 - 22",visits:204776,pv:373014,uv:166592,utmVisits:37380,utmPv:39965,utmUv:37080,gahVisits:60235,gahPv:78464,gahUv:55499,gahUtm:37380,gahUtmPv:39965,gahUtmUv:37080,mm:6260,conv:0.2695,detour:0.043,s1:16691,s2:11808,s3:12659,s4a:9947,s5:5870,s6:4498,eff1:0.707,eff2:0.786,eff3:0.766},
-  12:{label:"Week 12: Mar 23 - 29",visits:159053,pv:293049,uv:127879,utmVisits:4146,utmPv:4828,utmUv:3896,gahVisits:27191,gahPv:43603,gahUv:22371,gahUtm:4146,gahUtmPv:4828,gahUtmUv:3896,mm:6369,conv:0.2709,detour:0.042,s1:16880,s2:11918,s3:12911,s4a:10139,s5:5760,s6:4573,eff1:0.706,eff2:0.785,eff3:0.794},
-  13:{label:"Week 13: Mar 30 - Apr 05",visits:206512,pv:354619,uv:171288,utmVisits:18772,utmPv:20006,utmUv:18200,gahVisits:60066,gahPv:86340,gahUv:52651,gahUtm:18772,gahUtmPv:20006,gahUtmUv:18200,mm:6448,conv:0.2445,detour:0.036,s1:26945,s2:14484,s3:15762,s4a:9638,s5:9262,s6:6587,eff1:0.538,eff2:0.611,eff3:0.711},
-  14:{label:"Week 14: Apr 06 - 12",visits:276398,pv:427803,uv:239700,utmVisits:52619,utmPv:54696,utmUv:51446,gahVisits:116574,gahPv:141352,gahUv:108092,gahUtm:52619,gahUtmPv:54696,gahUtmUv:51446,mm:8431,conv:0.2741,detour:0.035,s1:26791,s2:14426,s3:14731,s4a:8174,s5:9806,s6:7343,eff1:0.538,eff2:0.555,eff3:0.749},
-  15:{label:"Week 15: Apr 13 - 19",visits:273184,pv:465391,uv:232506,utmVisits:50917,utmPv:52653,utmUv:49951,gahVisits:101479,gahPv:125828,gahUv:92807,gahUtm:50917,gahUtmPv:52653,gahUtmUv:49951,mm:8436,conv:0.294,detour:0.033,s1:26649,s2:15079,s3:15760,s4a:8608,s5:10282,s6:7836,eff1:0.566,eff2:0.546,eff3:0.762},
-  16:{label:"Week 16: Apr 20 - 26",visits:264883,pv:449168,uv:218442,utmVisits:57830,utmPv:63171,utmUv:55406,gahVisits:93320,gahPv:114463,gahUv:85081,gahUtm:57830,gahUtmPv:63171,gahUtmUv:55406,mm:8318,conv:0.3,detour:0.032,s1:23111,s2:13282,s3:14160,s4a:7607,s5:9015,s6:6933,eff1:0.575,eff2:0.537,eff3:0.769},
-  17:{label:"Week 17: Apr 27 - May 03",visits:278610,pv:463116,uv:228810,utmVisits:66407,utmPv:73050,utmUv:62812,gahVisits:100374,gahPv:123181,gahUv:91356,gahUtm:66407,gahUtmPv:73050,gahUtmUv:62812,mm:11995,conv:0.2848,detour:0.03,s1:24466,s2:13116,s3:13600,s4a:7709,s5:8950,s6:6968,eff1:0.536,eff2:0.567,eff3:0.779},
-  18:{label:"Week 18: May 04 - 10",visits:281184,pv:416857,uv:239489,utmVisits:92614,utmPv:101211,utmUv:88645,gahVisits:117213,gahPv:138846,gahUv:108638,gahUtm:92614,gahUtmPv:101211,gahUtmUv:88645,mm:9400,conv:0.2811,detour:0.039,s1:23005,s2:12738,s3:13409,s4a:6857,s5:8594,s6:6467,eff1:0.554,eff2:0.511,eff3:0.753},
-  19:{label:"Week 19: May 11 - 17",visits:289216,pv:420784,uv:246606,utmVisits:104576,utmPv:121287,utmUv:97298,gahVisits:117722,gahPv:139482,gahUv:108672,gahUtm:85360,gahUtmPv:93172,gahUtmUv:81266,mm:9073,conv:0.2854,detour:0.041,s1:24101,s2:13320,s3:14807,s4a:7452,s5:8995,s6:6879,eff1:0.553,eff2:0.503,eff3:0.765},
-  20:{label:"Week 20: May 18 - 24",visits:284040,pv:412321,uv:241048,utmVisits:100797,utmPv:108774,utmUv:97276,gahVisits:110226,gahPv:131001,gahUv:102144,gahUtm:72111,gahUtmPv:76479,gahUtmUv:70460,mm:7179,conv:0.2915,detour:0.124,s1:22357,s2:12592,s3:13059,s4a:7261,s5:8571,s6:6516,eff1:0.563,eff2:0.556,eff3:0.76},
-  21:{label:"Week 21: May 25 - 31",visits:323616,pv:654344,uv:284357,utmVisits:138875,utmPv:149775,utmUv:134284,gahVisits:137394,gahPv:161241,gahUv:128011,gahUtm:86194,gahUtmPv:91581,gahUtmUv:84342,mm:8430,conv:0.2936,detour:0.143,s1:24350,s2:13503,s3:14352,s4a:8015,s5:9266,s6:7149,eff1:0.555,eff2:0.558,eff3:0.772},
-  22:{label:"Week 22: Jun 01 - 07",visits:389149,pv:847480,uv:330153,utmVisits:150826,utmPv:162396,utmUv:145760,gahVisits:151911,gahPv:176159,gahUv:142090,gahUtm:102580,gahUtmPv:109106,gahUtmUv:99983,mm:7765,conv:0.2949,detour:0.119,s1:24760,s2:13966,s3:14733,s4a:8177,s5:9458,s6:7302,eff1:0.564,eff2:0.555,eff3:0.772},
-  23:{label:"Week 23: Jun 08 - 14",visits:346667,pv:767568,uv:293746,utmVisits:117050,utmPv:125491,utmUv:113480,gahVisits:140102,gahPv:161723,gahUv:131194,gahUtm:90128,gahUtmPv:95076,gahUtmUv:88112,mm:6661,conv:0.2914,detour:0.124,s1:21829,s2:12007,s3:12635,s4a:6867,s5:8321,s6:6361,eff1:0.55,eff2:0.543,eff3:0.764},
-  24:{label:"Week 24: Jun 15 - 21",visits:501865,pv:1011413,uv:395211,utmVisits:100910,utmPv:109969,utmUv:95853,gahVisits:135554,gahPv:161290,gahUv:123266,gahUtm:64765,gahUtmPv:68642,gahUtmUv:63058,mm:7869,conv:0.2362,detour:0.116,s1:35017,s2:16872,s3:17233,s4a:8016,s5:11246,s6:8272,eff1:0.482,eff2:0.465,eff3:0.736}
+/* ==========================================================
+   UPDATE EACH WEEK: CW, CW_LABEL, CW_FOOT, WC, WP, FY, MOM
+   Then append one value to each MDATA array and CV
+   ========================================================== */
+var CW=30,CW_LABEL='Week 30 \u00b7 Jul 27\u2013Aug 02, 2026',CW_FOOT='Week 30, Jul 27\u2013Aug 02, 2026';
+var WC={vis:229312,pv:538972,uv:197535,gahVis:91739,gahPv:111511,gahUv:84778,gahUtm:65279,gahUtmPv:72264,gahUtmUv:63183,mm:6022,conv:0.2782,detour:0.123,eff1:0.517,eff2:0.592,eff3:0.763,s1:20244,s2:10476,s3:10688,s4a:6324,s5:7376,s6:5631};
+var WP={vis:283425,gahVis:82794,gahUtm:51191,conv:0.2913,eff1:0.543,eff2:0.560,eff3:0.763};
+var FY={vis:7138560,pv:13350290,uv:5990591,gahVis:2587296,gahPv:3132485,gahUv:2390659,gahUtm:1637814,gahUtmPv:1747840,gahUtmUv:1595068,s1:566173,s2:329451,s3:346375,s4a:220061,s5:207368,s6:157278};
+var FYA={conv:0.276,eff1:0.605,eff2:0.681,eff3:0.758};
+var MOM={curLabel:'July',curEff1:0.541,prevLabel:'June',prevEff1:0.536};
+/* Historical series — append one value per week */
+var MDATA={
+  v:{
+    usga:[123604,125067,120872,132767,130622,134401,194400,197035,201766,216634,204776,159053,206512,276398,273184,264883,278610,281184,289216,284040,323616,389149,346667,501865,251451,234766,216348,266937,283425,229312],
+    gah:[65557,51602,49847,49776,48727,51147,61358,72260,67906,66862,60235,27191,60066,116574,101479,93320,100374,117213,117722,110226,137394,151911,140102,135554,98357,83210,77846,98947,82794,91739],
+    utm:[50362,38322,37723,37935,34893,36079,45495,55115,46827,45489,37380,4146,18772,52619,50917,57830,66407,92614,85360,72111,86194,102580,90128,64765,62053,55069,49651,44508,51191,65279]
+  },
+  pv:{
+    usga:[184487,185955,215901,204686,196435,216371,361903,316707,337756,382451,373014,293049,354619,427803,465391,449168,463116,416857,420784,412321,654344,847480,767568,1011413,596986,531253,511851,610311,601338,538972],
+    gah:[76698,60918,58421,58782,58412,62075,73893,86221,84508,83952,78464,43603,86340,141352,125828,114463,123181,138846,139482,131001,161241,176159,161723,161290,118886,100400,96147,117415,101273,111511],
+    utm:[52416,40052,39467,39567,36324,35357,47705,57945,49593,48369,39965,4828,20006,54696,52653,63171,73050,101211,93172,76479,91581,109106,95076,68642,66882,59354,54091,48722,56096,72264]
+  },
+  uv:{
+    usga:[108887,109881,106128,111756,113259,112695,154698,168695,170288,177990,166592,127879,171288,239700,232506,218442,228810,239489,246606,241048,284357,330153,293746,395211,216938,196573,185025,223168,221248,197535],
+    gah:[62103,48887,47479,47427,46015,48114,57924,68803,63643,62420,55499,22371,52651,108092,92807,85081,91356,108638,108672,102144,128011,142090,131194,123266,89318,76121,70916,89296,75543,84778],
+    utm:[49699,37961,37397,37635,34645,35756,45237,54885,46564,45196,37080,3896,18200,51446,49951,55406,62812,88645,81266,70460,84342,99983,88112,63058,59904,53338,47927,41656,49428,63183]
+  }
 };
+/* 30-week conversion rates (already in % form: 25.78 = 25.78%) */
+var CV=[25.78,26.34,25.48,27.62,26.52,26.04,26.48,26.87,26.96,27.1,26.95,27.09,24.45,27.41,29.4,30,28.48,28.11,28.54,29.15,29.36,29.49,29.14,23.62,28.02,29.28,30.18,28.15,29.13,27.82];
 
-// FY YTD totals (direct from Excel)
-const FY={s1:442476,s2:262229,s3:275102,s4a:180924,s5:160573,s6:121726,eff1:.593,eff2:.658,eff3:.758,conv:.2751,detour:null};
+/* Utilities */
+function fmtK(v){return v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?(v/1e3).toFixed(1)+'k':v.toString();}
+function pp(v){return(v*100).toFixed(1)+'%';}
+function pct(n,d){return((n/d)*100).toFixed(1)+'%';}
+function set(id,t){var e=document.getElementById(id);if(e)e.textContent=t;}
 
-const MONTHS={
-  jan26:{label:'January 2026',visits:502310,pv:790029,uv:438652,utmUsga:164342,utmUsgaPv:171502,utmUsgaUv:162628,gahVisits:216782,gahPv:254819,gahUv:205896,utmVisits:164342,utmPv:171502,utmUv:162628,conv:.264,detour:.039,s1:34223,s2:23786,s3:23647,s4a:18267,s5:12126,s6:8994,eff1:.695,eff2:.772,eff3:.742,refType:[{t:'Social Networks',v:128100,p:'58.4%'},{t:'Search Engines',v:14312,p:'6.5%'},{t:'Other Web Sites',v:8794,p:'4.0%'}],refDomain:[{d:'facebook.com',v:126917,p:'57.8%'},{d:'google.com',v:13696,p:'6.2%'},{d:'ghin.com',v:3259,p:'1.5%'},{d:'instagram.com',v:1131,p:'0.5%'},{d:'txga.org',v:1045,p:'0.5%'}],states:[{s:'Texas',v:22687,p:'10.3%'},{s:'California',v:21690,p:'9.9%'},{s:'Florida',v:18952,p:'8.6%'},{s:'Georgia',v:11834,p:'5.4%'},{s:'New York',v:9463,p:'4.3%'},{s:'Illinois',v:8148,p:'3.7%'},{s:'Virginia',v:7936,p:'3.6%'},{s:'Ohio',v:7383,p:'3.4%'},{s:'Arizona',v:7029,p:'3.2%'},{s:'North Carolina',v:6533,p:'3.0%'}]},
-  feb26:{label:'February 2026',visits:656258,pv:1112916,uv:541216,utmUsga:208098,utmUsgaPv:220300,utmUsgaUv:205159,gahVisits:253093,gahPv:308482,gahUv:232864,utmVisits:208098,utmPv:220300,utmUv:205159,conv:.265,detour:.040,s1:40808,s2:28177,s3:30820,s4a:28169,s5:15355,s6:11295,eff1:.690,eff2:.914,eff3:.736,refType:[{t:'Social Networks',v:139200,p:'57.1%'},{t:'Search Engines',v:16100,p:'6.6%'},{t:'Other Web Sites',v:9400,p:'3.9%'}],refDomain:[{d:'facebook.com',v:137800,p:'56.5%'},{d:'google.com',v:15400,p:'6.3%'},{d:'ghin.com',v:3800,p:'1.6%'},{d:'instagram.com',v:1380,p:'0.6%'},{d:'txga.org',v:1120,p:'0.5%'}],states:[{s:'Texas',v:24100,p:'10.4%'},{s:'California',v:22900,p:'9.8%'},{s:'Florida',v:19800,p:'8.5%'},{s:'Georgia',v:12400,p:'5.3%'},{s:'New York',v:10200,p:'4.4%'},{s:'Illinois',v:8600,p:'3.7%'},{s:'Virginia',v:8300,p:'3.6%'},{s:'Ohio',v:7800,p:'3.3%'},{s:'Arizona',v:7400,p:'3.2%'},{s:'North Carolina',v:6900,p:'3.0%'}]},
-  mar26:{label:'March 2026',visits:1151599,pv:2062833,uv:938456,utmUsga:229209,utmUsgaPv:246501,utmUsgaUv:222128,gahVisits:370621,gahPv:474890,gahUv:342303,utmVisits:229209,utmPv:246501,utmUv:222128,conv:.270,detour:.042,s1:95935,s2:66709,s3:71065,s4a:57860,s5:33887,s6:27554,eff1:.696,eff2:.814,eff3:.813,refType:[{t:'Social Networks',v:196000,p:'52.1%'},{t:'Search Engines',v:22400,p:'6.0%'},{t:'Other Web Sites',v:13800,p:'3.7%'}],refDomain:[{d:'facebook.com',v:185000,p:'49.2%'},{d:'google.com',v:21300,p:'5.7%'},{d:'instagram.com',v:12400,p:'3.3%'},{d:'ghin.com',v:5100,p:'1.4%'},{d:'txga.org',v:1800,p:'0.5%'}],states:[{s:'California',v:38200,p:'10.2%'},{s:'Texas',v:34100,p:'9.1%'},{s:'Florida',v:28600,p:'7.6%'},{s:'New York',v:21400,p:'5.7%'},{s:'Georgia',v:19800,p:'5.3%'},{s:'Virginia',v:17200,p:'4.6%'},{s:'Illinois',v:16800,p:'4.5%'},{s:'Pennsylvania',v:13400,p:'3.6%'},{s:'Massachusetts',v:11200,p:'3.0%'},{s:'Arizona',v:10800,p:'2.9%'}]},
-  apr26:{label:'April 2026',visits:1101387,pv:1802951,uv:940636,utmUsga:295569,utmUsgaPv:321089,utmUsgaUv:280469,gahVisits:480753,gahPv:580273,gahUv:438933,utmVisits:295569,utmPv:321089,utmUv:280469,conv:.276,detour:.034,s1:103496,s2:56271,s3:58813,s4a:33928,s5:38055,s6:28659,eff1:.544,eff2:.577,eff3:.753,refType:[{t:'Social Networks',v:241000,p:'51.8%'},{t:'Search Engines',v:27800,p:'6.0%'},{t:'Other Web Sites',v:17200,p:'3.7%'}],refDomain:[{d:'instagram.com',v:128000,p:'27.5%'},{d:'facebook.com',v:113000,p:'24.3%'},{d:'google.com',v:26500,p:'5.7%'},{d:'youtube.com',v:18400,p:'4.0%'},{d:'ghin.com',v:8200,p:'1.8%'}],states:[{s:'California',v:51200,p:'10.7%'},{s:'Texas',v:44800,p:'9.3%'},{s:'Florida',v:36100,p:'7.5%'},{s:'New York',v:28400,p:'5.9%'},{s:'Georgia',v:24600,p:'5.1%'},{s:'Virginia',v:21800,p:'4.5%'},{s:'Illinois',v:20900,p:'4.3%'},{s:'Pennsylvania',v:17200,p:'3.6%'},{s:'Massachusetts',v:14100,p:'2.9%'},{s:'Arizona',v:13800,p:'2.9%'}]},
-  may26:{label:'May 2026',visits:1297460,pv:2102784,uv:1109561,utmUsga:465322,utmUsgaPv:512354,utmUsgaUv:444422,gahVisits:525572,gahPv:623362,gahUv:486618,utmVisits:364739,utmPv:393750,utmUv:351632,conv:.288,detour:.083,s1:104298,s2:57774,s3:61456,s4a:32889,s5:39262,s6:29997,eff1:.554,eff2:.535,eff3:.764,refType:[{t:'Social Networks',v:274193,p:'52.1%'},{t:'Search Engines',v:33123,p:'6.3%'},{t:'Other Web Sites',v:16674,p:'3.2%'}],refDomain:[{d:'instagram.com',v:161948,p:'30.8%'},{d:'facebook.com',v:37863,p:'7.2%'},{d:'tiktok.com',v:46275,p:'8.8%'},{d:'google.com',v:32148,p:'6.1%'},{d:'youtube.com',v:28127,p:'5.4%'},{d:'ghin.com',v:7272,p:'1.4%'},{d:'txga.org',v:1408,p:'0.3%'},{d:'gapgolf.org',v:1186,p:'0.2%'}],states:[{s:'California',v:45858,p:'8.7%'},{s:'Texas',v:38433,p:'7.3%'},{s:'New York',v:34822,p:'6.6%'},{s:'Florida',v:27033,p:'5.1%'},{s:'Illinois',v:25817,p:'4.9%'},{s:'Pennsylvania',v:21605,p:'4.1%'},{s:'Georgia',v:19853,p:'3.8%'},{s:'Virginia',v:19819,p:'3.8%'},{s:'Massachusetts',v:19417,p:'3.7%'},{s:'Ohio',v:16724,p:'3.2%'}]}
-};
+/* Auto-generated hero insight and breakdown values */
+function genInsight(){
+  var gC=(WC.gahVis-WP.gahVis)/WP.gahVis*100;
+  var uC=(WC.vis-WP.vis)/WP.vis*100;
+  var utC=(WC.gahUtm-WP.gahUtm)/WP.gahUtm*100;
+  var cD=(WC.conv-0.27)*100;
+  var gD=gC>=0?'up '+Math.abs(gC).toFixed(0)+'%':'down '+Math.abs(gC).toFixed(0)+'%';
+  var uD=uC>=0?'up '+Math.abs(uC).toFixed(0)+'%':'down '+Math.abs(uC).toFixed(0)+'%';
+  var utD=utC>=0?'up '+Math.abs(utC).toFixed(0)+'%':'down '+Math.abs(utC).toFixed(0)+'%';
+  var cT=Math.abs(cD)<=1?'Conversion held at '+pp(WC.conv)+' \u2014 on the 27% baseline.':cD>0?'Conversion came in at '+pp(WC.conv)+', '+Math.abs(cD).toFixed(1)+' points above the 27% baseline.':'Conversion dipped to '+pp(WC.conv)+', '+Math.abs(cD).toFixed(1)+' points below the 27% baseline \u2014 worth monitoring.';
+  set('h-insight','GAH visits were '+gD+' WoW, driven by UTM traffic '+utD+' to '+fmtK(WC.gahUtm)+'. Total usga.org traffic moved '+uD+'. '+cT);
+  var gEl=document.getElementById('h-gah-d');
+  if(gEl){gEl.textContent=(gC>=0?'\u25b2 +':'\u25bc ')+Math.abs(gC).toFixed(0)+'% vs prior week';gEl.className='kd '+(gC>=0?'up':'dn');}
+  var uEl=document.getElementById('h-usga-d');
+  if(uEl){uEl.textContent=(uC>=0?'\u25b2 +':'\u25bc ')+Math.abs(uC).toFixed(0)+'% vs prior week';uEl.className='kd '+(uC>=0?'up':'dn');}
+  var cEl=document.getElementById('h-conv-d');
+  if(cEl){if(Math.abs(cD)<=1){cEl.textContent='\u2194 on 27% baseline';cEl.className='kd nt';}else if(cD>0){cEl.textContent='\u25b2 '+Math.abs(cD).toFixed(1)+' pts above baseline';cEl.className='kd up';}else{cEl.textContent='\u25bc '+Math.abs(cD).toFixed(1)+' pts below baseline';cEl.className='kd dn';}}
+  set('b-utm',fmtK(WC.gahUtm));
+  set('b-utm-pct',pct(WC.gahUtm,WC.gahVis)+' of GAH visits this week');
+  var utEl=document.getElementById('b-utm-d');
+  if(utEl){utEl.textContent=(utC>=0?'\u25b2 +':'\u25bc ')+Math.abs(utC).toFixed(0)+'% vs prior week';utEl.className='bc-d '+(utC>=0?'up':'dn');}
+  set('b-s1',WC.s1.toLocaleString());
+  set('b-e1','\u2193 '+pp(WC.eff1)+' continued');
+  set('b-s2',WC.s2.toLocaleString());
+  set('b-s6',WC.s6.toLocaleString());
+  set('b-det',pp(WC.detour));
+  set('fy-label','FY 2026 \u00b7 Wks 1\u2013'+CW);
+  set('fy-usga',fmtK(FY.vis));
+  set('fy-gah',fmtK(FY.gahVis));
+  set('fy-gah-pct',pct(FY.gahVis,FY.vis)+' of usga.org');
+  set('fy-utm',fmtK(FY.gahUtm));
+  set('fy-utm-pct',pct(FY.gahUtm,FY.gahVis)+' of GAH (FY avg)');
+  set('fy-s6',FY.s6.toLocaleString());
+  set('fy-of','of '+FY.s1.toLocaleString()+' who started');
+  var pk=Math.max.apply(null,CV),pkW=CV.indexOf(pk)+1;
+  set('ch-conv',pp(WC.conv));set('ch-det',pp(WC.detour));
+  set('ch-peak',pk.toFixed(1)+'%');set('ch-peak-wk','Week '+pkW);
+  set('ch-wk-lbl','FY2026 \u00b7 Wks 1\u2013'+CW);
+  set('wk-badge',CW_LABEL);set('ft-wk',CW_FOOT);set('tc-wk',CW);
+}
 
-// Funnel step config
-const FSTEPS=[
-  {b:'1',n:'Get Started',s:'CTA clicks to begin',c:N},
-  {b:'2',n:'Become a Member',s:'Proceed to membership',c:N},
-  {b:'3',n:'Profile Lookup',s:'Continue to lookup',c:N},
-  {b:'4a',n:'Profile Verify',s:'Step 4a — verify',c:'#B79157'},
-  {b:'5',n:'Profile Address',s:'Continue to address',c:'#B79157'},
-  {b:'6',n:'Submit Payment',s:'Final conversion step',c:R}
-];
+/* Decision efficiency cards and narratives */
+function genEfficiency(){
+  var e1d=((WC.eff1-FYA.eff1)*100).toFixed(1);
+  var e2d=((WC.eff2-FYA.eff2)*100).toFixed(1);
+  var e3d=((WC.eff3-FYA.eff3)*100).toFixed(1);
+  set('de-e1',pp(WC.eff1));set('de-e2',pp(WC.eff2));set('de-e3',pp(WC.eff3));
+  set('de-e1-ctx',(e1d>=0?'+':'')+e1d+' pts vs FY avg '+pp(FYA.eff1));
+  set('de-e2-ctx',(e2d>=0?'+':'')+e2d+' pts vs FY avg '+pp(FYA.eff2));
+  set('de-e3-ctx',(e3d>=0?'+':'')+e3d+' pts vs FY avg '+pp(FYA.eff3));
+  var e1w=(WC.eff1-WP.eff1)*100,wP=e1w>=0;
+  var utC=(WC.gahUtm-WP.gahUtm)/WP.gahUtm*100;
+  set('wow-h',wP?'First-step completion improved week over week':'First-step completion dipped week over week');
+  set('wow-b','This week '+WC.s1.toLocaleString()+' people clicked Get Started, but only '+pp(WC.eff1)+' went on to become a member \u2014 '+(e1w>=0?'+':'')+e1w.toFixed(1)+' points '+(wP?'above':'below')+' last week\u2019s '+pp(WP.eff1)+'. UTM visits were '+(utC>=0?'up':'down')+' '+Math.abs(utC).toFixed(0)+'%, suggesting '+(wP?'audiences more engaged with the sign-up flow.':'newer audiences that may be less primed to complete the form.'));
+  var mD=(MOM.curEff1-MOM.prevEff1)*100;
+  set('mom-h',Math.abs(mD)<=1?'Step 1 efficiency held steady month over month':mD>0?'Step 1 efficiency improved month over month':'Step 1 efficiency softened month over month');
+  set('mom-b',MOM.curLabel+'\u2019s full-week Step 1 average is '+(MOM.curEff1*100).toFixed(1)+'%, versus '+MOM.prevLabel+'\u2019s '+(MOM.prevEff1*100).toFixed(1)+'% \u2014 '+(Math.abs(mD)<=0.5?'essentially flat':(mD>0?'+':'')+mD.toFixed(1)+' points')+'. The U.S. Open drove a Step 1 dip in Wk24 (48.2%) that pulled June\u2019s average down. Excluding that week, both months track similarly.');
+  var fD=(WC.eff1-FYA.eff1)*100,gain=Math.round(WC.s1*0.05*WC.eff3);
+  set('fy-h','First-step rate running '+(fD>=0?'above':'below')+' the full-year average');
+  set('fy-b','The FY average is '+pp(FYA.eff1)+' \u2014 this week is '+pp(WC.eff1)+'. Since Week 13, busier weeks have brought more clicks but lower follow-through on the first sign-up step. Once people reach the payment step, '+pp(WC.eff3)+' complete it. If Step 1 improved by 5 points, roughly '+gain.toLocaleString()+' more sign-ups would complete each week.');
+}
 
-// ── Populate week dropdowns ───────────────────────────────────────────────
-const wkOptions=Object.keys(WEEKS).sort((a,b)=>b-a).map(k=>`<option value="${k}">${WEEKS[k].label}</option>`).join('');
-['weekSelect','toplineWeekSelect'].forEach(id=>{
-  var el=document.getElementById(id);
-  if(el){el.innerHTML=wkOptions;el.value='19';}
-});
+/* Traffic chart */
+var tchart;
+function fmtY(v){return v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?Math.round(v/1e3)+'k':v;}
+function buildChart(key){
+  var dd=MDATA[key],n=dd.usga.length;
+  var pr=dd.usga.map(function(_,i){return i===n-1?6:0;});
+  var cfg={type:'line',data:{labels:Array.from({length:n},function(_,i){return'Wk'+(i+1);}),datasets:[
+    {label:'usga.org',data:dd.usga,borderColor:'#00285C',backgroundColor:'rgba(0,40,92,0.05)',borderWidth:2,fill:true,tension:.3,pointRadius:pr,pointBackgroundColor:'#BF0D3E',pointBorderColor:'#fff',pointBorderWidth:2},
+    {label:'getahandicap.usga.org',data:dd.gah,borderColor:'#1a7abf',backgroundColor:'transparent',borderWidth:1.5,fill:false,tension:.3,pointRadius:pr,pointBackgroundColor:'#f4a200',pointBorderColor:'#fff',pointBorderWidth:2},
+    {label:'GAH UTM',data:dd.utm,borderColor:'#6b8e23',backgroundColor:'transparent',borderWidth:1.5,fill:false,tension:.3,borderDash:[5,4],pointRadius:pr,pointBackgroundColor:'#6b8e23',pointBorderColor:'#fff',pointBorderWidth:1}
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:false,
+    plugins:{legend:{display:false},tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,15,45,0.93)',titleColor:'rgba(255,255,255,0.5)',bodyColor:'#fff',padding:12,callbacks:{label:function(c){return' '+c.dataset.label+': '+fmtY(c.parsed.y);}}}},
+    scales:{x:{grid:{display:false},border:{display:false},ticks:{color:'#9CA3AF',font:{size:11},maxTicksLimit:10}},y:{grid:{color:'rgba(0,0,0,0.04)',lineWidth:0.5},border:{display:false},ticks:{color:'#9CA3AF',font:{size:11},callback:fmtY}}}
+  }};
+  var el=document.getElementById('tc-chart');if(!el)return;
+  if(tchart)tchart.destroy();tchart=new Chart(el,cfg);
+}
+function sM(key,btn){document.querySelectorAll('.tog').forEach(function(b){b.classList.remove('on');});btn.classList.add('on');buildChart(key);}
 
-// ── Build funnel (100% hidden for step 0) ────────────────────────────────
-function buildFunnel(d,elId){
-  var base=d.s1;
-  var steps=[d.s1,d.s2,d.s3,d.s4a,d.s5,d.s6];
-  var el=document.getElementById(elId);
-  if(!el)return;
-  el.innerHTML='';
-  FSTEPS.forEach(function(step,i){
-    var pct=steps[i]/base*100;
-    var row=document.createElement('div');
-    row.className='frow';
-    row.innerHTML=
-      '<div class="fbadge" style="background:'+step.c+'">'+step.b+'</div>'+
-      '<div class="fname">'+step.n+'<span>'+step.s+'</span></div>'+
-      '<div class="fclicks">'+steps[i].toLocaleString()+'</div>'+
-      '<div class="fpctlbl" style="color:'+step.c+';">'+(i===0?'':pct.toFixed(1)+'%')+'</div>'+
-      '<div class="fbar"><div class="fbar-fill" style="width:'+Math.min(100,pct).toFixed(1)+'%;background:'+step.c+';"></div></div>';
-    el.appendChild(row);
+/* Conversion sparkline */
+function buildSpark(){
+  var svg=document.getElementById('cv-spark');if(!svg)return;
+  var n=CV.length,W=700,H=64,NS='http://www.w3.org/2000/svg';
+  var mn=Math.min.apply(null,CV),mx=Math.max.apply(null,CV),rng=mx-mn;
+  function tx(i){return((i/(n-1))*W).toFixed(1);}
+  function ty(v){return(H-6-((v-mn)/rng)*(H-14)).toFixed(1);}
+  var bl=document.createElementNS(NS,'line');
+  bl.setAttribute('x1','0');bl.setAttribute('y1',ty(27));bl.setAttribute('x2',W+'');bl.setAttribute('y2',ty(27));
+  bl.setAttribute('stroke','rgba(255,255,255,0.22)');bl.setAttribute('stroke-width','0.5');bl.setAttribute('stroke-dasharray','5 4');
+  svg.appendChild(bl);
+  var pts=CV.map(function(v,i){return tx(i)+','+ty(v);}).join(' ');
+  var poly=document.createElementNS(NS,'polyline');
+  poly.setAttribute('points',pts);poly.setAttribute('fill','none');
+  poly.setAttribute('stroke','rgba(255,255,255,0.85)');poly.setAttribute('stroke-width','1.5');
+  poly.setAttribute('stroke-linecap','round');poly.setAttribute('stroke-linejoin','round');
+  svg.appendChild(poly);
+  var labs={0:'25.8%',15:'30.0%',23:'23.6%',26:'30.2%'};labs[n-1]=CV[n-1].toFixed(1)+'%';
+  CV.forEach(function(v,i){
+    if(!labs[i])return;
+    var x=tx(i),y=ty(v);
+    var dot=document.createElementNS(NS,'circle');
+    dot.setAttribute('cx',x);dot.setAttribute('cy',y);dot.setAttribute('r',i===n-1?'5':'3');
+    dot.setAttribute('fill',i===n-1?'#ff8090':'rgba(255,255,255,0.75)');
+    svg.appendChild(dot);
+    var txt=document.createElementNS(NS,'text');
+    txt.setAttribute('x',x);
+    txt.setAttribute('y',parseFloat(y)>H/2?String(parseFloat(y)-8):String(parseFloat(y)+12));
+    txt.setAttribute('text-anchor',i===n-1?'end':'middle');
+    txt.setAttribute('font-size','9');txt.setAttribute('fill',i===n-1?'#ff8090':'rgba(255,255,255,0.65)');
+    txt.setAttribute('font-family','-apple-system,BlinkMacSystemFont,sans-serif');
+    txt.textContent=labs[i];svg.appendChild(txt);
   });
 }
 
-// ── Update conversion panel ───────────────────────────────────────────────
-function updateConvDisplay(){
-  var d;
-  var elConv=document.getElementById('w-conv');
-  if(!elConv)return;
-  if(convWeekSel==='fy'){
-    d=FY;
-    elConv.textContent=(FY.conv*100).toFixed(1)+'%';
-    document.getElementById('w-detour').textContent='N/A';
-    document.getElementById('conv-sub').textContent='FY2026 YTD';
-    document.getElementById('detour-sub').textContent='Not tracked annually';
-  } else {
-    var wk=convWeekSel==='week'?curWeek:parseInt(convWeekSel);
-    d=WEEKS[wk]||WEEKS[curWeek];
-    elConv.textContent=(d.conv*100).toFixed(1)+'%';
-    document.getElementById('w-detour').textContent=(d.detour*100).toFixed(1)+'%';
-    document.getElementById('conv-sub').textContent='Week '+wk+' · start → payment';
-    document.getElementById('detour-sub').textContent='Week '+wk+' · club selection';
-  }
-  document.getElementById('w-eff1').textContent=(d.eff1*100).toFixed(1)+'%';
-  document.getElementById('w-eff2').textContent=(d.eff2*100).toFixed(1)+'%';
-  document.getElementById('w-eff3').textContent=(d.eff3*100).toFixed(1)+'%';
-  buildFunnel(d,'w-funnel');
-  var insightWk=convWeekSel==='fy'?curWeek:(convWeekSel==='week'?curWeek:parseInt(convWeekSel));
-  buildInsightCallouts(d,insightWk);
-}
-function setConvWeek(val){convWeekSel=val;updateConvDisplay();}
-
-// ── Insight callouts ──────────────────────────────────────────────────────
-const FY_AVG={conv:0.2735,eff1:0.621,eff2:0.713,eff3:0.757,detour:0.038};
-const MONTH_WKS=[21,22,23,24];
-function getMonthAvg(k){var v=MONTH_WKS.map(function(w){return WEEKS[w]?WEEKS[w][k]:null;}).filter(function(x){return x!=null;});return v.length?v.reduce(function(a,b){return a+b;})/v.length:0;}
-function p(v){return (v*100).toFixed(1)+'%';}
-function pp(v){return (v>0?'+':'')+v.toFixed(1)+'pp';}
-function icol(t){return t==='pos'?{bg:'#E8F5E9',b:'#2E7D32',l:'#1B5E20',i:'▲'}:t==='neg'?{bg:'#EEF2F7',b:'#00365F',l:'#00365F',i:'▼'}:{bg:'#F0F4F8',b:'#4A5A64',l:'#2C3A44',i:'●'};}
-
-function buildInsightCallouts(d,wk){
-  var el=document.getElementById('insight-callouts');
-  if(!el||!d)return;
-  var prev=wk>1?WEEKS[wk-1]:null;
-  var mEff1=getMonthAvg('eff1'), mConv=getMonthAvg('conv'), mS6=getMonthAvg('s6');
-  var out=[];
-
-  // 1 — This week vs last week
-  if(prev){
-    var dE1=(d.eff1-prev.eff1)*100, dCv=(d.conv-prev.conv)*100, dS6=d.s6-prev.s6;
-    var t1=Math.abs(dE1)>=2?(dE1<0?'neg':'pos'):(Math.abs(dCv)>=0.5?(dCv<0?'neg':'pos'):'warn');
-    var h1=dE1<=-2?'Fewer people are completing sign-up after clicking Get Started':
-           dE1>=2?'More people are completing sign-up after clicking Get Started':
-           'Sign-up rate held steady compared to last week';
-    var b1=dE1<=-2?'This week '+d.s1.toLocaleString()+' people clicked Get Started, but only '+p(d.eff1)+' went on to become a member — that\'s down '+Math.abs(dE1).toFixed(1)+' points from last week. More traffic, but less interest in completing. Check where this week\'s visitors came from.':
-           dE1>=2?'This week '+p(d.eff1)+' of people who clicked Get Started went on to become a member — up '+dE1.toFixed(1)+' points from last week. People are more interested in completing the sign-up. Find out what channel or message drove that and do more of it.':
-           'Overall, '+p(d.conv)+' of people who started the sign-up process clicked Submit Payment — '+(dCv>=0?'up':'down')+' '+Math.abs(dCv).toFixed(1)+' points from last week. No major change at any step. This week saw '+d.s6.toLocaleString()+' clicked Submit Payment vs '+prev.s6.toLocaleString()+' last week.';
-    out.push({scope:'THIS WEEK vs Week '+(wk-1),t:t1,h:h1,b:b1});
-  } else {
-    out.push({scope:'THIS WEEK',t:'warn',h:'First week of the season — nothing to compare yet',b:'This week '+d.s1.toLocaleString()+' people started the sign-up process and '+d.s6.toLocaleString()+' clicked Submit Payment — a '+p(d.conv)+' completion rate.'});
-  }
-
-  // 2 — vs past 4-week avg
-  var dE1m=(d.eff1-mEff1)*100;
-  var t2=dE1m<=-3?'neg':dE1m>=3?'pos':'warn';
-  var h2=dE1m<=-3?'Fewer people are finishing sign-up than in recent weeks':
-         dE1m>=3?'More people are finishing sign-up than in recent weeks':
-         'Sign-up completion is in line with the past four weeks';
-  var b2=dE1m<=-3?'Over the past four weeks, about '+p(mEff1)+' of people who clicked Get Started went on to become a member. This week it\'s '+p(d.eff1)+' — that\'s '+Math.abs(dE1m).toFixed(1)+' points lower. Worth checking if anything changed in how the sign-up page looks or what ads are running.':
-         dE1m>=3?'Over the past four weeks, about '+p(mEff1)+' of people who clicked Get Started went on to become a member. This week it\'s '+p(d.eff1)+' — that\'s '+dE1m.toFixed(1)+' points higher. Something is working better than usual. Figure out what and keep doing it.':
-         'About '+p(d.eff1)+' of people clicked Get Started and went on to become a member this week, right in line with the recent four-week average of '+p(mEff1)+'. Payments this week: '+d.s6.toLocaleString()+' vs a recent average of '+Math.round(mS6).toLocaleString()+'.';
-  out.push({scope:'PAST MONTH: Weeks 16–19 Average',t:t2,h:h2,b:b2});
-
-  // 3 — FY2026 pace
-  var dE1y=(d.eff1-FY_AVG.eff1)*100, dCvy=(d.conv-FY_AVG.conv)*100;
-  var t3=d.eff1<0.58?'neg':d.conv>FY_AVG.conv+0.01?'pos':'warn';
-  var h3=d.eff1<0.58?'The drop-off at the first step is running below the full-year average':
-         d.conv>FY_AVG.conv+0.01?'This is one of the best conversion weeks of the year so far':
-         'Overall performance is on track with the rest of the year';
-  var b3=d.eff1<0.58?'Since Week 13, busier weeks have brought in more clicks but fewer people have been finishing the sign-up. The full-year average is '+p(FY_AVG.eff1)+' — this week is '+p(d.eff1)+'. The good news: once people reach the payment step, '+p(d.eff3)+' of them complete it. The opportunity is getting more people past that first step. If that rate improved by 5 points, it would mean roughly '+Math.round(d.s1*0.05*FY_AVG.eff3).toLocaleString()+' more completed sign-ups each week.':
-         d.conv>FY_AVG.conv+0.01?'The full-year average completion rate is '+p(FY_AVG.conv)+'. This week hit '+p(d.conv)+' — putting it among the top weeks of the season. Once people reach the payment step, '+p(d.eff3)+' are completing it. Worth understanding what made this week work.':
-         'The full-year average completion rate is '+p(FY_AVG.conv)+' and this week came in at '+p(d.conv)+'. Once people reach the payment page, '+p(d.eff3)+' complete it — that has been rock-solid all season. The biggest opportunity is still getting more people past the first sign-up step.';
-  out.push({scope:'FY2026 YEAR-TO-DATE',t:t3,h:h3,b:b3});
-
-  el.innerHTML=out.map(function(c){
-    var col=icol(c.t);
-    return '<div style="background:'+col.bg+';border-radius:8px;border-left:4px solid '+col.b+';padding:12px 14px;display:flex;flex-direction:column;gap:5px;">'+
-      '<div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:'+col.l+';">'+col.i+' '+c.scope+'</div>'+
-      '<div style="font-size:11px;font-weight:700;color:var(--tp);line-height:1.35;">'+c.h+'</div>'+
-      '<div style="font-size:10px;color:var(--ts);line-height:1.55;border-top:1px solid '+col.b+'33;padding-top:5px;">'+c.b+'</div>'+
-      '</div>';
-  }).join('');
-}
-
-// ── Load weekly data ──────────────────────────────────────────────────────
-function loadWeek(wk){
-  curWeek=wk;
-  var d=WEEKS[wk];
-  if(!d)return;
-  document.getElementById('currentBadge').textContent='Week '+wk;
-  document.getElementById('weeklyLabel').textContent=d.label;
-  ['weekSelect','toplineWeekSelect'].forEach(function(id){var el=document.getElementById(id);if(el)el.value=String(wk);});
-  // Update conv select to add week options dynamically
-  var cs=document.getElementById('convWeekSelect');
-  if(cs&&cs.options.length===2){
-    Object.keys(WEEKS).sort((a,b)=>b-a).forEach(function(k){
-      var o=document.createElement('option');o.value=k;o.textContent=WEEKS[k].label;cs.appendChild(o);
-    });
-  }
-  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=fmt(v);}
-  function sub(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
-  set('w-vis',d.visits);set('w-pv',d.pv);set('w-uv',d.uv);
-  set('w-utm',d.utmVisits);set('w-utm-pv',d.utmPv);set('w-utm-uv',d.utmUv);
-  set('w-gah-vis',d.gahVisits);set('w-gah-pv',d.gahPv);set('w-gah-uv',d.gahUv);
-  set('w-gah-utm',d.gahUtm);set('w-gah-utm-pv',d.gahUtmPv);set('w-gah-utm-uv',d.gahUtmUv);
-  sub('w-utm-pct',pct(d.utmVisits,d.visits)+' of usga.org');
-  sub('w-utm-pv-pct',pct(d.utmPv,d.pv)+' of usga.org');
-  sub('w-utm-uv-pct',pct(d.utmUv,d.uv)+' of usga.org');
-  sub('w-gah-vis-pct',pct(d.gahVisits,d.visits)+' of usga.org');
-  sub('w-gah-pv-pct',pct(d.gahPv,d.pv)+' of usga.org');
-  sub('w-gah-uv-pct',pct(d.gahUv,d.uv)+' of usga.org');
-  sub('w-gah-utm-pct',pct(d.gahUtm,d.gahVisits)+' of GAH');
-  sub('w-gah-utm-pv-pct',pct(d.gahUtmPv,d.gahPv)+' of GAH');
-  sub('w-gah-utm-uv-pct',pct(d.gahUtmUv,d.gahUv)+' of GAH');
-  sub('refSub','Week '+wk+' · top 10');
-  sub('statesSub','Week '+wk+' · top 10');
-  var ts=document.getElementById('weeklyTrendSub');
-  if(ts)ts.innerHTML='Weeks 1–19 · FY2026 · <strong style="color:var(--navy)">Week '+wk+' highlighted</strong>';
-  updateConvDisplay();
-  rebuildMetricLine();
-  buildFYTrend();
-  // sparkline is static SVG — no update needed
-}
-function onWeekSelect(val){loadWeek(parseInt(val));}
-
-// ── Metric line chart (update data in place when possible) ────────────────
-var curMetric='visits';
-const MP={
-  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'getahandicap.usga.org',lC:'GAH UTM',title:'Visits'},
-  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'GAH PVs',lC:'GAH UTM PVs',title:'Page Views'},
-  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'GAH UVs',lC:'GAH UTM UVs',title:'Unique Visitors'}
-};
-const WK_KEYS=Object.keys(WEEKS).map(Number).sort((a,b)=>a-b);
-
-function rebuildMetricLine(){
-  var m=MP[curMetric];
-  document.getElementById('metricChartTitle').textContent=m.title+' — usga.org vs getahandicap.usga.org';
-  var labels=WK_KEYS.map(function(k){return 'Wk '+k;});
-  var pr=WK_KEYS.map(function(k){return k===curWeek?6:3;});
-  var dA=WK_KEYS.map(function(k){return WEEKS[k][m.A];});
-  var dB=WK_KEYS.map(function(k){return WEEKS[k][m.B];});
-  var dC=WK_KEYS.map(function(k){return WEEKS[k][m.C];});
-  var ptA=WK_KEYS.map(function(k){return k===curWeek?R:N;});
-  var ptB=WK_KEYS.map(function(k){return k===curWeek?'#e07010':B;});
-  var ptC=WK_KEYS.map(function(k){return k===curWeek?'#7a9e00':G;});
-  if(charts.ml){
-    // Update in place — no flicker
-    charts.ml.data.labels=labels;
-    charts.ml.data.datasets[0].data=dA;charts.ml.data.datasets[0].pointRadius=pr;charts.ml.data.datasets[0].pointBackgroundColor=ptA;charts.ml.data.datasets[0].label=m.lA;
-    charts.ml.data.datasets[1].data=dB;charts.ml.data.datasets[1].pointRadius=pr;charts.ml.data.datasets[1].pointBackgroundColor=ptB;charts.ml.data.datasets[1].label=m.lB;
-    charts.ml.data.datasets[2].data=dC;charts.ml.data.datasets[2].pointRadius=pr;charts.ml.data.datasets[2].pointBackgroundColor=ptC;charts.ml.data.datasets[2].label=m.lC;
-    charts.ml.update('none');
-    return;
-  }
-  charts.ml=new Chart(document.getElementById('metricLineChart'),{
-    type:'line',
-    data:{labels:labels,datasets:[
-      {label:m.lA,data:dA,borderColor:N,tension:.35,pointRadius:pr,pointBackgroundColor:ptA,fill:false,borderWidth:2},
-      {label:m.lB,data:dB,borderColor:B,tension:.35,pointRadius:pr,pointBackgroundColor:ptB,fill:false,borderWidth:2},
-      {label:m.lC,data:dC,borderColor:G,borderDash:[4,4],tension:.35,pointRadius:pr,pointBackgroundColor:ptC,fill:false,borderWidth:2}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:true,position:'top',labels:{font:{size:10},boxWidth:10,padding:12}},
-        tooltip:{callbacks:{label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);}}}},
-      scales:{x:{ticks:{font:{size:10},color:GR},grid:{display:false}},
-        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
-  });
-}
-document.querySelectorAll('[data-metric]').forEach(function(b){
-  b.addEventListener('click',function(){
-    document.querySelectorAll('[data-metric]').forEach(function(x){x.classList.remove('on');});
-    b.classList.add('on');curMetric=b.dataset.metric;rebuildMetricLine();
-  });
-});
-
-// ── FY trend bar chart ────────────────────────────────────────────────────
-const FY_MK={
-  visits:{A:'visits',B:'gahVisits',C:'gahUtm',lA:'usga.org',lB:'GAH (organic)',lC:'GAH (UTM)'},
-  pv:{A:'pv',B:'gahPv',C:'gahUtmPv',lA:'usga.org PVs',lB:'GAH PVs (organic)',lC:'GAH PVs (UTM)'},
-  uv:{A:'uv',B:'gahUv',C:'gahUtmUv',lA:'usga.org UVs',lB:'GAH UVs (organic)',lC:'GAH UVs (UTM)'}
-};
-function setFYMetric(m,btn){
-  fyMetric=m;
-  document.querySelectorAll('[data-fym]').forEach(function(b){b.classList.remove('on');});
-  btn.classList.add('on');
-  buildFYTrend();
-}
-function buildFYTrend(){
-  var mk=FY_MK[fyMetric]||FY_MK.visits;
-  var labels=WK_KEYS.map(function(k){return 'Wk '+k;});
-  var organic=WK_KEYS.map(function(k){return Math.max(0,(WEEKS[k][mk.B]||0)-(WEEKS[k][mk.C]||0));});
-  var utm=WK_KEYS.map(function(k){return WEEKS[k][mk.C]||0;});
-  var bgA=WK_KEYS.map(function(k){return k===curWeek?R:N;});
-  var bgB=WK_KEYS.map(function(k){return k===curWeek?'#006fa8':B;});
-  var bgC=WK_KEYS.map(function(k){return k===curWeek?'#7a9e00':G;});
-  document.getElementById('fyLeg').innerHTML=
-    '<div class="li"><div class="ld" style="background:'+N+'"></div>'+mk.lA+'</div>'+
-    '<div class="li"><div class="ld" style="background:'+B+'"></div>'+mk.lB+'</div>'+
-    '<div class="li"><div class="ld" style="background:'+G+'"></div>'+mk.lC+'</div>';
-  if(charts.fy){
-    charts.fy.data.labels=labels;
-    charts.fy.data.datasets[0].data=WK_KEYS.map(function(k){return WEEKS[k][mk.A];});
-    charts.fy.data.datasets[0].backgroundColor=bgA;charts.fy.data.datasets[0].label=mk.lA;
-    charts.fy.data.datasets[1].data=organic;charts.fy.data.datasets[1].backgroundColor=bgB;charts.fy.data.datasets[1].label=mk.lB;
-    charts.fy.data.datasets[2].data=utm;charts.fy.data.datasets[2].backgroundColor=bgC;charts.fy.data.datasets[2].label=mk.lC;
-    charts.fy.update('none');
-    return;
-  }
-  charts.fy=new Chart(document.getElementById('fyTrendChart'),{
-    type:'bar',
-    data:{labels:labels,datasets:[
-      {label:mk.lA,data:WK_KEYS.map(function(k){return WEEKS[k][mk.A];}),backgroundColor:bgA,borderRadius:3,barPercentage:.75,stack:'usga'},
-      {label:mk.lB,data:organic,backgroundColor:bgB,borderRadius:0,barPercentage:.75,stack:'gah'},
-      {label:mk.lC,data:utm,backgroundColor:bgC,borderRadius:3,barPercentage:.75,stack:'gah'}
-    ]},
-    options:{responsive:true,maintainAspectRatio:false,
-      plugins:{legend:{display:false},tooltip:{callbacks:{
-        label:function(c){return c.dataset.label+': '+fmt(c.parsed.y);},
-        footer:function(it){var g=it.filter(function(i){return i.datasetIndex>0;});
-          if(g.length>1)return 'GAH total: '+fmt(g.reduce(function(s,i){return s+i.parsed.y;},0));return '';}
-      }}},
-      scales:{x:{ticks:{font:{size:9},color:GR},grid:{display:false}},
-        y:{ticks:{font:{size:10},color:GR,callback:function(v){return fmt(v);}},grid:{color:'rgba(0,0,0,.06)'},border:{dash:[4,4]}}}}
-  });
-}
-
-// ── Monthly view ──────────────────────────────────────────────────────────
-function loadMonth(val){
-  curMonth=val;
-  var d=MONTHS[val];
-  if(!d)return;
-  document.getElementById('m-label').textContent=d.label+' — Monthly Report';
-  document.getElementById('m-conv-label').textContent=d.label+' — Conversion Funnel';
-  document.getElementById('currentBadge').textContent=d.label;
-  var mps=document.getElementById('monthPanelSelect');if(mps)mps.value=val;
-  var moSel=document.getElementById('monthSelect');if(moSel)moSel.value=val;
-  function set(id,v){var el=document.getElementById(id);if(el)el.textContent=fmt(v);}
-  function sub(id,v){var el=document.getElementById(id);if(el)el.textContent=v;}
-  set('m-vis',d.visits);set('m-pv',d.pv);set('m-uv',d.uv);
-  set('m-utm-usga',d.utmUsga);set('m-utm-usga-pv',d.utmUsgaPv);set('m-utm-usga-uv',d.utmUsgaUv);
-  set('m-gah-vis',d.gahVisits);set('m-gah-pv',d.gahPv);set('m-gah-uv',d.gahUv);
-  set('m-utm-vis',d.utmVisits);set('m-utm-pv',d.utmPv);set('m-utm-uv',d.utmUv);
-  sub('m-utm-usga-pct',pct(d.utmUsga,d.visits)+' of usga.org');
-  sub('m-utm-usga-pv-pct',pct(d.utmUsgaPv,d.pv)+' of usga.org');
-  sub('m-utm-usga-uv-pct',pct(d.utmUsgaUv,d.uv)+' of usga.org');
-  sub('m-utm-pct',pct(d.utmVisits,d.gahVisits)+' of GAH');
-  sub('m-utm-pv-pct',pct(d.utmPv,d.gahPv)+' of GAH');
-  sub('m-utm-uv-pct',pct(d.utmUv,d.gahUv)+' of GAH');
-  document.getElementById('m-conv').textContent=(d.conv*100).toFixed(1)+'%';
-  document.getElementById('m-detour').textContent=(d.detour*100).toFixed(1)+'%';
-  document.getElementById('m-ref-type').innerHTML=d.refType.map(function(r){return '<tr><td>'+r.t+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
-  document.getElementById('m-ref-domain').innerHTML=d.refDomain.map(function(r){return '<tr><td>'+r.d+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
-  document.getElementById('m-states').innerHTML=d.states.map(function(r){return '<tr><td>'+r.s+'</td><td class="num">'+r.v.toLocaleString()+'</td><td>'+r.p+'</td></tr>';}).join('');
-  buildFunnel(d,'m-funnel');
-}
-
-// ── View toggle ───────────────────────────────────────────────────────────
-document.querySelectorAll('[data-view]').forEach(function(b){
-  b.addEventListener('click',function(){
-    document.querySelectorAll('[data-view]').forEach(function(x){x.classList.remove('on');});
-    b.classList.add('on');
-    var v=b.dataset.view;
-    document.querySelectorAll('.vt').forEach(function(el){el.classList.remove('on');});
-    document.getElementById('view-'+v).classList.add('on');
-    document.getElementById('week-select-wrap').style.display=v==='weekly'?'flex':'none';
-    document.getElementById('month-select-wrap').style.display=v==='monthly'?'flex':'none';
-    if(v==='weekly'){
-      document.getElementById('currentBadge').textContent='Week '+curWeek;
-      rebuildMetricLine();buildFYTrend();
-    } else {
-      loadMonth(curMonth);
-    }
-  });
-});
-
-// ── Init ──────────────────────────────────────────────────────────────────
-loadWeek(24);
-buildFYTrend();
-loadMonth('may26');
+genInsight();genEfficiency();buildSpark();
+if(typeof Chart!=='undefined')buildChart('v');
 </script>
 </body>
 </html>
