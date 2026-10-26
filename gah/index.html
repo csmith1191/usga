@@ -158,7 +158,7 @@ footer{background:#051428;padding:12px 24px;}
 
 <section class="tc-sec"><div class="tc-i">
   <div class="tc-hd">
-    <div><div class="tc-t">Visits &#8212; usga.org vs getahandicap.usga.org</div><div class="tc-s">Weeks 1&#8211;<span id="tc-wk">30</span> &middot; FY2026 &middot; <b>Current week highlighted</b></div></div>
+    <div><div class="tc-t">Visits &#8212; usga.org vs getahandicap.usga.org</div><div class="tc-s">Weeks <span id="tc-wk-s">9</span>&#8211;<span id="tc-wk">38</span> &middot; FY2026 &middot; <b>Current week highlighted</b></div></div>
     <div class="tog-row">
       <span class="tog-lbl">Metric</span>
       <button class="tog on" onclick="sM('v',this)">Visits</button>
@@ -183,7 +183,7 @@ footer{background:#051428;padding:12px 24px;}
   </div>
   <div class="ins-g">
     <div class="ins"><div class="ins-tag"><span class="ins-arr">&#9660;</span> WoW &#8212; vs prior week</div><div class="ins-h" id="wow-h"></div><div class="ins-sep"></div><div class="ins-b" id="wow-b"></div></div>
-    <div class="ins"><div class="ins-tag"><span class="ins-arr">&#8596;</span> MoM &#8212; July vs June</div><div class="ins-h" id="mom-h"></div><div class="ins-sep"></div><div class="ins-b" id="mom-b"></div></div>
+    <div class="ins"><div class="ins-tag"><span class="ins-arr">&#8596;</span> MoM &#8212; Oct vs Sep</div><div class="ins-h" id="mom-h"></div><div class="ins-sep"></div><div class="ins-b" id="mom-b"></div></div>
     <div class="ins"><div class="ins-tag"><span class="ins-arr">&#9660;</span> FY2026 Year-to-Date</div><div class="ins-h" id="fy-h"></div><div class="ins-sep"></div><div class="ins-b" id="fy-b"></div></div>
   </div>
 </div></section>
@@ -195,32 +195,32 @@ footer{background:#051428;padding:12px 24px;}
    UPDATE EACH WEEK: CW, CW_LABEL, CW_FOOT, WC, WP, FY, MOM
    Then append one value to each MDATA array and CV
    ========================================================== */
-var CW=30,CW_LABEL='Week 30 \u00b7 Jul 27\u2013Aug 02, 2026',CW_FOOT='Week 30, Jul 27\u2013Aug 02, 2026';
-var WC={vis:229312,pv:538972,uv:197535,gahVis:91739,gahPv:111511,gahUv:84778,gahUtm:65279,gahUtmPv:72264,gahUtmUv:63183,mm:6022,conv:0.2782,detour:0.123,eff1:0.517,eff2:0.592,eff3:0.763,s1:20244,s2:10476,s3:10688,s4a:6324,s5:7376,s6:5631};
-var WP={vis:283425,gahVis:82794,gahUtm:51191,conv:0.2913,eff1:0.543,eff2:0.560,eff3:0.763};
-var FY={vis:7138560,pv:13350290,uv:5990591,gahVis:2587296,gahPv:3132485,gahUv:2390659,gahUtm:1637814,gahUtmPv:1747840,gahUtmUv:1595068,s1:566173,s2:329451,s3:346375,s4a:220061,s5:207368,s6:157278};
-var FYA={conv:0.276,eff1:0.605,eff2:0.681,eff3:0.758};
-var MOM={curLabel:'July',curEff1:0.541,prevLabel:'June',prevEff1:0.536};
+var MSTART=12,CW=41,CW_LABEL='Week 41 \u00b7 Oct 12\u2013Oct 18, 2026',CW_FOOT='Week 41, Oct 12\u2013Oct 18, 2026';
+var WC={vis:188650,pv:409811,uv:171322,gahVis:67825,gahPv:74290,gahUv:65210,gahUtm:57452,gahUtmPv:59944,gahUtmUv:56415,mm:136,conv:0.2602,detour:0.1058,eff1:0.5229,eff2:0.5994,eff3:0.7437,s1:7975,s2:4170,s3:4179,s4a:2505,s5:2790,s6:2075};
+var WP={vis:185746,gahVis:71282,gahUtm:60568,conv:0.2700,eff1:0.5229,eff2:0.5802,eff3:0.7361};
+var FY={vis:9539273,pv:18424382,uv:7969678,gahVis:3370334,gahPv:4053293,gahUv:3124563,gahUtm:2230507,gahUtmPv:2390409,gahUtmUv:2172254,s1:704102,s2:402688,s3:421730,s4a:263706,s5:259743,s6:197226};
+var FYA={conv:0.280,eff1:0.572,eff2:0.625,eff3:0.759};
+var MOM={curLabel:'October',curEff1:0.523,prevLabel:'September',prevEff1:0.528};
 /* Historical series — append one value per week */
 var MDATA={
   v:{
-    usga:[123604,125067,120872,132767,130622,134401,194400,197035,201766,216634,204776,159053,206512,276398,273184,264883,278610,281184,289216,284040,323616,389149,346667,501865,251451,234766,216348,266937,283425,229312],
-    gah:[65557,51602,49847,49776,48727,51147,61358,72260,67906,66862,60235,27191,60066,116574,101479,93320,100374,117213,117722,110226,137394,151911,140102,135554,98357,83210,77846,98947,82794,91739],
-    utm:[50362,38322,37723,37935,34893,36079,45495,55115,46827,45489,37380,4146,18772,52619,50917,57830,66407,92614,85360,72111,86194,102580,90128,64765,62053,55069,49651,44508,51191,65279]
+    usga:[159053,206512,276398,273184,264883,278610,281184,289216,284040,323616,389149,346667,501865,251451,234766,216348,266937,283425,229312,269263,341274,229140,219772,227713,181324,176485,184651,196695,185746,188650],
+    gah:[27191,60066,116574,101479,93320,100374,117213,117722,110226,137394,151911,140102,135554,98357,83210,77846,98947,82794,91739,93838,84659,81448,75904,69301,64614,62174,53917,58076,71282,67825],
+    utm:[4146,18772,52619,50917,57830,66407,92614,85360,72111,86194,102580,90128,64765,62053,55069,49651,44508,51191,65279,67735,61496,60011,55685,49629,47513,44918,41455,46231,60568,57452]
   },
   pv:{
-    usga:[184487,185955,215901,204686,196435,216371,361903,316707,337756,382451,373014,293049,354619,427803,465391,449168,463116,416857,420784,412321,654344,847480,767568,1011413,596986,531253,511851,610311,601338,538972],
-    gah:[76698,60918,58421,58782,58412,62075,73893,86221,84508,83952,78464,43603,86340,141352,125828,114463,123181,138846,139482,131001,161241,176159,161723,161290,118886,100400,96147,117415,101273,111511],
-    utm:[52416,40052,39467,39567,36324,35357,47705,57945,49593,48369,39965,4828,20006,54696,52653,63171,73050,101211,93172,76479,91581,109106,95076,68642,66882,59354,54091,48722,56096,72264]
+    usga:[293049,354619,427803,465391,449168,463116,416857,420784,412321,654344,847480,767568,1011413,596986,531253,511851,610311,601338,538972,591828,653580,499813,472672,470974,393898,382889,368941,422964,406722,409811],
+    gah:[43603,86340,141352,125828,114463,123181,138846,139482,131001,161241,176159,161723,161290,118886,100400,96147,117415,101273,111511,113559,101690,97835,91063,84089,76896,74184,63674,65780,77748,74290],
+    utm:[4828,20006,54696,52653,63171,73050,101211,93172,76479,91581,109106,95076,68642,66882,59354,54091,48722,56096,72264,75158,67819,66184,61381,54633,51674,48909,45184,48735,62948,59944]
   },
   uv:{
-    usga:[108887,109881,106128,111756,113259,112695,154698,168695,170288,177990,166592,127879,171288,239700,232506,218442,228810,239489,246606,241048,284357,330153,293746,395211,216938,196573,185025,223168,221248,197535],
-    gah:[62103,48887,47479,47427,46015,48114,57924,68803,63643,62420,55499,22371,52651,108092,92807,85081,91356,108638,108672,102144,128011,142090,131194,123266,89318,76121,70916,89296,75543,84778],
-    utm:[49699,37961,37397,37635,34645,35756,45237,54885,46564,45196,37080,3896,18200,51446,49951,55406,62812,88645,81266,70460,84342,99983,88112,63058,59904,53338,47927,41656,49428,63183]
+    usga:[127879,171288,239700,232506,218442,228810,239489,246606,241048,284357,330153,293746,395211,216938,196573,185025,223168,221248,197535,209211,231454,192064,185960,186256,159262,155699,157963,161269,168627,171322],
+    gah:[22371,52651,108092,92807,85081,91356,108638,108672,102144,128011,142090,131194,123266,89318,76121,70916,89296,75543,84778,87112,78691,75689,70659,64335,60261,57768,50623,55047,68509,65210],
+    utm:[3896,18200,51446,49951,55406,62812,88645,81266,70460,84342,99983,88112,63058,59904,53338,47927,41656,49428,63183,65670,59673,58178,53988,48192,46241,43616,40376,45298,59539,56415]
   }
 };
 /* 30-week conversion rates (already in % form: 25.78 = 25.78%) */
-var CV=[25.78,26.34,25.48,27.62,26.52,26.04,26.48,26.87,26.96,27.1,26.95,27.09,24.45,27.41,29.4,30,28.48,28.11,28.54,29.15,29.36,29.49,29.14,23.62,28.02,29.28,30.18,28.15,29.13,27.82];
+var CV=[27.09,24.45,27.41,29.4,30.0,28.48,28.11,28.54,29.15,29.36,29.49,29.14,23.62,28.02,29.28,30.18,28.15,29.13,27.82,30.02,30.68,28.93,29.96,29.39,28.26,28.89,27.89,27.82,27.0,26.02];
 
 /* Utilities */
 function fmtK(v){return v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?(v/1e3).toFixed(1)+'k':v.toString();}
@@ -262,11 +262,11 @@ function genInsight(){
   set('fy-utm-pct',pct(FY.gahUtm,FY.gahVis)+' of GAH (FY avg)');
   set('fy-s6',FY.s6.toLocaleString());
   set('fy-of','of '+FY.s1.toLocaleString()+' who started');
-  var pk=Math.max.apply(null,CV),pkW=CV.indexOf(pk)+1;
+  var pk=Math.max.apply(null,CV),pkW=CV.indexOf(pk)+MSTART;
   set('ch-conv',pp(WC.conv));set('ch-det',pp(WC.detour));
   set('ch-peak',pk.toFixed(1)+'%');set('ch-peak-wk','Week '+pkW);
-  set('ch-wk-lbl','FY2026 \u00b7 Wks 1\u2013'+CW);
-  set('wk-badge',CW_LABEL);set('ft-wk',CW_FOOT);set('tc-wk',CW);
+  set('ch-wk-lbl','FY2026 \u00b7 Wks '+MSTART+'\u2013'+CW);
+  set('wk-badge',CW_LABEL);set('ft-wk',CW_FOOT);set('tc-wk',CW);set('tc-wk-s',MSTART);
 }
 
 /* Decision efficiency cards and narratives */
@@ -284,7 +284,7 @@ function genEfficiency(){
   set('wow-b','This week '+WC.s1.toLocaleString()+' people clicked Get Started, but only '+pp(WC.eff1)+' went on to become a member \u2014 '+(e1w>=0?'+':'')+e1w.toFixed(1)+' points '+(wP?'above':'below')+' last week\u2019s '+pp(WP.eff1)+'. UTM visits were '+(utC>=0?'up':'down')+' '+Math.abs(utC).toFixed(0)+'%, suggesting '+(wP?'audiences more engaged with the sign-up flow.':'newer audiences that may be less primed to complete the form.'));
   var mD=(MOM.curEff1-MOM.prevEff1)*100;
   set('mom-h',Math.abs(mD)<=1?'Step 1 efficiency held steady month over month':mD>0?'Step 1 efficiency improved month over month':'Step 1 efficiency softened month over month');
-  set('mom-b',MOM.curLabel+'\u2019s full-week Step 1 average is '+(MOM.curEff1*100).toFixed(1)+'%, versus '+MOM.prevLabel+'\u2019s '+(MOM.prevEff1*100).toFixed(1)+'% \u2014 '+(Math.abs(mD)<=0.5?'essentially flat':(mD>0?'+':'')+mD.toFixed(1)+' points')+'. The U.S. Open drove a Step 1 dip in Wk24 (48.2%) that pulled June\u2019s average down. Excluding that week, both months track similarly.');
+  set('mom-b',MOM.curLabel+'\u2019s Step 1 average is '+(MOM.curEff1*100).toFixed(1)+'%, versus '+MOM.prevLabel+'\u2019s '+(MOM.prevEff1*100).toFixed(1)+'% \u2014 '+(Math.abs(mD)<=0.5?'essentially flat':(mD>0?'+':'')+mD.toFixed(1)+' points')+'. Both months reflect the late-season pattern: lower overall volume but consistent step-completion rates through the funnel. Once users reach the payment step, '+pp(WC.eff3)+' complete it this week.');
   var fD=(WC.eff1-FYA.eff1)*100,gain=Math.round(WC.s1*0.05*WC.eff3);
   set('fy-h','First-step rate running '+(fD>=0?'above':'below')+' the full-year average');
   set('fy-b','The FY average is '+pp(FYA.eff1)+' \u2014 this week is '+pp(WC.eff1)+'. Since Week 13, busier weeks have brought more clicks but lower follow-through on the first sign-up step. Once people reach the payment step, '+pp(WC.eff3)+' complete it. If Step 1 improved by 5 points, roughly '+gain.toLocaleString()+' more sign-ups would complete each week.');
@@ -296,7 +296,7 @@ function fmtY(v){return v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?Math.round(v/1e3)+'
 function buildChart(key){
   var dd=MDATA[key],n=dd.usga.length;
   var pr=dd.usga.map(function(_,i){return i===n-1?6:0;});
-  var cfg={type:'line',data:{labels:Array.from({length:n},function(_,i){return'Wk'+(i+1);}),datasets:[
+  var cfg={type:'line',data:{labels:Array.from({length:n},function(_,i){return'Wk'+(i+MSTART);}),datasets:[
     {label:'usga.org',data:dd.usga,borderColor:'#00285C',backgroundColor:'rgba(0,40,92,0.05)',borderWidth:2,fill:true,tension:.3,pointRadius:pr,pointBackgroundColor:'#BF0D3E',pointBorderColor:'#fff',pointBorderWidth:2},
     {label:'getahandicap.usga.org',data:dd.gah,borderColor:'#1a7abf',backgroundColor:'transparent',borderWidth:1.5,fill:false,tension:.3,pointRadius:pr,pointBackgroundColor:'#f4a200',pointBorderColor:'#fff',pointBorderWidth:2},
     {label:'GAH UTM',data:dd.utm,borderColor:'#6b8e23',backgroundColor:'transparent',borderWidth:1.5,fill:false,tension:.3,borderDash:[5,4],pointRadius:pr,pointBackgroundColor:'#6b8e23',pointBorderColor:'#fff',pointBorderWidth:1}
@@ -326,7 +326,7 @@ function buildSpark(){
   poly.setAttribute('stroke','rgba(255,255,255,0.85)');poly.setAttribute('stroke-width','1.5');
   poly.setAttribute('stroke-linecap','round');poly.setAttribute('stroke-linejoin','round');
   svg.appendChild(poly);
-  var labs={0:'25.8%',15:'30.0%',23:'23.6%',26:'30.2%'};labs[n-1]=CV[n-1].toFixed(1)+'%';
+  var labs={0:'27.1%',12:'23.6%',20:'30.7%'};labs[n-1]=CV[n-1].toFixed(1)+'%';
   CV.forEach(function(v,i){
     if(!labs[i])return;
     var x=tx(i),y=ty(v);
