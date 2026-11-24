@@ -34,12 +34,6 @@ nav{background:var(--navy);position:sticky;top:0;z-index:100;}
 .bc-s{font-size:10px;color:var(--text3);margin-top:3px;}
 .bc-d{font-size:11px;font-weight:500;margin-top:5px;margin-bottom:12px;}
 .bc-d.up{color:var(--pos);}.bc-d.dn{color:var(--neg);}
-.rrow{display:flex;align-items:center;gap:7px;margin-top:6px;}
-.rn{font-size:10px;color:var(--text2);width:84px;flex-shrink:0;}
-.rbg{flex:1;background:#F3F4F6;height:6px;border-radius:20px;overflow:hidden;}
-.rb{height:100%;border-radius:20px;background:var(--navy);}
-.rv{font-size:9px;color:var(--text3);width:36px;text-align:right;flex-shrink:0;}
-.rn-note{font-size:8px;color:#D1D5DB;margin-top:8px;}
 .fr{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--border);}
 .fr:last-of-type{border-bottom:none;}
 .fl{font-size:10px;color:var(--text2);}.fv{font-size:15px;font-weight:500;color:var(--text);}
@@ -98,6 +92,36 @@ nav{background:var(--navy);position:sticky;top:0;z-index:100;}
 footer{background:#051428;padding:12px 24px;}
 .ft-i{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;}
 .ft-t{font-size:10px;color:rgba(255,255,255,.3);}
+.lp-g{display:grid;grid-template-columns:1.7fr 1fr 1fr;gap:12px;}
+.lpc{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;}
+.lp-hd{font-size:11px;font-weight:500;color:var(--text);margin-bottom:12px;}
+.lp-row{display:flex;gap:18px;margin-bottom:10px;}
+.lp-st{flex:1;}
+.lp-sl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.4px;margin-bottom:4px;}
+.lp-sv{font-size:24px;font-weight:500;color:var(--text);line-height:1;}
+.lp-sd{font-size:9px;margin-top:3px;}
+.lp-sd.up{color:var(--pos);}.lp-sd.dn{color:var(--neg);}.lp-sd.nt{color:var(--text3);}
+.chart-wrap.sm{height:120px;}
+.mx-v{font-size:32px;font-weight:500;color:var(--text);line-height:1;}
+.mx-l{font-size:10px;color:var(--text2);margin-top:4px;}
+.mx-sep{height:.5px;background:var(--border);margin:12px 0;}
+.mx-r{display:flex;justify-content:space-between;font-size:10px;color:var(--text2);padding:3px 0;}
+.mx-rv{color:var(--text);font-weight:500;}
+.yr{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:baseline;font-size:10px;padding:5px 0;border-bottom:.5px solid var(--border);}
+.yr:last-child{border-bottom:none;}
+.yr-l{color:var(--text2);}
+.yr-v{color:var(--text);font-weight:500;font-size:11px;}
+.yr-d{font-size:10px;font-weight:500;min-width:44px;text-align:right;}
+.yr-d.up{color:var(--pos);}.yr-d.dn{color:var(--neg);}
+.lp-note{font-size:9px;color:var(--text3);margin-top:10px;line-height:1.5;}
+@media(max-width:900px){
+  .lp-g,.bk-i,.eff-g,.ins-g{grid-template-columns:1fr;}
+  .ch-body{flex-wrap:wrap;}
+  .ch-stat{flex:1 1 calc(50% - 7px);}
+  .ch-chart{flex:1 1 100%;}
+  .hero-i{flex-wrap:wrap;}
+  .tc-hd{flex-wrap:wrap;gap:10px;}
+}
 </style>
 </head>
 <body>
@@ -131,12 +155,6 @@ footer{background:#051428;padding:12px 24px;}
     <div class="bc-v" id="b-utm">65.3k</div>
     <div class="bc-s" id="b-utm-pct">71.2% of GAH visits this week</div>
     <div class="bc-d up" id="b-utm-d">&#9650; +28% vs prior week</div>
-    <div class="rrow"><span class="rn">instagram.com</span><div class="rbg"><div class="rb" style="width:100%"></div></div><span class="rv">42.3k</span></div>
-    <div class="rrow"><span class="rn">tiktok.com</span><div class="rbg"><div class="rb" style="width:28.5%"></div></div><span class="rv">12.1k</span></div>
-    <div class="rrow"><span class="rn">facebook.com</span><div class="rbg"><div class="rb" style="width:23.4%"></div></div><span class="rv">9.9k</span></div>
-    <div class="rrow"><span class="rn">google.com</span><div class="rbg"><div class="rb" style="width:19.8%"></div></div><span class="rv">8.4k</span></div>
-    <div class="rrow"><span class="rn">youtube.com</span><div class="rbg"><div class="rb" style="width:17.4%"></div></div><span class="rv">7.4k</span></div>
-    <div class="rn-note">Source mix: Wk 21 most recent breakdown</div>
   </div>
   <div class="bc">
     <div class="bc-hd">Sign-up journey</div>
@@ -188,6 +206,39 @@ footer{background:#051428;padding:12px 24px;}
   </div>
 </div></section>
 
+<section class="de-sec"><div class="de-i">
+  <div class="de-hd"><div class="de-t">Landing Pages, Audience Mix &amp; Year over Year</div><div class="de-s">Signals tracked in the weekly workbook</div></div>
+  <div class="lp-g">
+    <div class="lpc">
+      <div class="lp-hd">Landing page test &#8212; Page A vs Page B</div>
+      <div class="lp-row">
+        <div class="lp-st"><div class="lp-sl">Page A &#183; /learnmore</div><div class="lp-sv" id="lp-a">&mdash;</div><div class="lp-sd" id="lp-a-d"></div></div>
+        <div class="lp-st"><div class="lp-sl">Page B &#183; gahB</div><div class="lp-sv" id="lp-b">&mdash;</div><div class="lp-sd" id="lp-b-d"></div></div>
+        <div class="lp-st"><div class="lp-sl">Combined share</div><div class="lp-sv" id="lp-share">&mdash;</div><div class="lp-sd nt">of GAH UTM visits</div></div>
+      </div>
+      <div class="chart-wrap sm"><canvas id="lp-chart" role="img" aria-label="Page A versus Page B visits over 30 weeks"></canvas></div>
+      <div class="lp-note" id="lp-note"></div>
+    </div>
+    <div class="lpc">
+      <div class="lp-hd">Audience mix</div>
+      <div class="mx-v" id="mx-pct">&mdash;</div>
+      <div class="mx-l">returning-member share<br><span style="color:var(--text3)">Manage Membership logins as % of GAH visits</span></div>
+      <div class="mx-sep"></div>
+      <div class="mx-r"><span>This week</span><span class="mx-rv" id="mx-now">&mdash;</span></div>
+      <div class="mx-r"><span>Prior week</span><span class="mx-rv" id="mx-prev">&mdash;</span></div>
+      <div class="mx-r"><span>Campaign-peak low</span><span class="mx-rv" id="mx-low">&mdash;</span></div>
+      <div class="lp-note" id="mx-note"></div>
+    </div>
+    <div class="lpc">
+      <div class="lp-hd">vs same week, 2025</div>
+      <div id="yoy-rows"></div>
+      <div class="mx-sep"></div>
+      <div class="mx-r"><span>usga.org UTM visits</span><span class="mx-rv" id="uu-now">&mdash;</span></div>
+      <div class="lp-note" id="yoy-note"></div>
+    </div>
+  </div>
+</div></section>
+
 <footer><div class="ft-i"><span class="ft-t">Get A Handicap &#8212; USGA Digital Analytics &middot; Data through <span id="ft-wk">Week 30, Jul 27&#8211;Aug 02, 2026</span></span><span class="ft-t">Updated weekly</span></div></footer>
 
 <script>
@@ -195,32 +246,49 @@ footer{background:#051428;padding:12px 24px;}
    UPDATE EACH WEEK: CW, CW_LABEL, CW_FOOT, WC, WP, FY, MOM
    Then append one value to each MDATA array and CV
    ========================================================== */
-var MSTART=15,CW=44,CW_LABEL='Week 44 \u00b7 Nov 2\u2013Nov 8, 2026',CW_FOOT='Week 44, Nov 2\u2013Nov 8, 2026';
-var WC={vis:162613,pv:371280,uv:145134,gahVis:24615,gahPv:30226,gahUv:22110,gahUtm:14057,gahUtmPv:15483,gahUtmUv:13201,mm:3051,conv:0.2104,detour:0.1282,eff1:0.4673,eff2:0.5282,eff3:0.7048,s1:8872,s2:4146,s3:4345,s4a:2294,s5:2649,s6:1867};
-var WP={vis:125643,gahVis:21644,gahUtm:11454,conv:0.2286,eff1:0.4881,eff2:0.5567,eff3:0.7003};
-var FY={vis:9977525,pv:19378469,uv:8360404,gahVis:3459137,gahPv:4158491,gahUv:3206050,gahUtm:2288031,gahUtmPv:2452332,gahUtmUv:2227298,s1:730079,s2:415350,s3:434335,s4a:270703,s5:268133,s6:203172};
-var FYA={conv:0.278,eff1:0.569,eff2:0.623,eff3:0.758};
-var MOM={curLabel:'November',curEff1:0.467,prevLabel:'October',prevEff1:0.518};
+var MSTART=17,CW=46,CW_LABEL='Week 46 \u00b7 Nov 16\u2013Nov 22, 2026',CW_FOOT='Week 46, Nov 16\u2013Nov 22, 2026';
+var WC={vis:136863,pv:287582,uv:123527,gahVis:31515,gahPv:37148,gahUv:29405,gahUtm:23921,gahUtmPv:26321,gahUtmUv:23058,mm:2406,conv:0.2140,detour:0.1289,eff1:0.4761,eff2:0.5776,eff3:0.6787,s1:6763,s2:3220,s3:3343,s4a:1931,s5:2132,s6:1447};
+var WP={vis:138828,gahVis:23629,gahUtm:14464,conv:0.2224,eff1:0.4653,eff2:0.5667,eff3:0.7200};
+var FY={vis:10253216,pv:19945309,uv:8607714,gahVis:3514281,gahPv:4224546,gahUv:3256739,gahUtm:2326416,gahUtmPv:2494767,gahUtmUv:2263889,s1:744891,s2:422315,s3:441292,s4a:274682,s5:272751,s6:206409};
+var FYA={conv:0.277,eff1:0.567,eff2:0.622,eff3:0.757};
+var MOM={curLabel:'November',curEff1:0.469,prevLabel:'October',prevEff1:0.518};
 /* Historical series — append one value per week */
 var MDATA={
   v:{
-    usga:[273184,264883,278610,281184,289216,284040,323616,389149,346667,501865,251451,234766,216348,266937,283425,229312,269263,341274,229140,219772,227713,181324,176485,184651,196695,185746,188650,149996,125643,162613],
-    gah:[101479,93320,100374,117213,117722,110226,137394,151911,140102,135554,98357,83210,77846,98947,82794,91739,93838,84659,81448,75904,69301,64614,62174,53917,58076,71282,67825,42544,21644,24615],
-    utm:[50917,57830,66407,92614,85360,72111,86194,102580,90128,64765,62053,55069,49651,44508,51191,65279,67735,61496,60011,55685,49629,47513,44918,41455,46231,60568,57452,32013,11454,14057]
+    usga:[278610,281184,289216,284040,323616,389149,346667,501865,251451,234766,216348,266937,283425,229312,269263,341274,229140,219772,227713,181324,176485,184651,196695,185746,188650,149996,125643,162613,138828,136863],
+    gah:[100374,117213,117722,110226,137394,151911,140102,135554,98357,83210,77846,98947,82794,91739,93838,84659,81448,75904,69301,64614,62174,53917,58076,71282,67825,42544,21644,24615,23629,31515],
+    utm:[66407,92614,85360,72111,86194,102580,90128,64765,62053,55069,49651,44508,51191,65279,67735,61496,60011,55685,49629,47513,44918,41455,46231,60568,57452,32013,11454,14057,14464,23921]
   },
   pv:{
-    usga:[465391,449168,463116,416857,420784,412321,654344,847480,767568,1011413,596986,531253,511851,610311,601338,538972,591828,653580,499813,472672,470974,393898,382889,368941,422964,406722,409811,318786,264021,371280],
-    gah:[125828,114463,123181,138846,139482,131001,161241,176159,161723,161290,118886,100400,96147,117415,101273,111511,113559,101690,97835,91063,84089,76896,74184,63674,65780,77748,74290,48023,26949,30226],
-    utm:[52653,63171,73050,101211,93172,76479,91581,109106,95076,68642,66882,59354,54091,48722,56096,72264,75158,67819,66184,61381,54633,51674,48909,45184,48735,62948,59944,33662,12778,15483]
+    usga:[463116,416857,420784,412321,654344,847480,767568,1011413,596986,531253,511851,610311,601338,538972,591828,653580,499813,472672,470974,393898,382889,368941,422964,406722,409811,318786,264021,371280,279258,287582],
+    gah:[123181,138846,139482,131001,161241,176159,161723,161290,118886,100400,96147,117415,101273,111511,113559,101690,97835,91063,84089,76896,74184,63674,65780,77748,74290,48023,26949,30226,28907,37148],
+    utm:[73050,101211,93172,76479,91581,109106,95076,68642,66882,59354,54091,48722,56096,72264,75158,67819,66184,61381,54633,51674,48909,45184,48735,62948,59944,33662,12778,15483,16114,26321]
   },
   uv:{
-    usga:[232506,218442,228810,239489,246606,241048,284357,330153,293746,395211,216938,196573,185025,223168,221248,197535,209211,231454,192064,185960,186256,159262,155699,157963,161269,168627,171322,135344,110248,145134],
-    gah:[92807,85081,91356,108638,108672,102144,128011,142090,131194,123266,89318,76121,70916,89296,75543,84778,87112,78691,75689,70659,64335,60261,57768,50623,55047,68509,65210,40229,19148,22110],
-    utm:[49951,55406,62812,88645,81266,70460,84342,99983,88112,63058,59904,53338,47927,41656,49428,63183,65670,59673,58178,53988,48192,46241,43616,40376,45298,59539,56415,31234,10609,13201]
+    usga:[228810,239489,246606,241048,284357,330153,293746,395211,216938,196573,185025,223168,221248,197535,209211,231454,192064,185960,186256,159262,155699,157963,161269,168627,171322,135344,110248,145134,123783,123527],
+    gah:[91356,108638,108672,102144,128011,142090,131194,123266,89318,76121,70916,89296,75543,84778,87112,78691,75689,70659,64335,60261,57768,50623,55047,68509,65210,40229,19148,22110,21284,29405],
+    utm:[62812,88645,81266,70460,84342,99983,88112,63058,59904,53338,47927,41656,49428,63183,65670,59673,58178,53988,48192,46241,43616,40376,45298,59539,56415,31234,10609,13201,13533,23058]
   }
 };
 /* 30-week conversion rates (already in % form: 25.78 = 25.78%) */
-var CV=[29.4,30.0,28.48,28.11,28.54,29.15,29.36,29.49,29.14,23.62,28.02,29.28,30.18,28.15,29.13,27.82,30.02,30.68,28.93,29.96,29.39,28.26,28.89,27.89,27.82,27.0,26.02,25.0,22.86,21.04];
+var CV=[28.48,28.11,28.54,29.15,29.36,29.49,29.14,23.62,28.02,29.28,30.18,28.15,29.13,27.82,30.02,30.68,28.93,29.96,29.39,28.26,28.89,27.89,27.82,27.0,26.02,25.0,22.86,21.04,22.24,21.4];
+
+/* ---- Supplementary series, same Wks MSTART–CW window as MDATA ---- */
+/* Landing page test: Page A = /learnmore, Page B = ?utm_campaign=gahB */
+var LP={
+  a:[0,0,0,17101,18622,18540,11404,29120,10433,2878,3,1,1,1,1,3,3,3,5,8,0,0,3414,7040,7230,4239,1573,1945,1897,3839],
+  b:[0,0,0,4586,15478,12378,16462,11094,18141,14759,15293,14812,15492,14083,13590,13131,12344,11348,11376,9234,8080,7537,7892,7420,6831,6407,6289,6403,5570,4648]
+};
+/* usga.org UTM visits (distinct from GAH UTM) */
+var UU=[66407,92614,104576,100797,138875,150826,117050,100910,69985,62181,56255,53440,63456,73295,73605,67874,65280,60743,53748,51819,49294,44568,49582,66272,61051,35351,15050,17384,18892,27866];
+/* Manage Membership login visits, and as % of GAH visits */
+var MML=[9699,7629,7361,7179,8430,7765,6661,7869,6902,5900,6112,6224,6076,6022,5892,5196,5001,4534,4463,3802,3906,3116,2215,1312,1279,1279,1317,1273,1144,1056];
+var MMP=[9.66,6.51,6.25,6.51,6.14,5.11,4.75,5.81,7.02,7.09,7.85,6.29,7.34,6.56,6.28,6.14,6.14,5.97,6.44,5.88,6.28,5.78,3.81,1.84,1.89,3.01,6.08,5.17,4.84,3.35];
+/* Week-aligned YoY — only weeks with both 2025 and 2026 data */
+var YOY={wks:[41,42,43,44,45,46],
+  gah25:[11266,14445,18931,22989,23629,19651],gah26:[67825,42544,21644,24615,23629,31515],
+  s125:[5645,7700,6593,6634,6569,5709],      s126:[7975,7880,9225,8872,8049,6763],
+  s625:[1584,2016,1755,1844,1719,1518],      s626:[2075,1970,2109,1867,1790,1447]};
 
 /* Utilities */
 function fmtK(v){return v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?(v/1e3).toFixed(1)+'k':v.toString();}
@@ -239,6 +307,7 @@ function genInsight(){
   var utD=utC>=0?'up '+Math.abs(utC).toFixed(0)+'%':'down '+Math.abs(utC).toFixed(0)+'%';
   var cT=Math.abs(cD)<=1?'Conversion held at '+pp(WC.conv)+' \u2014 on the 27% baseline.':cD>0?'Conversion came in at '+pp(WC.conv)+', '+Math.abs(cD).toFixed(1)+' points above the 27% baseline.':'Conversion dipped to '+pp(WC.conv)+', '+Math.abs(cD).toFixed(1)+' points below the 27% baseline \u2014 worth monitoring.';
   set('h-insight','GAH visits were '+gD+' WoW, driven by UTM traffic '+utD+' to '+fmtK(WC.gahUtm)+'. Total usga.org traffic moved '+uD+'. '+cT);
+  set('h-usga',fmtK(WC.vis));set('h-gah',fmtK(WC.gahVis));set('h-conv',pp(WC.conv));
   var gEl=document.getElementById('h-gah-d');
   if(gEl){gEl.textContent=(gC>=0?'\u25b2 +':'\u25bc ')+Math.abs(gC).toFixed(0)+'% vs prior week';gEl.className='kd '+(gC>=0?'up':'dn');}
   var uEl=document.getElementById('h-usga-d');
@@ -290,6 +359,78 @@ function genEfficiency(){
   set('fy-b','The FY average is '+pp(FYA.eff1)+' \u2014 this week is '+pp(WC.eff1)+'. Since Week 13, busier weeks have brought more clicks but lower follow-through on the first sign-up step. Once people reach the payment step, '+pp(WC.eff3)+' complete it. If Step 1 improved by 5 points, roughly '+gain.toLocaleString()+' more sign-ups would complete each week.');
 }
 
+/* Landing pages, audience mix, YoY */
+function dTag(el,pct,suffix){
+  if(!el)return;
+  var p=pct>=0;
+  el.textContent=(p?'▲ +':'▼ ')+Math.abs(pct).toFixed(0)+'%'+(suffix||'');
+  el.className='lp-sd '+(Math.abs(pct)<1?'nt':(p?'up':'dn'));
+}
+function genExtras(){
+  var n=LP.a.length,i=n-1;
+  var a=LP.a[i],b=LP.b[i],ap=LP.a[i-1],bp=LP.b[i-1];
+  set('lp-a',fmtK(a));set('lp-b',fmtK(b));
+  dTag(document.getElementById('lp-a-d'),ap?(a-ap)/ap*100:0,' WoW');
+  dTag(document.getElementById('lp-b-d'),bp?(b-bp)/bp*100:0,' WoW');
+  set('lp-share',pct(a+b,WC.gahUtm));
+  /* Page A run history, derived rather than hard-coded */
+  var run=0;for(var k=i;k>=0&&LP.a[k]>100;k--)run++;
+  var launch=LP.a.findIndex(function(x){return x>100;});
+  var d0=-1,d1=-1;
+  for(var k2=launch;k2<=i;k2++){
+    if(LP.a[k2]<=100){if(d0<0)d0=k2;d1=k2;}
+    else if(d0>=0&&d1<i&&LP.a[k2]>100&&d1>=d0&&k2>d1){break;}
+  }
+  var bLaunch=LP.b.findIndex(function(x){return x>100;});
+  set('lp-note',(d0>=0
+      ? 'Page A went dark Wks '+(d0+MSTART)+'–'+(d1+MSTART)+' (under 100 visits/wk), then relaunched — '+run+' weeks live in the current run. '
+      : 'Page A has '+run+' weeks live in the current run. ')
+    +'Page B has run continuously since Wk '+(bLaunch+MSTART)+'.');
+
+  /* Audience mix */
+  var m=MMP[i],mp=MMP[i-1],low=Math.min.apply(null,MMP),lowW=MMP.indexOf(low)+MSTART;
+  set('mx-pct',m.toFixed(1)+'%');
+  set('mx-now',m.toFixed(1)+'% · '+MML[i].toLocaleString()+' logins');
+  set('mx-prev',mp.toFixed(1)+'% · '+MML[i-1].toLocaleString());
+  set('mx-low',low.toFixed(1)+'% · Wk '+lowW);
+  set('mx-note',m<mp
+    ? 'Falling share means the incoming mix is tilting back toward new prospects — the pattern seen while paid traffic is running.'
+    : 'Rising share means proportionally more existing members and fewer new prospects in the mix.');
+
+  /* YoY */
+  var rows=[['GAH visits',YOY.gah25,YOY.gah26,1],['Get Started clicks',YOY.s125,YOY.s126,0],['Completed sign-ups',YOY.s625,YOY.s626,0]];
+  var h='',j=YOY.wks.length-1;
+  rows.forEach(function(r){
+    var o=r[1][j],c=r[2][j],d=o?(c-o)/o*100:0;
+    h+='<div class="yr"><span class="yr-l">'+r[0]+'</span><span class="yr-v">'+(r[3]?fmtK(o):o.toLocaleString())+' → '+(r[3]?fmtK(c):c.toLocaleString())+'</span>'
+      +'<span class="yr-d '+(d>=0?'up':'dn')+'">'+(d>=0?'+':'')+d.toFixed(0)+'%</span></div>';
+  });
+  var e=document.getElementById('yoy-rows');if(e)e.innerHTML=h;
+  set('uu-now',fmtK(UU[i])+' · '+pct(UU[i],WC.vis)+' of usga.org');
+  var s1d=(YOY.s126[j]-YOY.s125[j])/YOY.s125[j]*100;
+  var cd=(YOY.s626[j]-YOY.s625[j])/YOY.s625[j]*100;
+  set('yoy-note','Week '+YOY.wks[j]+' vs the same week in 2025. Get Started clicks are '+(s1d>=0?'running '+s1d.toFixed(0)+'% ahead':'running '+Math.abs(s1d).toFixed(0)+'% behind')
+    +' of last year while completions are '+(cd>=0?cd.toFixed(0)+'% ahead':Math.abs(cd).toFixed(0)+'% behind')+' — the gap between those two is the funnel problem.');
+}
+
+/* Page A vs Page B chart */
+var lpchart;
+function buildLPChart(){
+  var el=document.getElementById('lp-chart');if(!el||typeof Chart==='undefined')return;
+  var n=LP.a.length;
+  var cfg={type:'line',data:{labels:Array.from({length:n},function(_,i){return'Wk'+(i+MSTART);}),datasets:[
+    {label:'Page A',data:LP.a,borderColor:'#BF0D3E',backgroundColor:'transparent',borderWidth:1.8,fill:false,tension:.3,pointRadius:0},
+    {label:'Page B',data:LP.b,borderColor:'#1a7abf',backgroundColor:'transparent',borderWidth:1.8,fill:false,tension:.3,pointRadius:0}
+  ]},options:{responsive:true,maintainAspectRatio:false,animation:false,
+    plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:2,font:{size:9},color:'#6B7280',padding:8}},
+      tooltip:{mode:'index',intersect:false,backgroundColor:'rgba(0,15,45,0.93)',titleColor:'rgba(255,255,255,0.5)',bodyColor:'#fff',padding:10,
+        callbacks:{label:function(c){return' '+c.dataset.label+': '+fmtY(c.parsed.y);}}}},
+    scales:{x:{grid:{display:false},border:{display:false},ticks:{color:'#9CA3AF',font:{size:9},maxTicksLimit:8}},
+      y:{grid:{color:'rgba(0,0,0,0.04)',lineWidth:.5},border:{display:false},ticks:{color:'#9CA3AF',font:{size:9},maxTicksLimit:4,callback:fmtY}}}
+  }};
+  if(lpchart)lpchart.destroy();lpchart=new Chart(el,cfg);
+}
+
 /* Traffic chart */
 var tchart;
 function fmtY(v){return v>=1e6?(v/1e6).toFixed(1)+'M':v>=1e3?Math.round(v/1e3)+'k':v;}
@@ -326,7 +467,7 @@ function buildSpark(){
   poly.setAttribute('stroke','rgba(255,255,255,0.85)');poly.setAttribute('stroke-width','1.5');
   poly.setAttribute('stroke-linecap','round');poly.setAttribute('stroke-linejoin','round');
   svg.appendChild(poly);
-  var labs={0:'29.4%',9:'23.6%',17:'30.7%'};labs[n-1]=CV[n-1].toFixed(1)+'%';
+  var labs={0:'28.5%',7:'23.6%',15:'30.7%'};labs[n-1]=CV[n-1].toFixed(1)+'%';
   CV.forEach(function(v,i){
     if(!labs[i])return;
     var x=tx(i),y=ty(v);
@@ -344,8 +485,8 @@ function buildSpark(){
   });
 }
 
-genInsight();genEfficiency();buildSpark();
-if(typeof Chart!=='undefined')buildChart('v');
+genInsight();genEfficiency();genExtras();buildSpark();
+if(typeof Chart!=='undefined'){buildChart('v');buildLPChart();}
 </script>
 </body>
 </html>
